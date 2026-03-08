@@ -4,8 +4,10 @@
 
 ### Your Local AI Agent - Desktop App for Windows & macOS
 
-**Download. Install. Done.**
+[![Skales Demo](https://img.youtube.com/vi/8fXGsQGyxCU/maxresdefault.jpg)](https://youtube.com/watch?v=8fXGsQGyxCU)
 **No Terminal. No Docker. No Node.js. No npm.**
+
+**Download. Install. Done**
 
 [![Version](https://img.shields.io/badge/version-5.0.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
 [![License](https://img.shields.io/badge/license-BSL_1.1-1DB954?style=for-the-badge&labelColor=0D1117)](./LICENSE)
