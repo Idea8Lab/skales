@@ -1,0 +1,25 @@
+{
+  "name": "skales",
+  "version": "5.0.0",
+  "description": "Skales — Your Local AI Agent",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "electron .",
+    "bundle:bots": "node scripts/bundle-bots.js",
+    "pack:deps": "node scripts/pack-deps.js",
+    "build:win": "npm run bundle:bots && npm run pack:deps && electron-builder --win",
+    "build:mac": "npm run bundle:bots && electron-builder --mac",
+    "build:all": "npm run bundle:bots && electron-builder --win --mac",
+    "start:web": "cd apps/web && npm run dev",
+    "postinstall": "cd apps/web && npm install --legacy-peer-deps"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.0",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.0",
+    "esbuild": "^0.20.0"
+  }
+}
