@@ -1,5 +1,6 @@
 <div align="center">
-
+If you find this useful, a ⭐ helps others discover it
+   
 # 🦎 Skales
 
 ### Your Local AI Agent - Desktop App for Windows & macOS
