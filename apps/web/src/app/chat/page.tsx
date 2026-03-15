@@ -253,6 +253,7 @@ function reconstructDisplayMessages(savedMessages: ChatMessage[]): DisplayMessag
                     if (!msg.tool_calls || msg.tool_calls.length === 0) {
                         artificialToolCalls.push({
                             id: nextMsg.tool_call_id || 'unknown',
+                            type: 'function' as const,
                             function: { name: toolName, arguments: '{}' }
                         });
                     }
@@ -1018,7 +1019,7 @@ export default function ChatPage() {
                             .map(m => ({
                                 role: m.role as string,
                                 content: m.content,
-                                tool_calls: m.toolCalls,
+                                tool_calls: m.toolCalls?.map((tc: any) => ({ ...tc, type: 'function' as const })),
                                 tool_call_id: m.toolCallId,
                             }));
 
@@ -2213,7 +2214,7 @@ export default function ChatPage() {
                     .map(m => ({
                         role: m.role as string,
                         content: m.content,
-                        tool_calls: m.toolCalls,
+                        tool_calls: m.toolCalls?.map((tc: any) => ({ ...tc, type: 'function' as const })),
                         tool_call_id: m.toolCallId
                     }));
 

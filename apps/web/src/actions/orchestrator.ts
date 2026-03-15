@@ -3700,9 +3700,11 @@ async function callProviderWithTools(
         // empty content when making tool calls during their "thinking" phase.
         // Treating that as an error would cause spurious "empty response" Telegram messages.
         if (toolCalls && toolCalls.length > 0) {
+            // Normalize: ensure every tool call has type:'function' (some providers omit it)
+            const normalizedToolCalls = toolCalls.map((tc: any) => ({ ...tc, type: 'function' as const }));
             return {
                 success: true,
-                toolCalls: toolCalls,
+                toolCalls: normalizedToolCalls,
                 response: choice?.message?.content || '',
                 tokensUsed,
             };
@@ -5090,7 +5092,7 @@ export async function processMessageWithTools(
             {
                 role:       'assistant',
                 content:    step.response || '',
-                tool_calls: step.toolCalls,
+                tool_calls: step.toolCalls.map((tc: any) => ({ ...tc, type: 'function' as const })),
             },
             ...step.toolCalls.map((tc, idx) => ({
                 role:         'tool',

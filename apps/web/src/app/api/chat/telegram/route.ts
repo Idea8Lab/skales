@@ -354,7 +354,7 @@ responses are only acceptable for pure questions or conversations.
                 ...currentMessages.map((m: ChatMessage) => ({
                     role: m.role,
                     content: m.content,
-                    tool_calls: m.tool_calls,
+                    tool_calls: (m as any).tool_calls?.map((tc: any) => ({ ...tc, type: 'function' as const })),
                     tool_call_id: m.tool_call_id,
                     name: m.name
                 }))

@@ -396,6 +396,52 @@ function taskStateIcon(state) {
     return { pending: '⏳', in_progress: '⚙️', completed: '✅', blocked: '🚫', failed: '❌', cancelled: '🚫' }[state] || '❓';
 }
 
+// ─── Pending Approval helpers (text-based approval for Telegram) ──
+const PENDING_APPROVALS_FILE = path.join(DATA_DIR, 'integrations', 'telegram-pending-approvals.json');
+const APPROVAL_EXPIRY_MS = 300_000; // 5 minutes
+
+function loadPendingApprovals() {
+    try {
+        if (fs.existsSync(PENDING_APPROVALS_FILE)) {
+            return JSON.parse(fs.readFileSync(PENDING_APPROVALS_FILE, 'utf-8'));
+        }
+    } catch { }
+    return {};
+}
+
+function savePendingApprovals(data) {
+    try {
+        const dir = path.dirname(PENDING_APPROVALS_FILE);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(PENDING_APPROVALS_FILE, JSON.stringify(data, null, 2));
+    } catch (e) { logError('savePendingApprovals failed', e); }
+}
+
+function getPendingApproval(chatId) {
+    const all = loadPendingApprovals();
+    const entry = all[`chat_${chatId}`];
+    if (!entry) return null;
+    // Auto-expire after 5 minutes
+    if (Date.now() - entry.timestamp > APPROVAL_EXPIRY_MS) {
+        delete all[`chat_${chatId}`];
+        savePendingApprovals(all);
+        return null;
+    }
+    return entry;
+}
+
+function setPendingApproval(chatId, approvalId) {
+    const all = loadPendingApprovals();
+    all[`chat_${chatId}`] = { approvalId, timestamp: Date.now() };
+    savePendingApprovals(all);
+}
+
+function clearPendingApproval(chatId) {
+    const all = loadPendingApprovals();
+    delete all[`chat_${chatId}`];
+    savePendingApprovals(all);
+}
+
 function saveSettingsField(updates) {
     try {
         const settings = loadSettings() || {};
@@ -1606,6 +1652,35 @@ async function processUpdate(token, update, config) {
         return;
     }
 
+    // ── Pending approval check (text-based approval for Safe Mode) ──
+    const pendingApproval = getPendingApproval(chatId);
+    if (pendingApproval) {
+        const lowerText = userText.toLowerCase().trim();
+        const isApprove = ['yes', 'ok', 'ja', 'approve', 'do it', 'mach', 'y', 'si', 'oui'].includes(lowerText);
+        const isDecline = ['no', 'nein', 'decline', 'cancel', 'stop', 'n', 'abort'].includes(lowerText);
+
+        if (isApprove || isDecline) {
+            clearPendingApproval(chatId);
+            const decision = isApprove ? 'approve' : 'deny';
+            try {
+                const res = await fetch(`${API_BASE}/api/chat/telegram/approval`, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({ approvalId: pendingApproval.approvalId, decision }),
+                    signal:  AbortSignal.timeout(120_000),
+                });
+                const data = await res.json();
+                const reply = data.response || (isApprove ? '✅ Approved and executed.' : '❌ Action declined.');
+                await sendMessage(token, chatId, reply);
+            } catch (e) {
+                await sendMessage(token, chatId, `⚠️ Could not process approval: ${e.message}`);
+            }
+            return;
+        }
+        // Not a yes/no answer — clear pending and process as new message
+        clearPendingApproval(chatId);
+    }
+
     // ── /clear command ──
     if (userText === '/clear') {
         await sendMessage(token, chatId, 'Context cleared. Starting fresh.');
@@ -1720,15 +1795,12 @@ async function processUpdate(token, update, config) {
     // An empty response is valid when a reasoning model emits only tool_calls (content is "").
     // Only treat it as an error when result.success is explicitly false.
     if (result.success) {
-        // ── Approval required: send inline keyboard instead of plain message ──
+        // ── Approval required: send plain text and store pending approval ──
         if (result.requiresApproval && result.approvalId) {
-            const keyboard = [
-                [
-                    { text: 'Approve', callback_data: `approval:approve:${result.approvalId}` },
-                    { text: 'Decline', callback_data: `approval:deny:${result.approvalId}` },
-                ],
-            ];
-            await sendMessageWithKeyboard(token, chatId, result.response || 'Approval required - Skales wants to perform an action:', keyboard);
+            const approvalText = result.response || 'Approval required - Skales wants to perform an action.';
+            const fullText = `${approvalText}\n\nReply "yes" to approve or "no" to decline.`;
+            await sendMessage(token, chatId, fullText);
+            setPendingApproval(chatId, result.approvalId);
             return;
         }
 
