@@ -42,7 +42,7 @@ const MIN_FEATURE_LENGTH   = 10;
 
 async function loadClientSettings(): Promise<{ telemetryEnabled: boolean; anonymousId: string; os: string }> {
     try {
-        const res = await fetch('/api/settings');
+        const res = await fetch('/api/settings/get');
         if (!res.ok) return { telemetryEnabled: false, anonymousId: '', os: '' };
         const data = await res.json();
         return {
@@ -397,7 +397,7 @@ export default function FeedbackPage() {
                                 placeholder={t('feedback.featurePlaceholder')}
                                 value={featureText}
                                 onChange={e => setFeatureText(e.target.value)}
-                                disabled={featureStatus === 'sending' || !telemetryEnabled}
+                                disabled={featureStatus === 'sending'}
                                 maxLength={2000}
                             />
 
@@ -409,7 +409,7 @@ export default function FeedbackPage() {
                                     <select
                                         value={featureCategory}
                                         onChange={e => setFeatureCategory(e.target.value as Category)}
-                                        disabled={featureStatus === 'sending' || !telemetryEnabled}
+                                        disabled={featureStatus === 'sending'}
                                         className="w-full rounded-xl border px-3 py-2 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-lime-500/40"
                                         style={inputStyle}
                                     >

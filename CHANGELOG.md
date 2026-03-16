@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## V6.1.1 — Hotfix (March 2026)
+- Fixed: Telemetry key mismatch - /api/settings endpoint now exposes telemetry_enabled, feedback page uses correct URL
+- Fixed: Feature Request textarea not editable on /feedback page (was disabled when telemetry appeared off)
+- Fixed: Report Bug sidebar link now opens /feedback instead of old modal
+- Fixed: Skin/language change now prompts for restart with Electron relaunch support
+- Fixed: Chat input focus lost after deleting chat or receiving media via Telegram
+- Fixed: White screen on mobile Chrome tab switch via Tailscale (visibility recovery in app shell)
+- Fixed: Privacy section consolidated - telemetry toggle moved into Security & Privacy, dynamic text based on state
+- Updated: All 4 locale files (en/de/es/fr) with new privacy section keys (1010 keys each)
+
 ## V6.1.0 — "The Awakening" (March 2026)
 
 ### Autopilot — True Autonomous Agent

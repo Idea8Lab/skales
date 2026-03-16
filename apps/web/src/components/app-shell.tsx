@@ -89,6 +89,29 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         }
     }, [pathname, isBootstrap]);
 
+    // ── Bug 19: Recover from mobile Chrome tab suspension ─────────────────────
+    // On Tailscale mobile access, Chrome freezes the tab when switching apps.
+    // When the user returns, the frozen React tree may show a white screen.
+    // Force a lightweight re-render by toggling a dummy state on visibility change.
+    const [, setWakeUpTick] = useState(0);
+    useEffect(() => {
+        const handleWakeUp = () => {
+            if (document.visibilityState === 'visible') {
+                setWakeUpTick(n => n + 1);
+            }
+        };
+        document.addEventListener('visibilitychange', handleWakeUp);
+        // Also listen for the BFCache restoration event (mobile Safari / Chrome)
+        window.addEventListener('pageshow', (e) => {
+            if ((e as PageTransitionEvent).persisted) {
+                setWakeUpTick(n => n + 1);
+            }
+        });
+        return () => {
+            document.removeEventListener('visibilitychange', handleWakeUp);
+        };
+    }, []);
+
     // ── Telemetry: fire 'app_start' once per app launch ──────────────────────
     // Calls the server-side route which checks settings.telemetry_enabled
     // before sending anything. Fire-and-forget, never blocks the UI.

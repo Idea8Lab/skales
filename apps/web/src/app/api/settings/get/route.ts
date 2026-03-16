@@ -23,6 +23,8 @@ const SAFE_FIELDS = new Set([
     'theme',
     'locale',
     'safetyMode',
+    'telemetry_enabled',
+    'telemetry_anonymous_id',
 ]);
 
 export async function GET() {

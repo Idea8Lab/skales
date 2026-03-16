@@ -1265,5 +1265,12 @@
     "submitFeature": "Submit",
     "thankYouFeature": "Thanks! We'll review your suggestion.",
     "optInRequired": "Enable telemetry in Settings to send feedback."
+  },
+  "privacy": {
+    "telemetryOff": "Telemetry is disabled. Skales does not send any analytics or usage data. Everything stays on your machine.",
+    "telemetryOn": "Skales sends anonymous usage data (app version, OS, feature usage) to help improve the product. No personal data, no conversations, no API keys are ever transmitted.",
+    "telemetryToggle": "Anonymous Telemetry",
+    "privacyFirst": "Privacy First",
+    "telemetryEnabled": "Anonymous Telemetry Enabled"
   }
 }

@@ -2015,7 +2015,9 @@ export default function ChatPage() {
                 setMessageQueue([]);
                 setShowSessions(false);
                 // Re-focus the input after state reset so it's immediately usable
-                setTimeout(() => inputRef.current?.focus(), 50);
+                // Bug 18 fix: double-tap focus — first after microtask, second after paint
+                setTimeout(() => inputRef.current?.focus(), 100);
+                setTimeout(() => inputRef.current?.focus(), 300);
             }
         } catch (e) {
             console.error('Failed to delete session:', e);
@@ -2504,6 +2506,15 @@ export default function ChatPage() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading]);
+
+    // ── Bug 18: Restore input focus after loading completes ──────────────────
+    // When a response finishes (loading → false) or media arrives (e.g. Telegram GIF),
+    // the input can lose focus. This ensures it's always re-focusable.
+    useEffect(() => {
+        if (!loading && !pendingApproval) {
+            setTimeout(() => inputRef.current?.focus(), 150);
+        }
+    }, [loading, pendingApproval, messages.length]);
 
     // ─── Replicate Model Catalogue ───────────────────────────────
     const REPLICATE_IMAGE_MODELS = [

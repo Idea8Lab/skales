@@ -1265,5 +1265,12 @@
     "submitFeature": "Enviar",
     "thankYouFeature": "¡Gracias! Revisaremos tu sugerencia.",
     "optInRequired": "Activa la telemetría en Ajustes para enviar comentarios."
+  },
+  "privacy": {
+    "telemetryOff": "La telemetria esta desactivada. Skales no envia datos de uso. Todo permanece en tu ordenador.",
+    "telemetryOn": "Skales envia datos de uso anonimos (version de la app, sistema operativo, uso de funciones) para mejorar el producto. No se transmiten datos personales, conversaciones ni claves API.",
+    "telemetryToggle": "Telemetria anonima",
+    "privacyFirst": "Privacidad primero",
+    "telemetryEnabled": "Telemetria anonima activada"
   }
 }

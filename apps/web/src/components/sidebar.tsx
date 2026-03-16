@@ -140,7 +140,7 @@ export default function Sidebar({
     const [mounted, setMounted] = useState(false);
     const [activeSkills, setActiveSkills] = useState<Set<string>>(new Set());
     const [customSkillItems, setCustomSkillItems] = useState<CustomSkillNavItem[]>([]);
-    const [bugReportOpen, setBugReportOpen] = useState(false);
+    // bugReportOpen state removed — sidebar now links to /feedback page
     const { t } = useTranslation();
 
     // Translated nav labels (keyed by href)
@@ -462,9 +462,9 @@ export default function Sidebar({
                     </button>
                 )}
 
-                {/* Report Bug */}
-                <button
-                    onClick={() => setBugReportOpen(true)}
+                {/* Report Bug / Feedback */}
+                <Link
+                    href="/feedback"
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-[var(--sidebar-hover)] w-full ${collapsed ? 'justify-center' : ''}`}
                     style={{ color: 'var(--text-muted)' }}
                     title={collapsed ? t('bugReport.sidebar') : undefined}
@@ -472,7 +472,7 @@ export default function Sidebar({
                 >
                     <Icon icon={Bug} size={collapsed ? 20 : 18} />
                     {!collapsed && <span>{t('bugReport.sidebar')}</span>}
-                </button>
+                </Link>
 
                 {/* Stop Server */}
                 <button
@@ -495,8 +495,7 @@ export default function Sidebar({
                 </div>
             )}
 
-            {/* ── Bug Report Modal ─────────────────────────── */}
-            <BugReportModal open={bugReportOpen} onClose={() => setBugReportOpen(false)} />
+            {/* Bug Report Modal removed — sidebar now links to /feedback page */}
         </aside>
     );
 }

@@ -1392,9 +1392,24 @@ export default function SettingsPage() {
                             ))}
                         </select>
                         {locale !== initialLocale && (
-                            <p className="text-sm text-amber-500 mt-2">
-                                ⚠️ {t('settings.languageRestartHint')}
-                            </p>
+                            <div className="flex items-center gap-3 mt-2">
+                                <p className="text-sm text-amber-500">
+                                    ⚠️ {t('settings.languageRestartHint')}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if ((window as any).skales?.send) {
+                                            (window as any).skales.send('relaunch-app');
+                                        } else {
+                                            window.location.reload();
+                                        }
+                                    }}
+                                    className="text-xs font-bold px-3 py-1 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30 transition-all whitespace-nowrap"
+                                >
+                                    Restart Now
+                                </button>
+                            </div>
                         )}
                     </section>
 
@@ -1530,7 +1545,19 @@ export default function SettingsPage() {
                                                     <button
                                                         key={skin.id}
                                                         type="button"
-                                                        onClick={() => setBuddySkin(skin.id)}
+                                                        onClick={() => {
+                                                            setBuddySkin(skin.id);
+                                                            // Bug 17: Prompt restart after skin change
+                                                            setTimeout(() => {
+                                                                if (window.confirm('Restart required to apply the new skin. Restart now?')) {
+                                                                    if ((window as any).skales?.send) {
+                                                                        (window as any).skales.send('relaunch-app');
+                                                                    } else {
+                                                                        window.location.reload();
+                                                                    }
+                                                                }
+                                                            }, 300);
+                                                        }}
                                                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all"
                                                         style={{
                                                             background: isSelected ? 'rgba(74,222,128,0.1)' : 'var(--surface-raised)',
@@ -4900,10 +4927,31 @@ export default function SettingsPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'var(--background)' }}>
-                                <CheckCircle2 size={16} className="text-green-500 mt-0.5 shrink-0" />
-                                <div>
-                                    <p className="font-medium" style={{ color: 'var(--text-primary)' }}>No Telemetry</p>
-                                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Skales does not track you. No analytics, no usage data sent anywhere.</p>
+                                <CheckCircle2 size={16} className={`mt-0.5 shrink-0 ${telemetryEnabled ? 'text-blue-400' : 'text-green-500'}`} />
+                                <div className="flex-1">
+                                    <div className="flex items-center justify-between gap-3">
+                                        <p className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                                            {telemetryEnabled ? t('privacy.telemetryEnabled') : t('privacy.privacyFirst')}
+                                        </p>
+                                        <button
+                                            onClick={async () => {
+                                                const next = !telemetryEnabled;
+                                                setTelemetryEnabled(next);
+                                                await saveAllSettings({ telemetry_enabled: next } as any);
+                                            }}
+                                            className="text-xs font-bold px-3 py-1 rounded-full transition-all whitespace-nowrap"
+                                            style={{
+                                                background: telemetryEnabled ? 'rgba(96,165,250,0.15)' : 'var(--surface-raised)',
+                                                color: telemetryEnabled ? '#60a5fa' : 'var(--text-muted)',
+                                                border: telemetryEnabled ? '1px solid rgba(96,165,250,0.4)' : '1px solid var(--border)',
+                                            }}
+                                        >
+                                            {telemetryEnabled ? t('settings.enabled') : t('settings.disabled')}
+                                        </button>
+                                    </div>
+                                    <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                                        {telemetryEnabled ? t('privacy.telemetryOn') : t('privacy.telemetryOff')}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -5043,43 +5091,7 @@ export default function SettingsPage() {
                         </div>
                     </section>
 
-                    {/* ─── Privacy ─── */}
-                    <section className="rounded-2xl border p-6"
-                        style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-                        <h2 className="text-lg font-semibold mb-1 flex items-center gap-2"
-                            style={{ color: 'var(--text-primary)' }}>
-                            <Shield size={20} className="text-blue-400" />
-                            {t('settings.privacy')}
-                        </h2>
-                        <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
-                            {t('settings.privacyDesc')}
-                        </p>
-                        <div className="flex items-center justify-between py-2">
-                            <div>
-                                <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-                                    {t('telemetry.settingsLabel')}
-                                </p>
-                                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                                    {t('telemetry.description')}
-                                </p>
-                            </div>
-                            <button
-                                onClick={async () => {
-                                    const next = !telemetryEnabled;
-                                    setTelemetryEnabled(next);
-                                    await saveAllSettings({ telemetry_enabled: next } as any);
-                                }}
-                                className="shrink-0 ml-4 px-4 py-2 rounded-xl text-xs font-semibold transition-all"
-                                style={{
-                                    background: telemetryEnabled ? 'rgba(96,165,250,0.15)' : 'var(--surface-raised)',
-                                    color: telemetryEnabled ? '#60a5fa' : 'var(--text-muted)',
-                                    border: telemetryEnabled ? '1px solid rgba(96,165,250,0.4)' : '1px solid var(--border)',
-                                }}
-                            >
-                                {telemetryEnabled ? t('settings.enabled') : t('settings.disabled')}
-                            </button>
-                        </div>
-                    </section>
+                    {/* ─── Privacy section removed — telemetry toggle moved into Security & Privacy above ─── */}
 
                     {/* ─── Feedback & Bug Reports ─── */}
                     <section className="rounded-2xl p-6" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
