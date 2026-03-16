@@ -94,9 +94,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     // before sending anything. Fire-and-forget, never blocks the UI.
     useEffect(() => {
         fetch('/api/telemetry/ping').catch(() => {});
-        // Also report UI language on startup
+        // Only report language if it changed since last report
         const lang = document.documentElement.lang || navigator.language?.slice(0, 2) || 'en';
-        fetch(`/api/telemetry/ping?event=language&lang=${lang}`).catch(() => {});
+        try {
+            const lastLang = localStorage.getItem('skales-telemetry-last-lang');
+            if (lastLang !== lang) {
+                fetch(`/api/telemetry/ping?event=language&lang=${lang}`).catch(() => {});
+                localStorage.setItem('skales-telemetry-last-lang', lang);
+            }
+        } catch {
+            // localStorage unavailable — send anyway as fallback
+            fetch(`/api/telemetry/ping?event=language&lang=${lang}`).catch(() => {});
+        }
     }, []);
 
     const toggleSidebar = useCallback(() => {

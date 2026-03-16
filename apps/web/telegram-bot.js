@@ -400,6 +400,9 @@ function taskStateIcon(state) {
 const PENDING_APPROVALS_FILE = path.join(DATA_DIR, 'integrations', 'telegram-pending-approvals.json');
 const APPROVAL_EXPIRY_MS = 300_000; // 5 minutes
 
+// ─── Dedup guard (prevents processing same update twice on 409 conflict) ──
+const processedUpdateIds = new Set();
+
 function loadPendingApprovals() {
     try {
         if (fs.existsSync(PENDING_APPROVALS_FILE)) {
@@ -1638,10 +1641,10 @@ async function processUpdate(token, update, config) {
             config.pairedUserName = fullName || userName;
             saveTelegramConfig(config);
             log(`✅ PAIRED with ${userName} (chat ${chatId})`);
-            await sendMessage(token, chatId, `Successfully connected! Hi ${userName}, you are now paired with Skales. Just send me a message and I will respond.`);
+            await sendMessage(token, chatId, `✅ Successfully connected!\n\nHi ${userName}, you are now paired with Skales.\nJust send me a message and I'll respond.\n\nYour messages will also appear in the Skales Dashboard.`);
             return;
         } else {
-            await sendMessage(token, chatId, 'Pairing failed. Please check your code and try again.');
+            await sendMessage(token, chatId, '❌ Wrong pairing code. Please check the code in your Skales Dashboard → Settings → Telegram and try again.');
             return;
         }
     }
@@ -2153,6 +2156,15 @@ async function startPolling() {
         bot.on('message', async (msg) => {
             const freshConfig = loadTelegramConfig();
             if (!freshConfig?.botToken) return;
+            // Dedup check: skip if we've already processed this message
+            const msgId = `msg_${msg.chat.id}_${msg.message_id}`;
+            if (processedUpdateIds.has(msgId)) return;
+            processedUpdateIds.add(msgId);
+            // Cleanup: keep set bounded
+            if (processedUpdateIds.size > 1000) {
+                const arr = [...processedUpdateIds];
+                arr.slice(0, 500).forEach(id => processedUpdateIds.delete(id));
+            }
             // Wrap into the update-object shape that processUpdate() expects
             await processUpdate(freshConfig.botToken, { message: msg }, freshConfig).catch(e => {
                 logError('Error processing message', e);
@@ -2163,6 +2175,10 @@ async function startPolling() {
         bot.on('edited_message', async (msg) => {
             const freshConfig = loadTelegramConfig();
             if (!freshConfig?.botToken) return;
+            // Dedup check: skip if we've already processed this message
+            const msgId = `edit_${msg.chat.id}_${msg.message_id}`;
+            if (processedUpdateIds.has(msgId)) return;
+            processedUpdateIds.add(msgId);
             await processUpdate(freshConfig.botToken, { edited_message: msg }, freshConfig).catch(e => {
                 logError('Error processing edited_message', e);
             });
@@ -2172,6 +2188,10 @@ async function startPolling() {
         bot.on('callback_query', async (query) => {
             const freshConfig = loadTelegramConfig();
             if (!freshConfig?.botToken) return;
+            // Dedup check: skip if we've already processed this callback
+            const callbackId = `cb_${query.id}`;
+            if (processedUpdateIds.has(callbackId)) return;
+            processedUpdateIds.add(callbackId);
             await processUpdate(freshConfig.botToken, { callback_query: query }, freshConfig).catch(e => {
                 logError('Error processing callback_query', e);
             });

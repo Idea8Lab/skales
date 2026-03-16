@@ -443,3 +443,37 @@ export async function getTelegramBotRunning(): Promise<boolean> {
         return false;
     }
 }
+
+// ─── Purge / Reset ───────────────────────────────────────────
+export async function purgeTelegramData(): Promise<{ success: boolean }> {
+    const filesToDelete = [
+        'pending-approvals',
+        'telegram-bot-error.log',
+        '.telegram-bot.lock',
+    ];
+    const integrationFiles = [
+        'telegram.json',
+        'telegram-inbox.json',
+        'telegram-pending-approvals.json',
+        'telegram-session.json',
+    ];
+    // Delete top-level data files
+    for (const f of filesToDelete) {
+        const p = path.join(DATA_DIR, f);
+        try {
+            if (fs.existsSync(p)) {
+                const stat = fs.statSync(p);
+                if (stat.isDirectory()) fs.rmSync(p, { recursive: true });
+                else fs.unlinkSync(p);
+            }
+        } catch { /* non-fatal */ }
+    }
+    // Delete integration files
+    for (const f of integrationFiles) {
+        const p = path.join(INTEGRATIONS_DIR, f);
+        try {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        } catch { /* non-fatal */ }
+    }
+    return { success: true };
+}

@@ -4,6 +4,7 @@ import { agentDecide, agentExecute } from '@/actions/orchestrator';
 import { loadSettings } from '@/actions/chat';
 import { telegramQueue } from '@/lib/message-queue';
 import { saveApproval, purgeExpired } from '@/lib/approval-store';
+import { getTask, updateTask, getTasksAwaitingApproval } from '@/lib/agent-tasks';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
@@ -453,7 +454,8 @@ responses are only acceptable for pure questions or conversations.
                 const results = await agentExecute(toolCalls);
 
                 // ── Approval gate — any tool needing confirmation? ────────────────────
-                const needsApproval = results.filter(r => r.requiresConfirmation);
+                // BUG 1 FIX: Skip approval entirely when safetyMode is unrestricted
+                const needsApproval = safetyMode === 'unrestricted' ? [] : results.filter(r => r.requiresConfirmation);
                 if (needsApproval.length > 0) {
                     // Build human-readable descriptions and persist approval state
                     const descriptions: string[] = results.map(r => r.confirmationMessage || r.toolName || 'unknown action');
@@ -480,9 +482,21 @@ responses are only acceptable for pure questions or conversations.
                         source:         'telegram',
                     });
 
-                    // Build the approval message with inline keyboard
+                    // BUG 3 FIX: Inject BLOCKED tool results so the LLM knows tools were NOT executed
+                    for (let i = 0; i < toolCalls.length; i++) {
+                        const blockedMsg: ChatMessage = {
+                            role: 'tool',
+                            content: 'BLOCKED: This tool was NOT executed. Approval is required. Do NOT claim this action was completed.',
+                            tool_call_id: toolCalls[i].id,
+                            name: toolCalls[i].function.name,
+                            timestamp: Date.now(),
+                        };
+                        session.messages.push(blockedMsg);
+                    }
+
+                    // Build the approval message — text-based (inline keyboards are unreliable)
                     const actionList = descriptions.map((d, i) => `${i + 1}. ${d}`).join('\n');
-                    finalResponse = `🔐 *Approval required*\n\nSkales wants to:\n${actionList}\n\nPlease confirm:`;
+                    finalResponse = `⚠️ Approval needed:\n\nI want to execute:\n${actionList}\n\nReply "yes" to approve or "no" to decline.`;
 
                     // Return with special flag so telegram-bot.js sends the inline keyboard
                     const assistantMsg: ChatMessage = {
@@ -627,6 +641,62 @@ export async function POST(req: NextRequest) {
         if (tgConfig.pairedChatId && String(tgConfig.pairedChatId) !== String(telegramChatId)) {
             console.warn('[Telegram API] Rejected unauthorized chat ID:', telegramChatId);
             return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 403 });
+        }
+
+        // ── Autopilot Approval Commands ────────────────────────
+        // Handle `approve <id>` / `reject <id>` and simple yes/no BEFORE the
+        // queue guard and LLM pipeline so they're always processed immediately.
+        {
+            const trimmed = message.trim();
+
+            // Explicit: "approve abc123" / "reject abc123"
+            const approveMatch = trimmed.match(/^approve\s+([a-zA-Z0-9_-]+)$/i);
+            const rejectMatch  = trimmed.match(/^reject\s+([a-zA-Z0-9_-]+)$/i);
+
+            if (approveMatch || rejectMatch) {
+                const taskId = (approveMatch ?? rejectMatch)![1];
+                try {
+                    const targetTask = getTask(taskId);
+                    if (!targetTask) {
+                        await sendMessage(tgConfig.botToken, telegramChatId,
+                            `❌ Task \`${taskId}\` not found.`);
+                    } else if (approveMatch) {
+                        updateTask(taskId, { approvalStatus: 'approved' });
+                        await sendMessage(tgConfig.botToken, telegramChatId,
+                            `✅ Task *${targetTask.title}* approved. It will run on the next autopilot tick.`);
+                    } else {
+                        updateTask(taskId, { approvalStatus: 'rejected', state: 'cancelled', completedAt: Date.now(), blockedReason: 'Rejected via Telegram' });
+                        await sendMessage(tgConfig.botToken, telegramChatId,
+                            `🚫 Task *${targetTask.title}* rejected and cancelled.`);
+                    }
+                } catch (err: any) {
+                    await sendMessage(tgConfig.botToken, telegramChatId,
+                        `⚠️ Could not process approval: ${err.message}`).catch(() => {});
+                }
+                return NextResponse.json({ success: true, handled: 'approval_command' });
+            }
+
+            // Simple yes/no — only applies when exactly 1 autopilot task is awaiting approval
+            const yesNo = trimmed.toLowerCase();
+            if (yesNo === 'yes' || yesNo === 'no') {
+                try {
+                    const waiting = getTasksAwaitingApproval();
+                    if (waiting.length === 1) {
+                        const t = waiting[0];
+                        if (yesNo === 'yes') {
+                            updateTask(t.id, { approvalStatus: 'approved' });
+                            await sendMessage(tgConfig.botToken, telegramChatId,
+                                `✅ Task *${t.title}* approved. It will run on the next autopilot tick.`);
+                        } else {
+                            updateTask(t.id, { approvalStatus: 'rejected', state: 'cancelled', completedAt: Date.now(), blockedReason: 'Rejected via Telegram' });
+                            await sendMessage(tgConfig.botToken, telegramChatId,
+                                `🚫 Task *${t.title}* rejected and cancelled.`);
+                        }
+                        return NextResponse.json({ success: true, handled: 'approval_yesno' });
+                    }
+                    // If 0 or 2+ tasks are waiting, fall through to normal chat
+                } catch { /* non-fatal — fall through to normal chat processing */ }
+            }
         }
 
         // ── Queue Guard ────────────────────────────────────────

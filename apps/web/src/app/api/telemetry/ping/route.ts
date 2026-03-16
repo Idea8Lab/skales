@@ -21,6 +21,25 @@ export async function GET(req: NextRequest) {
     noStore();
 
     try {
+        // BUG 11 FIX: Defense-in-depth opt-in check at the API route level
+        // Prevents ANY processing when telemetry is disabled (GDPR compliance)
+        const fs = await import('fs');
+        const path = await import('path');
+        const { DATA_DIR } = await import('@/lib/paths');
+        const settingsPath = path.default.join(DATA_DIR, 'settings.json');
+        try {
+            if (fs.default.existsSync(settingsPath)) {
+                const settings = JSON.parse(fs.default.readFileSync(settingsPath, 'utf-8'));
+                if (!settings.telemetry_enabled) {
+                    return NextResponse.json({ ok: true }); // Silent no-op
+                }
+            } else {
+                return NextResponse.json({ ok: true }); // No settings = no telemetry
+            }
+        } catch {
+            return NextResponse.json({ ok: true }); // Parse error = no telemetry
+        }
+
         const params = req.nextUrl.searchParams;
         const event  = params.get('event') || 'app_start';
 

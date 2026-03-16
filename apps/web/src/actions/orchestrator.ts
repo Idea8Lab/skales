@@ -3073,17 +3073,25 @@ Or use **Ollama** locally with LLaVA (free, private).`,
                             const imgUrl: string = Array.isArray(output) ? output[0] : (typeof output === 'string' ? output : '');
                             if (!imgUrl) return { toolName: name, success: false, result: null, displayMessage: '❌ Replicate returned no image URL.' };
 
-                            // Save to workspace/images/
-                            const imagesDir = path.join(DATA_DIR, 'workspace', 'images');
+                            // Save to workspace/files/images/ (matching Gemini path + Gallery expectations)
+                            const imagesDir = path.join(DATA_DIR, 'workspace', 'files', 'images');
                             if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
                             const imgFilename = `replicate_img_${Date.now()}.png`;
-                            const imgBuf = await fetch(imgUrl, { signal: AbortSignal.timeout(30_000) }).then(r => r.arrayBuffer());
-                            fs.writeFileSync(path.join(imagesDir, imgFilename), Buffer.from(imgBuf));
+                            // Download with explicit error checking
+                            const imgRes = await fetch(imgUrl, { signal: AbortSignal.timeout(30_000) });
+                            if (!imgRes.ok) {
+                                return { toolName: name, success: false, result: null, displayMessage: `❌ Failed to download Replicate image: HTTP ${imgRes.status}` };
+                            }
+                            const imgBuf = Buffer.from(await imgRes.arrayBuffer());
+                            if (imgBuf.length < 100) {
+                                return { toolName: name, success: false, result: null, displayMessage: '❌ Replicate image download returned empty data.' };
+                            }
+                            fs.writeFileSync(path.join(imagesDir, imgFilename), imgBuf);
 
                             return {
                                 toolName: name, success: true,
                                 result: { filename: imgFilename, provider: 'replicate', model: replicateModel },
-                                displayMessage: `IMG_FILE:images/${imgFilename}|${imgPrompt}|auto|1:1`,
+                                displayMessage: `IMG_FILE:files/images/${imgFilename}|${imgPrompt}|auto|1:1`,
                             };
                         } catch (e: any) {
                             return { toolName: name, success: false, result: null, displayMessage: `❌ Replicate image generation failed: ${e.message}` };
@@ -3137,13 +3145,13 @@ Or use **Ollama** locally with LLaVA (free, private).`,
                     const b64 = imagePart.inlineData.data as string;
                     const mime = (imagePart.inlineData.mimeType as string) || 'image/png';
                     const ext = mime.split('/')[1]?.split(';')[0] || 'png';
-                    // Save to workspace/images/ in DATA_DIR
-                    const imagesDir = path.join(DATA_DIR, 'workspace', 'images');
+                    // Save to workspace/files/images/ in DATA_DIR
+                    const imagesDir = path.join(DATA_DIR, 'workspace', 'files', 'images');
                     if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
                     const imgFilename = `gemini_img_${Date.now()}.${ext}`;
                     fs.writeFileSync(path.join(imagesDir, imgFilename), Buffer.from(b64, 'base64'));
                     // Return IMG_FILE reference instead of base64
-                    const displayMessage = `IMG_FILE:images/${imgFilename}|${imgPrompt}|${imgStyle}|${imgRatio}`;
+                    const displayMessage = `IMG_FILE:files/images/${imgFilename}|${imgPrompt}|${imgStyle}|${imgRatio}`;
                     return {
                         toolName: name,
                         success: true,
@@ -4265,6 +4273,31 @@ export async function agentDecide(
     let finalMessages = [...messages];
     let memoriesRecalled = 0; // tracks how many auto-extracted memories were injected
 
+    // BUG 7 FIX: Sanitize orphaned tool_result blocks that crash the API
+    // Collect all tool_use/tool_call IDs from assistant messages
+    const validToolCallIds = new Set<string>();
+    for (const msg of finalMessages) {
+        if (msg.role === 'assistant') {
+            const tc = (msg as any).tool_calls;
+            if (Array.isArray(tc)) {
+                for (const call of tc) {
+                    if (call?.id) validToolCallIds.add(call.id);
+                }
+            }
+        }
+    }
+    // Remove tool messages that reference non-existent tool_call IDs
+    finalMessages = finalMessages.filter(msg => {
+        if (msg.role === 'tool') {
+            const callId = (msg as any).tool_call_id;
+            if (callId && !validToolCallIds.has(callId)) {
+                console.log(`[Skales] Removing orphaned tool_result: ${callId}`);
+                return false;
+            }
+        }
+        return true;
+    });
+
     // If no system message, prepend the default one
     if (!finalMessages.some(m => m.role === 'system')) {
         const { buildContext } = await import('./identity');
@@ -5002,6 +5035,8 @@ export async function processMessageWithTools(
         provider?: Provider;
         model?: string;
         confirmedToolCalls?: string[]; // Tool call IDs that user confirmed
+        /** Optional callback fired on each ReAct step — used by Autopilot Live Execution view */
+        onStep?: (step: { type: 'thinking' | 'tool_call' | 'tool_result'; content: string; toolName?: string }) => void;
     }
 ): Promise<OrchestratorResult> {
 
@@ -5047,6 +5082,11 @@ export async function processMessageWithTools(
             };
         }
 
+        // Notify onStep: LLM reasoning
+        if (options?.onStep && step.response) {
+            try { options.onStep({ type: 'thinking', content: step.response }); } catch { /* non-fatal */ }
+        }
+
         // ── FINAL RESPONSE: model chose to answer instead of calling tools ──
         if (step.decision === 'response' || !step.toolCalls?.length) {
             // Record memory on exit
@@ -5083,8 +5123,34 @@ export async function processMessageWithTools(
         }
 
         // ── ACT: execute chosen tools ────────────────────────────────────────
+        // Notify onStep: tool calls about to execute
+        if (options?.onStep && step.toolCalls?.length) {
+            for (const tc of step.toolCalls) {
+                try {
+                    options.onStep({
+                        type: 'tool_call',
+                        content: JSON.stringify(tc.function.arguments ?? {}).slice(0, 300),
+                        toolName: tc.function.name,
+                    });
+                } catch { /* non-fatal */ }
+            }
+        }
+
         const iterResults = await agentExecute(step.toolCalls);
         allToolResults.push(...iterResults);
+
+        // Notify onStep: tool results
+        if (options?.onStep) {
+            for (const tr of iterResults) {
+                try {
+                    options.onStep({
+                        type: 'tool_result',
+                        content: (tr.result ?? '').slice(0, 300),
+                        toolName: tr.toolName,
+                    });
+                } catch { /* non-fatal */ }
+            }
+        }
 
         // ── OBSERVE: append assistant + tool result messages to context ──────
         runningMessages = [

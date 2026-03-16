@@ -6,7 +6,7 @@ import {
     Server, Moon, Sun, Monitor, MessageSquare, Save, Settings as SettingsIcon,
     Globe, Zap, CheckCircle2, XCircle, Loader2, Download, User, Sparkles,
     Shield, Key, ExternalLink, TestTube2, WifiOff, Wifi, AlertTriangle, Trash2, Power, RotateCcw,
-    ChevronDown, Upload, PackageOpen, Info, Layers, Eye, EyeOff, Crown,
+    ChevronDown, Upload, PackageOpen, Info, Layers, Eye, EyeOff, Crown, Star,
 } from 'lucide-react';
 import { clearMemories, resetBootstrap } from '@/actions/identity';
 import { clearOldLogs } from '@/actions/logs';
@@ -16,7 +16,7 @@ import {
 } from '@/actions/chat';
 import {
     saveTelegramConfig, testTelegramBot, loadTelegramConfig, deleteTelegramConfig,
-    regeneratePairingCode, getTelegramBotRunning, startTelegramBot
+    regeneratePairingCode, getTelegramBotRunning, startTelegramBot, purgeTelegramData
 } from '@/actions/telegram';
 import {
     getWhatsAppStatus, startWhatsAppBot, disconnectWhatsApp, clearWhatsAppSession,
@@ -793,6 +793,20 @@ export default function SettingsPage() {
         setShowTelegramSetup(false);
     };
 
+    const handleTelegramPurge = async () => {
+        if (!confirm('Reset Telegram completely? This will delete ALL Telegram data including pairing, pending approvals, and logs. You will need to re-pair.')) return;
+        await purgeTelegramData();
+        setTelegramSaved(false);
+        setTelegramBotName('');
+        setTelegramBotUsername('');
+        setTelegramToken('');
+        setTelegramPairingCode('');
+        setTelegramPaired(false);
+        setTelegramPairedUser('');
+        setTelegramResult({ success: true, message: 'Telegram disconnected. Re-pair with /pair.' });
+        setShowTelegramSetup(false);
+    };
+
     const handleRegeneratePairing = async () => {
         if (!confirm('Generate a new pairing code? The current connection will be removed.')) return;
         const res = await regeneratePairingCode();
@@ -1557,6 +1571,11 @@ export default function SettingsPage() {
                                                         <span className="text-[11px] font-medium" style={{ color: isSelected ? '#4ade80' : 'var(--text-secondary)' }}>
                                                             {skin.label}
                                                         </span>
+                                                        {(skin as any).description && (
+                                                            <span className="text-[9px] text-center leading-tight" style={{ color: 'var(--text-muted)' }}>
+                                                                {(skin as any).description.split(' - ')[1] || (skin as any).description}
+                                                            </span>
+                                                        )}
                                                     </button>
                                                 );
                                             })}
@@ -2255,7 +2274,7 @@ export default function SettingsPage() {
                                 </div>
                                 {isAutonomousMode && safetyMode === 'safe' && (
                                     <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-                                        🔒 Safety Mode is <strong>Safe</strong> - system and scheduled tasks are skipped. Only user-created tasks run automatically.
+                                        🔒 Safety Mode is <strong>Safe</strong> - system and scheduled tasks require manual approval before execution. Only user-created tasks run automatically.
                                     </p>
                                 )}
                             </div>
@@ -2792,14 +2811,24 @@ export default function SettingsPage() {
                                                 Test
                                             </button>
                                             {telegramSaved && (
-                                                <button
-                                                    onClick={handleTelegramDisconnect}
-                                                    className="px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 hover:bg-red-500 hover:text-white ml-auto"
-                                                    style={{ border: '1px solid rgba(239,68,68,0.3)', color: '#ef4444' }}
-                                                >
-                                                    <Trash2 size={14} />
-                                                    Disconnect
-                                                </button>
+                                                <>
+                                                    <button
+                                                        onClick={handleTelegramDisconnect}
+                                                        className="px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 hover:bg-red-500 hover:text-white"
+                                                        style={{ border: '1px solid rgba(239,68,68,0.3)', color: '#ef4444' }}
+                                                    >
+                                                        <Trash2 size={14} />
+                                                        Disconnect
+                                                    </button>
+                                                    <button
+                                                        onClick={handleTelegramPurge}
+                                                        className="px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 hover:bg-red-600 hover:text-white"
+                                                        style={{ border: '1px solid rgba(239,68,68,0.3)', color: '#ef4444' }}
+                                                    >
+                                                        <RotateCcw size={14} />
+                                                        Reset All
+                                                    </button>
+                                                </>
                                             )}
                                         </div>
 
@@ -5049,6 +5078,35 @@ export default function SettingsPage() {
                             >
                                 {telemetryEnabled ? t('settings.enabled') : t('settings.disabled')}
                             </button>
+                        </div>
+                    </section>
+
+                    {/* ─── Feedback & Bug Reports ─── */}
+                    <section className="rounded-2xl p-6" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                                    style={{ background: 'rgba(250,204,21,0.12)' }}>
+                                    <Star size={18} style={{ color: '#facc15' }} />
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                                        {t('feedback.title')}
+                                    </p>
+                                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                                        {t('feedback.rateTitle')}, {t('feedback.reportBug')}, {t('feedback.requestFeature')}
+                                    </p>
+                                </div>
+                            </div>
+                            <Link href="/feedback"
+                                className="shrink-0 ml-4 px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:scale-105 active:scale-95"
+                                style={{
+                                    background: 'rgba(250,204,21,0.12)',
+                                    color: '#facc15',
+                                    border: '1px solid rgba(250,204,21,0.3)',
+                                }}>
+                                {t('feedback.title')}
+                            </Link>
                         </div>
                     </section>
 

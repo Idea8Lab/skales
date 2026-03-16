@@ -109,9 +109,28 @@ function checkRateLimit(): { allowed: boolean; reason?: string } {
     return { allowed: true };
 }
 
-function incrementApiCalls() {
-    apiCallsThisHour++;
+function incrementApiCalls(count: number = 1) {
+    apiCallsThisHour += count;
     saveCostState();
+}
+
+// ─── Telegram approval notifier ───────────────────────────────
+// Non-fatal — called after a task is flagged for approval so the user
+// can approve/reject directly from Telegram without opening the dashboard.
+async function notifyTelegramApprovalRequired(task: AgentTask, reason: string): Promise<void> {
+    try {
+        const { loadTelegramConfig, sendMessage } = await import('@/actions/telegram');
+        const tgCfg = await loadTelegramConfig();
+        if (!tgCfg?.enabled || !tgCfg?.botToken || !tgCfg?.pairedChatId) return;
+        const msg =
+            `🔐 *Autopilot Approval Required*\n\n` +
+            `Task: *${task.title}*\n` +
+            `Reason: ${reason}\n\n` +
+            `Reply with:\n` +
+            `• \`approve ${task.id}\` — run the task\n` +
+            `• \`reject ${task.id}\` — cancel the task`;
+        await sendMessage(tgCfg.botToken, String(tgCfg.pairedChatId), msg);
+    } catch { /* non-fatal — Telegram may not be configured */ }
 }
 
 // ─── LLM direct caller ───────────────────────────────────────
@@ -155,10 +174,26 @@ async function _callLlmForTask(task: AgentTask, settings: any): Promise<string> 
         //   2. agentExecute — tools run for real (web search, file write, email, …)
         //   3. agentFinalize— LLM synthesizes tool results into a conclusion
         const { processMessageWithTools } = await import('@/actions/orchestrator');
+        // Fix 20: count actual LLM reasoning steps (each 'thinking' = one agentDecide call)
+        let stepCount = 0;
         const result = await processMessageWithTools(taskMessage, [], {
             provider: task.assignedProvider as any,
             model:    task.assignedModel,
+            onStep: (step) => {
+                try {
+                    if (step.type === 'thinking') {
+                        stepCount++;
+                        log.info('task_thinking', `🧠 ${step.content.substring(0, 200)}`, { taskId: task.id, taskTitle: task.title });
+                    } else if (step.type === 'tool_call') {
+                        log.info('task_tool_call', `🔧 ${step.toolName}(${step.content.substring(0, 150)})`, { taskId: task.id, taskTitle: task.title, detail: { tool: step.toolName } });
+                    } else if (step.type === 'tool_result') {
+                        log.info('task_tool_result', `📎 ${step.toolName}: ${step.content.substring(0, 200)}`, { taskId: task.id, taskTitle: task.title, detail: { tool: step.toolName } });
+                    }
+                } catch { /* non-fatal — logging should never break execution */ }
+            },
         });
+        // Count the actual number of LLM calls made (min 1 to always charge something)
+        incrementApiCalls(stepCount || 1);
 
         const summary = (result.response ?? '').trim();
         const toolsUsed = result.toolResults?.map((r: any) => r.toolName).filter(Boolean) ?? [];
@@ -227,6 +262,34 @@ async function executeTask(task: AgentTask, timeoutMs: number, settings: any): P
     });
     console.log(`[AutonomousRunner] ▶  "${task.title}" (attempt ${(task.retryCount ?? 0) + 1})`);
 
+    // ── [STANDUP] handler: generate stand-up report + deliver via Telegram ──
+    if (task.description?.includes('[STANDUP]') || task.title?.includes('Stand-up')) {
+        incrementApiCalls();
+        const { generateStandupReport } = await import('@/actions/autopilot');
+        const standupResult = await generateStandupReport();
+        if (!standupResult.success) throw new Error(standupResult.error ?? 'Stand-up generation failed');
+
+        const report = standupResult.report ?? 'No report generated.';
+
+        // Deliver via Telegram if configured
+        try {
+            const { loadTelegramConfig, sendMessage } = await import('@/actions/telegram');
+            const tgCfg = await loadTelegramConfig();
+            if (tgCfg?.enabled && tgCfg?.botToken && tgCfg?.pairedChatId) {
+                await sendMessage(
+                    tgCfg.botToken,
+                    String(tgCfg.pairedChatId),
+                    `📋 *Daily Stand-up Report*\n\n${report.slice(0, 3500)}`,
+                );
+                log.success('standup_generated', `📋 Stand-up report delivered via Telegram.`);
+            }
+        } catch (tgErr: any) {
+            console.warn('[AutonomousRunner] Telegram standup delivery failed:', tgErr?.message);
+        }
+
+        return report;
+    }
+
     // Check if the task has a [SKILL:xxx] tag → dispatch to skill handler
     const skillCall = parseSkillFromTask(task);
     if (skillCall) {
@@ -237,7 +300,8 @@ async function executeTask(task: AgentTask, timeoutMs: number, settings: any): P
     }
 
     // No skill tag → generic LLM execution
-    const workPromise    = (incrementApiCalls(), _callLlmForTask(task, settings));
+    // (incrementApiCalls is called inside _callLlmForTask with the actual step count — Fix 20)
+    const workPromise    = _callLlmForTask(task, settings);
     const timeoutPromise = new Promise<never>((_, rej) =>
         setTimeout(() => rej(new Error(`Timed out after ${Math.round(timeoutMs / 1000)}s`)), timeoutMs),
     );
@@ -335,7 +399,7 @@ async function tickCronJobs(): Promise<void> {
                 await createTask({
                     title:       job.name,
                     description: `[CRON] ${job.task}`,
-                    priority:    'medium',
+                    priority:    'normal',
                 });
             } catch (err: any) {
                 log.error('heartbeat_tick', `Failed to queue cron task "${job.name}": ${err?.message}`);
@@ -582,10 +646,21 @@ async function tick(): Promise<void> {
 
     const task = pending[0];
 
-    // Safety gate
+    // Safety gate: require explicit approval for system/scheduled tasks (instead of silently skipping)
     if (safetyMode === 'safe' && (task.source === 'system' || task.source === 'scheduled')) {
-        log.warning('heartbeat_tick', `Safety=safe: skipping ${task.source} task "${task.title}"`, { taskId: task.id, taskTitle: task.title });
-        return;
+        if (!task.requiresApproval || task.approvalStatus === 'pending') {
+            if (!task.requiresApproval) {
+                updateTask(task.id, {
+                    requiresApproval: true,
+                    approvalReason:   `Safe Mode: ${task.source} tasks require approval before execution.`,
+                    approvalStatus:   'pending',
+                });
+                log.info('heartbeat_tick', `🔒 Task "${task.title}" requires approval (Safe Mode + ${task.source} source)`, { taskId: task.id, taskTitle: task.title });
+                await notifyTelegramApprovalRequired(task, `Safe Mode: ${task.source} tasks require approval before execution.`);
+            }
+            return; // Wait for approval — user can see and approve it on the Execution Board
+        }
+        // If already approved (approvalStatus === 'approved'), fall through to execution
     }
 
     // ── Critical Action Detection (Safe + Advanced only) ───────
@@ -601,6 +676,7 @@ async function tick(): Promise<void> {
             });
             log.warning('heartbeat_tick', `🔐 Task requires approval: "${task.title}" — ${criticalReason}`, { taskId: task.id, taskTitle: task.title });
             console.warn(`[AutonomousRunner] 🔐 Approval required: "${task.title}"`);
+            await notifyTelegramApprovalRequired(task, criticalReason);
             return;
         }
     }
@@ -765,6 +841,30 @@ export async function initAutonomousRunner(): Promise<void> {
             log.warning('system', `♻ Recovered ${recovered} stale task(s) on startup.`);
             console.log(`[AutonomousRunner] ♻  Recovered ${recovered} stale task(s).`);
         }
+
+        // Ensure a default daily standup cron job exists
+        try {
+            const { listCronJobs, createCronJob } = await import('@/actions/tasks');
+            const cronJobs = await listCronJobs();
+            const hasStandup = cronJobs.some((j: any) =>
+                j.name?.includes('Daily Stand-up') || j.task?.includes('[STANDUP]'),
+            );
+            if (!hasStandup) {
+                const settings = await loadSettings();
+                const standupCron = (settings as any)?.autopilotConfig?.standupCron ?? '0 9 * * 1-5';
+                await createCronJob({
+                    name:     'Daily Stand-up Report',
+                    schedule: standupCron,
+                    task:     '[STANDUP] Generate and deliver daily stand-up report via Telegram',
+                    enabled:  true,
+                });
+                log.info('system', `📋 Default daily stand-up cron created (${standupCron}).`);
+                console.log(`[AutonomousRunner] 📋 Default standup cron created.`);
+            }
+        } catch (cronErr) {
+            console.warn('[AutonomousRunner] Could not check/create standup cron:', cronErr);
+        }
+
         const settings = await loadSettings();
         if (settings?.isAutonomousMode) { startAutonomousHeartbeat(); }
         else { console.log('[AutonomousRunner] ℹ️  Autonomous Mode is off.'); }

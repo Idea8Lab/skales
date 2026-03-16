@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skales Roadmap - v6.0.1</title>
+<title>Skales Roadmap - v6.1.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -350,7 +350,7 @@
 
 <nav>
   <a href="https://skales.app" class="nav-logo"><span>🦎</span> Skales</a>
-  <span class="nav-badge">v6.0.1 - BSL 1.1</span>
+  <span class="nav-badge">v6.1.0 - BSL 1.1</span>
   <a href="https://docs.skales.app" class="nav-link">Docs</a>
   <a href="https://skales.app" class="nav-link">Download</a>
 </nav>
@@ -362,7 +362,7 @@
   <div class="hero-meta">
     <div class="hero-meta-item">
       <span class="hero-meta-label">Current Release</span>
-      <span class="hero-meta-value">v6.0.1</span>
+      <span class="hero-meta-value">v6.1.0</span>
     </div>
     <div class="hero-meta-item">
       <span class="hero-meta-label">Status</span>
@@ -393,10 +393,97 @@
 <div class="content">
 
   <!-- ═══════════════════════════════════════════════
-       v6.1.0 + v6.2.0 – NEXT (PLANNED)
+       v6.1.0 – THE AWAKENING (SHIPPED)
   ════════════════════════════════════════════════ -->
   <div class="release-header">
-    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.1.0</span>
+    <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">v6.1.0</span>
+    <div>
+      <div class="release-title">The Awakening</div>
+      <div class="release-sub">Autopilot Recurring Schedules · Live Execution · Auto Standup · Bubbles · Feedback System</div>
+    </div>
+    <span class="release-date">March 2026</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">⭐</div>
+      <div class="card-body">
+        <div class="card-title">Recurring Task Scheduling</div>
+        <div class="card-desc">Master Plan generates cron jobs for recurring goals. Natural language → actual schedule. "Check my email every morning at 8am" creates a real cron job.</div>
+        <div class="card-tags"><span class="tag">Autonomy</span><span class="tag">Cron</span><span class="tag">Planning</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👁️</div>
+      <div class="card-body">
+        <div class="card-title">Live Execution View</div>
+        <div class="card-desc">Real-time view of Autopilot reasoning, tool calls, and results as they happen. Watch the agent think step by step in the new Live Execution tab.</div>
+        <div class="card-tags"><span class="tag">Autonomy</span><span class="tag">UX</span><span class="tag">Dashboard</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-body">
+        <div class="card-title">Automatic Daily Stand-up</div>
+        <div class="card-desc">Daily briefing generated and delivered via Telegram every weekday at 9am. No button click needed. Configurable time via cron.</div>
+        <div class="card-tags"><span class="tag">Autonomy</span><span class="tag">Telegram</span><span class="tag">Scheduling</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <div class="card-body">
+        <div class="card-title">Safe Mode: Approval Not Skip</div>
+        <div class="card-desc">Scheduled tasks in Safe Mode now pause for approval instead of being silently skipped. Tasks are visible and actionable on the Execution Board.</div>
+        <div class="card-tags"><span class="tag">Safety</span><span class="tag">Approval</span><span class="tag">UX</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Autopilot Approval</div>
+        <div class="card-desc">Approve or reject Autopilot tasks directly from Telegram. Reply "approve &lt;id&gt;" or "reject &lt;id&gt;", or simple "yes"/"no" when exactly one task awaits.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Autonomy</span><span class="tag">Approval</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💧</div>
+      <div class="card-body">
+        <div class="card-title">Bubbles Mascot Skin</div>
+        <div class="card-desc">A playful blue liquid blob that morphs into different shapes. Selectable alongside the Skales gecko in Settings → Desktop Buddy.</div>
+        <div class="card-tags"><span class="tag">Desktop Buddy</span><span class="tag">Skins</span><span class="tag">UX</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⭐</div>
+      <div class="card-body">
+        <div class="card-title">Feedback &amp; Rating System</div>
+        <div class="card-desc">Rate Skales, report bugs, and request features — all from one /feedback page. Data sent only with telemetry opt-in. GDPR compliant.</div>
+        <div class="card-tags"><span class="tag">DX</span><span class="tag">Feedback</span><span class="tag">GDPR</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-body">
+        <div class="card-title">Accurate Cost Controls</div>
+        <div class="card-desc">Rate limiter now counts actual LLM calls per task using the onStep callback, not 1 per dispatch. API budget reflects real usage.</div>
+        <div class="card-tags"><span class="tag">Autonomy</span><span class="tag">Cost</span><span class="tag">Rate Limit</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       v6.2.0 – NEXT (PLANNED)
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
+    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.2.0</span>
     <div>
       <div class="release-title">The Expansion Update</div>
       <div class="release-sub">Russian · Linux · Security Dashboard · News Feed · Morning Briefing · HIBP</div>
@@ -462,7 +549,7 @@
   </div>
 
   <div class="release-header" style="margin-top: 3rem;">
-    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.2.0</span>
+    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.3.0</span>
     <div>
       <div class="release-title">The Accessibility Update</div>
       <div class="release-sub">Browser Captcha Handoff · Body Double Timer · ADHD Tools</div>
@@ -616,6 +703,93 @@
       </div>
       <div class="card-status status-shipped">✓ Shipped</div>
     </div>
+
+  <!-- ═══════════════════════════════════════════════
+       v6.0.2 – BUGFIX + STABILITY RELEASE
+  ════════════════════════════════════════════════ -->
+  <div class="release-header">
+    <span class="release-tag">v6.0.2</span>
+    <div>
+      <div class="release-title">Bugfix + Stability Release</div>
+      <div class="release-sub">Telegram Approval Overhaul · GDPR Telemetry · Orphan Sanitizer · Image Save Fix · Bubbles Mascot · Telegram Reset</div>
+    </div>
+    <span class="release-date">March 2026</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Approval Overhaul</div>
+        <div class="card-desc">Inline keyboard buttons replaced with text-based approval ("Reply yes/no"). Unrestricted mode now correctly bypasses approval entirely. BLOCKED tool results injected for unapproved calls so the agent never hallucinates execution.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Approval</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <div class="card-body">
+        <div class="card-title">GDPR Telemetry Fix</div>
+        <div class="card-desc">Defense-in-depth opt-in check at the API route level. Zero network requests when telemetry is disabled. Event-specific cooldowns: 1 hour for session events, 60 seconds for actions. Language change tracked via localStorage dedup.</div>
+        <div class="card-tags"><span class="tag">Privacy</span><span class="tag">GDPR</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧹</div>
+      <div class="card-body">
+        <div class="card-title">Orphaned Tool Result Sanitizer</div>
+        <div class="card-desc">Stale tool_result messages without matching tool_call parents are now filtered before API calls. Prevents 400 errors from Claude/OpenAI when conversation history contains orphaned results from interrupted sessions.</div>
+        <div class="card-tags"><span class="tag">Agent</span><span class="tag">Stability</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🖼️</div>
+      <div class="card-body">
+        <div class="card-title">Replicate &amp; Gemini Image Save Fix</div>
+        <div class="card-desc">Generated images now save to workspace/files/images/ instead of workspace/images/. Fixes broken Gallery display and file serving. Both Replicate and Gemini paths aligned with tool descriptions.</div>
+        <div class="card-tags"><span class="tag">Replicate</span><span class="tag">Gemini</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🫧</div>
+      <div class="card-body">
+        <div class="card-title">Bubbles Mascot Skin</div>
+        <div class="card-desc">New mascot skin: a blue liquid blob that morphs into different shapes. Playful and unpredictable. Select it in Settings → Desktop Buddy. Skin descriptions now displayed in the selector.</div>
+        <div class="card-tags"><span class="tag">Mascot</span><span class="tag">New Feature</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗑️</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Reset</div>
+        <div class="card-desc">New "Reset All" button in Settings purges all Telegram data: pending approvals, error logs, lock files, session data, and inbox. Clean slate without reinstalling.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Settings</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Dedup Guard</div>
+        <div class="card-desc">Module-level Set tracks processed update IDs to prevent double-processing of Telegram messages during polling overlap. Auto-prunes at 1000 entries.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Reliability</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">✅</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Pairing Messages</div>
+        <div class="card-desc">Pairing success/failure messages now show emoji-rich formatted text instead of raw i18n keys. Clear visual feedback for users connecting their Telegram account.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">UX</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════
        v6.0.1 – BUGFIX RELEASE
@@ -1367,7 +1541,7 @@
 
 <footer>
   <span class="gecko">🦎</span>
-  Built by <strong>Mario Simic</strong> · Skales v6.0.1 · BSL 1.1<br>
+  Built by <strong>Mario Simic</strong> · Skales v6.1.0 · BSL 1.1<br>
   <span style="margin-top:6px;display:block;">This roadmap is a living document and subject to change.</span>
 </footer>
 

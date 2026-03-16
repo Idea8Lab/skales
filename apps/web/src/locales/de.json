@@ -699,6 +699,7 @@
     "tabs": {
       "controlRoom": "Kontrollraum",
       "executionBoard": "Aufgaben",
+      "liveExecution": "Live-Ausführung",
       "identityMemory": "Identität & Erinnerungen",
       "liveHistory": "Live-Verlauf"
     },
@@ -783,7 +784,23 @@
       "clickToGenerate": "Klicke auf \"Generieren\", um einen Bericht zu erhalten, was passiert ist, während du weg warst."
     },
     "awaitingApproval": "{{count}} wartet auf Freigabe",
-    "addTask": "Hinzufügen"
+    "addTask": "Hinzufügen",
+    "approvalRequired": "Freigabe erforderlich",
+    "safeModePending": "Sicherheitsmodus: Geplante Aufgaben erfordern Freigabe",
+    "standupDelivered": "Stand-up-Bericht zugestellt",
+    "standupTime": "Stand-up-Zustellzeit",
+    "recurring": "Wiederkehrend",
+    "oneTime": "Einmalig",
+    "cronSchedule": "Zeitplan",
+    "live": {
+      "noActiveTask": "Keine Aufgabe wird derzeit ausgeführt",
+      "selectTask": "Aufgabe auswählen",
+      "selectPrompt": "Wähle eine Aufgabe, um ihren Ausführungsverlauf zu sehen.",
+      "noSteps": "Noch keine Ausführungsschritte für diese Aufgabe aufgezeichnet.",
+      "thinking": "Denkt nach",
+      "toolCall": "Werkzeugaufruf",
+      "toolResult": "Ergebnis"
+    }
   },
   "agents": {
     "title": "Agenten",
@@ -1116,6 +1133,7 @@
       "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
       "network": "Netzwerkfehler. Überprüfe deine Verbindung.",
       "apiKey": "Ungültiger API Key. Bitte überprüfe deine Einstellungen.",
+      "rateLimited": "Anfragelimit erreicht. Bitte warte einen Moment und versuche es erneut.",
       "modelNotFound": "Modell nicht verfügbar. Versuche ein anderes.",
       "permissionDenied": "Durch Sicherheitsmodus blockiert. Wechsle zu Uneingeschränkt in den Einstellungen.",
       "blacklisted": "🚫 **{{domain}}** ist durch deine Blacklist gesperrt.",
@@ -1226,5 +1244,26 @@
     "success": "Danke! Dein Bericht wurde gesendet.",
     "tooShort": "Bitte beschreibe das Problem mit mindestens 10 Zeichen.",
     "sidebar": "Fehler melden"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "rateTitle": "Bewerte Skales",
+    "loveIt": "Liebe es",
+    "great": "Super",
+    "needsImprovement": "Geht besser",
+    "unnecessary": "Brauche ich nicht",
+    "tellUsMore": "Erzähl uns mehr...",
+    "thankYouRating": "Danke für dein Feedback!",
+    "reportBug": "Fehler melden",
+    "requestFeature": "Feature vorschlagen",
+    "featurePlaceholder": "Was soll Skales können?",
+    "categoryLabel": "Kategorie",
+    "categoryPerformance": "Performance",
+    "categoryIntegration": "Neue Integration",
+    "categoryUiUx": "Oberfläche",
+    "categoryOther": "Sonstiges",
+    "submitFeature": "Absenden",
+    "thankYouFeature": "Danke! Wir schauen uns deinen Vorschlag an.",
+    "optInRequired": "Aktiviere Telemetrie in den Einstellungen, um Feedback zu senden."
   }
 }

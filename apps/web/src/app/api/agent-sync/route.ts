@@ -48,7 +48,7 @@ interface AgentCard {
 type AgentSyncRequest =
     | { type: 'ping' }
     | { type: 'handshake'; from: AgentCard }
-    | { type: 'delegate';  task: { title: string; description: string; priority?: 'low' | 'medium' | 'high' } }
+    | { type: 'delegate';  task: { title: string; description: string; priority?: 'low' | 'normal' | 'high' } }
     | { type: 'status';    taskId: string };
 
 // ─── Auth helper ──────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ export async function POST(req: Request) {
                 const created = await createTask({
                     title:       `[DELEGATED] ${task.title}`,
                     description: task.description,
-                    priority:    task.priority ?? 'medium',
+                    priority:    task.priority ?? 'normal',
                 });
                 console.log(`[AgentSync] Task delegated: "${task.title}" → id=${created.id}`);
                 return NextResponse.json({

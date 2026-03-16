@@ -815,6 +815,10 @@ const MessageListArea = memo(function MessageListArea({
 
 export default function ChatPage() {
     const { t } = useTranslation();
+    // Safety net: if serverT() failed to resolve an i18n key (e.g. key missing at runtime),
+    // the raw dot-notation key leaks through. Re-resolve it client-side before display.
+    const resolveError = (msg: string | undefined): string =>
+        !msg ? '' : msg.startsWith('system.') ? (t(msg) !== msg ? t(msg) : msg) : msg;
     const searchParams = useSearchParams();
     const [messages, setMessages] = useState<DisplayMessage[]>([]);
     const [input, setInput] = useState('');
@@ -1028,7 +1032,7 @@ export default function ChatPage() {
                         if (decision.decision === 'error') {
                             setMessages(prev => [
                                 ...prev.filter(m => m.role !== 'tool-status'),
-                                { role: 'assistant', content: `⚠️ Error: ${decision.error}` }
+                                { role: 'assistant', content: `⚠️ Error: ${resolveError(decision.error)}` }
                             ]);
                             break;
                         }
@@ -2228,7 +2232,7 @@ export default function ChatPage() {
                 if (decision.decision === 'error') {
                     setMessages(prev => [
                         ...prev.filter(m => m.role !== 'tool-status'),
-                        { role: 'assistant', content: `⚠️ Error: ${decision.error}` }
+                        { role: 'assistant', content: `⚠️ Error: ${resolveError(decision.error)}` }
                     ]);
                     break;
                 }
@@ -2825,8 +2829,8 @@ export default function ChatPage() {
                 });
 
                 // Better error message for vision issues
-                let errorContent = `⚠️ Error: ${decision.error}`;
-                const errLower = (decision.error || '').toLowerCase();
+                let errorContent = `⚠️ Error: ${resolveError(decision.error)}`;
+                const errLower = resolveError(decision.error).toLowerCase();
                 if (errLower.includes('no endpoints') || errLower.includes('image input') || errLower.includes('image_url')) {
                     errorContent = `🖼️ **Vision not available for the current model.**\n\nSwitch to a vision-capable model in **Settings → AI Provider**:\n- OpenRouter: \`openai/gpt-4o-mini\`\n- OpenAI: \`gpt-4o-mini\`\n- Anthropic: \`claude-3-5-haiku-20241022\`\n- Google: \`gemini-2.0-flash\``;
                 } else if (errLower.includes('model') && (errLower.includes('not found') || errLower.includes('pull') || errLower.includes('does not exist'))) {

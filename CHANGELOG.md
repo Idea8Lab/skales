@@ -6,6 +6,65 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## V6.1.0 — "The Awakening" (March 2026)
+
+### Autopilot — True Autonomous Agent
+- **Recurring Task Scheduling**: Master Plan now generates cron jobs for recurring goals. "Check my email every morning at 8am" creates an actual scheduled task, not a one-shot.
+- **Live Execution View**: New tab in Autopilot dashboard shows real-time agent reasoning, tool calls, and results as they happen. Watch Skales think.
+- **Automatic Daily Stand-up**: Autopilot generates and delivers a daily briefing via Telegram every weekday at 9am (configurable). No button click needed.
+- **Safe Mode: Approval Instead of Skip**: Scheduled tasks in Safe Mode now pause for approval instead of being silently skipped. Visible on the Execution Board.
+- **Telegram Approval for Autopilot**: Approve or reject Autopilot tasks directly from Telegram. Reply `approve <id>` or `reject <id>`, or simple `yes`/`no` for single pending tasks.
+- **Accurate API Rate Limiter**: Cost controls now count actual LLM calls per task (not 1 per task dispatch). Budget reflects real usage.
+
+### New Features
+- **Bubbles Mascot Skin**: Meet Bubbles — a playful blue liquid blob that morphs into different shapes. Selectable in Settings → Desktop Buddy alongside the original Skales gecko.
+- **Feedback & Rating System**: New /feedback page with 3 sections: Rate Skales (4 emoji ratings), Report a Bug, Request a Feature. Data sent to server only with telemetry opt-in. GDPR compliant.
+- **Admin Dashboard v3**: Redesigned server-side analytics dashboard with Chart.js. New Feedback tab with rating distribution pie chart, feature request table, and timeline view.
+
+### Bug Fixes (13)
+- Fixed: Telegram approval gate ignores safetyMode (Critical)
+- Fixed: Telegram inline keyboard buttons never appear — replaced with text-based approval
+- Fixed: Telegram agent hallucinates tool execution when blocked by approval
+- Fixed: Telegram pairing shows raw translation key `system.telegram.pairingSuccess`
+- Fixed: Telegram duplicate messages (409 Conflict) from multiple polling instances
+- Added: Telegram purge/reset button in Settings
+- Fixed: Orphaned `tool_result` blocks crash Anthropic API
+- Fixed: Replicate images not saved to workspace
+- Fixed: Telemetry `provider_type` fires on every message (now 1hr cooldown)
+- Fixed: Telemetry `language` event fires on every app start
+- Fixed: Telemetry sends data when opt-in is disabled (GDPR violation)
+- Fixed: `system.errors.rateLimited` raw i18n key shown instead of translated error
+- Fixed: Identity Maintenance double `.skales-data` path in file reads
+- Fixed: `'medium'` priority type bug in cron task creation and agent-sync
+
+---
+
+## v6.0.2 (2026-03-16)
+
+### Fixed
+- **[CRITICAL] Telegram approval gate ignores safetyMode** — Unrestricted mode now bypasses approval entirely via Telegram (Bug 1)
+- **[CRITICAL] Telegram inline keyboard buttons don't work** — Replaced with text-based approval ("yes"/"no" replies) (Bug 2)
+- **[CRITICAL] Agent hallucinates tool execution** — Blocked tools now inject explicit BLOCKED signal into conversation, preventing LLM from claiming success (Bug 3)
+- **[CRITICAL/LEGAL] Telemetry sends data when opt-in is disabled** — Added defense-in-depth opt-in check at API route level; zero network requests when telemetry is off (GDPR compliance) (Bug 11)
+- **[HIGH] Orphaned tool_result blocks crash API** — Added message sanitization in agentDecide() that removes tool_results referencing non-existent tool_calls (Bug 7)
+- **[HIGH] Telegram pairing shows raw translation key** — Improved pairing success/failure messages with emojis and clear guidance (Bug 4)
+- **[MEDIUM] Telegram duplicate messages (409 Conflict)** — Added update_id dedup guard with bounded Set to prevent processing same update twice (Bug 5)
+- **[MEDIUM] Replicate images not saved to workspace** — Fixed download path to workspace/files/images/, added explicit error checking and empty-data validation (Bug 8)
+- **[LOW] Telemetry provider_type fires too often** — Changed cooldown from 1 minute to 1 hour for session-level events (Bug 9)
+- **[LOW] Telemetry language event fires every start** — Now only fires when language actually changes (localStorage tracking) (Bug 10)
+
+### Added
+- **Telegram Reset button** — "Reset All" button in Settings → Telegram that purges all Telegram data (pending approvals, logs, lock files, pairing) (Bug 6)
+- **Bubbles mascot skin** — New mascot option: a blue liquid blob that morphs into different shapes. Select in Settings → Desktop Buddy → Skin
+- Skin descriptions now shown in the mascot selector UI
+
+### Improved
+- Gemini and Replicate images now save to consistent workspace/files/images/ path
+- Telegram approval messages are clearer and more user-friendly
+- All Telegram pairing and error messages use hardcoded English strings (no i18n key resolution needed)
+
+---
+
 ## v6.0.1 (2026-03-15)
 
 ### Fixed

@@ -699,6 +699,7 @@
     "tabs": {
       "controlRoom": "Control Room",
       "executionBoard": "Execution Board",
+      "liveExecution": "Live Execution",
       "identityMemory": "Identity & Memory",
       "liveHistory": "Live History"
     },
@@ -783,7 +784,23 @@
       "clickToGenerate": "Click \"Generate\" to get a report of what happened while you were away."
     },
     "awaitingApproval": "{{count}} awaiting approval",
-    "addTask": "Add"
+    "addTask": "Add",
+    "approvalRequired": "Approval required",
+    "safeModePending": "Safe Mode: scheduled tasks require approval",
+    "standupDelivered": "Stand-up report delivered",
+    "standupTime": "Stand-up delivery time",
+    "recurring": "Recurring",
+    "oneTime": "One-time",
+    "cronSchedule": "Schedule",
+    "live": {
+      "noActiveTask": "No task currently executing",
+      "selectTask": "Select task",
+      "selectPrompt": "Select a task to view its execution trace.",
+      "noSteps": "No execution steps recorded for this task yet.",
+      "thinking": "Thinking",
+      "toolCall": "Tool Call",
+      "toolResult": "Result"
+    }
   },
   "agents": {
     "title": "Agents",
@@ -1116,6 +1133,7 @@
       "generic": "Something went wrong. Please try again.",
       "network": "Network error. Check your connection.",
       "apiKey": "Invalid API key. Please check your settings.",
+      "rateLimited": "Rate limit reached. Please wait a moment and try again.",
       "modelNotFound": "Model not available. Try a different one.",
       "permissionDenied": "Blocked by safety mode. Switch to Unrestricted in Settings.",
       "blacklisted": "🚫 **{{domain}}** is blocked by your blacklist.",
@@ -1226,5 +1244,26 @@
     "success": "Thanks! Your report has been sent.",
     "tooShort": "Please describe the issue in at least 10 characters.",
     "sidebar": "Report Bug"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "rateTitle": "Rate Skales",
+    "loveIt": "Love it",
+    "great": "Great",
+    "needsImprovement": "Needs Improvement",
+    "unnecessary": "Unnecessary",
+    "tellUsMore": "Tell us more...",
+    "thankYouRating": "Thanks for your feedback!",
+    "reportBug": "Report a Bug",
+    "requestFeature": "Request a Feature",
+    "featurePlaceholder": "What should Skales do?",
+    "categoryLabel": "Category",
+    "categoryPerformance": "Performance",
+    "categoryIntegration": "New Integration",
+    "categoryUiUx": "UI/UX",
+    "categoryOther": "Other",
+    "submitFeature": "Submit",
+    "thankYouFeature": "Thanks! We'll review your suggestion.",
+    "optInRequired": "Enable telemetry in Settings to send feedback."
   }
 }

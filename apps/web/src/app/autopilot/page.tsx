@@ -207,6 +207,10 @@ export default function AutopilotPage() {
     const [logFilter,  setLogFilter]  = useState<string>('all');
     const logsEndRef = useRef<HTMLDivElement>(null);
 
+    // ── Section E: Live Execution View ───────────────────────────────────────
+    const [liveTaskId, setLiveTaskId] = useState<string | null>(null);
+    const liveEndRef = useRef<HTMLDivElement>(null);
+
     // ─── Data Fetchers ────────────────────────────────────────────────────────
     // Use refs to compare previous values — only setState when data actually
     // changed to prevent the 8s blink / unnecessary re-renders.
@@ -593,6 +597,7 @@ export default function AutopilotPage() {
     const TABS = [
         { id: 'control', label: t('autopilot.tabs.controlRoom'), icon: Star },
         { id: 'board',   label: t('autopilot.tabs.executionBoard'), icon: CheckSquare },
+        { id: 'live',    label: t('autopilot.tabs.liveExecution') || 'Live Execution', icon: Activity },
         { id: 'memory',  label: t('autopilot.tabs.identityMemory'), icon: Brain },
         { id: 'logs',    label: t('autopilot.tabs.liveHistory'), icon: Terminal },
     ] as const;
@@ -1380,6 +1385,125 @@ export default function AutopilotPage() {
                         })()}
                     </div>
                 )}
+
+                {/* ═══════════════════════════════════════════════════
+                    SECTION E: LIVE EXECUTION VIEW
+                ═══════════════════════════════════════════════════ */}
+                {activeSection === 'live' && (() => {
+                    // Determine which task to show: selected, or currently in-progress, or most recent completed
+                    const inProgressTask = tasks.find((t: any) => t.state === 'in_progress');
+                    const selectedId = liveTaskId ?? inProgressTask?.id ?? tasks.find((t: any) => t.state === 'completed')?.id;
+
+                    // Filter execution logs for the selected task
+                    const LIVE_ACTIONS = ['task_started', 'task_thinking', 'task_tool_call', 'task_tool_result', 'task_step', 'task_completed', 'task_failed', 'task_blocked'];
+                    const executionLogs = selectedId
+                        ? logs.filter((l: any) => l.taskId === selectedId && LIVE_ACTIONS.includes(l.action))
+                              .sort((a: any, b: any) => a.ts - b.ts)
+                        : [];
+
+                    // Task selector: recent tasks (active + completed, max 15)
+                    const selectableTasks = tasks
+                        .filter((t: any) => ['in_progress', 'completed', 'blocked', 'failed'].includes(t.state))
+                        .slice(0, 15);
+
+                    const STEP_STYLES: Record<string, { icon: string; color: string; bg: string }> = {
+                        task_started:     { icon: '▶',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)' },
+                        task_thinking:    { icon: '🧠', color: '#8b5cf6', bg: 'rgba(139,92,246,0.06)' },
+                        task_tool_call:   { icon: '🔧', color: '#3b82f6', bg: 'rgba(59,130,246,0.06)' },
+                        task_tool_result: { icon: '📎', color: '#22c55e', bg: 'rgba(34,197,94,0.06)' },
+                        task_step:        { icon: '→',  color: '#94a3b8', bg: 'rgba(148,163,184,0.06)' },
+                        task_completed:   { icon: '✅', color: '#22c55e', bg: 'rgba(34,197,94,0.10)' },
+                        task_failed:      { icon: '❌', color: '#ef4444', bg: 'rgba(239,68,68,0.08)' },
+                        task_blocked:     { icon: '🚫', color: '#ef4444', bg: 'rgba(239,68,68,0.08)' },
+                    };
+
+                    return (
+                        <div className="space-y-3">
+                            {/* Task selector */}
+                            <div className="flex items-center gap-3">
+                                <label className="text-xs font-semibold" style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                                    {t('autopilot.live.selectTask') || 'Select task'}:
+                                </label>
+                                <select
+                                    value={selectedId ?? ''}
+                                    onChange={e => setLiveTaskId(e.target.value || null)}
+                                    className="flex-1 px-3 py-1.5 rounded-lg text-xs border"
+                                    style={{ background: 'var(--surface)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}>
+                                    {selectableTasks.length === 0 && <option value="">{t('autopilot.live.noActiveTask') || 'No tasks to display'}</option>}
+                                    {selectableTasks.map((t: any) => (
+                                        <option key={t.id} value={t.id}>
+                                            {t.state === 'in_progress' ? '⚡ ' : t.state === 'completed' ? '✅ ' : '⬜ '}
+                                            {t.title.slice(0, 60)}
+                                        </option>
+                                    ))}
+                                </select>
+                                {inProgressTask && (
+                                    <span className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold"
+                                        style={{ background: 'rgba(245,158,11,0.15)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.3)' }}>
+                                        <Icon icon={Loader2} size={10} className="animate-spin" /> LIVE
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Execution timeline */}
+                            <div className="rounded-2xl overflow-hidden border" style={{ background: '#0a0a0a', borderColor: 'rgba(255,255,255,0.06)' }}>
+                                <div className="flex items-center gap-2 px-4 py-2 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                                    <span className="ml-2 text-xs font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                        {t('autopilot.tabs.liveExecution') || 'Live Execution'}
+                                    </span>
+                                    {inProgressTask && <Icon icon={Loader2} size={11} className="animate-spin ml-auto" style={{ color: '#f59e0b' }} />}
+                                </div>
+
+                                <div className="p-4 space-y-2 overflow-y-auto max-h-[65vh]">
+                                    {executionLogs.length === 0 ? (
+                                        <div className="text-center py-12">
+                                            <Icon icon={Activity} size={28} style={{ color: 'rgba(255,255,255,0.1)', margin: '0 auto 8px' }} />
+                                            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                                                {selectedId
+                                                    ? (t('autopilot.live.noSteps') || 'No execution steps recorded for this task yet.')
+                                                    : (t('autopilot.live.selectPrompt') || 'Select a task to view its execution trace.')}
+                                            </p>
+                                        </div>
+                                    ) : executionLogs.map((entry: any) => {
+                                        const style = STEP_STYLES[entry.action] ?? STEP_STYLES.task_step;
+                                        return (
+                                            <div key={entry.id} className="rounded-xl px-3 py-2" style={{ background: style.bg }}>
+                                                <div className="flex items-start gap-2">
+                                                    <span className="text-sm flex-shrink-0" style={{ lineHeight: '1.4' }}>{style.icon}</span>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-2 mb-0.5">
+                                                            <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                                                                {entry.timestamp?.slice(11, 19)}
+                                                            </span>
+                                                            <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: style.color }}>
+                                                                {entry.action === 'task_thinking' ? (t('autopilot.live.thinking') || 'Thinking') :
+                                                                 entry.action === 'task_tool_call' ? (t('autopilot.live.toolCall') || 'Tool Call') :
+                                                                 entry.action === 'task_tool_result' ? (t('autopilot.live.toolResult') || 'Result') :
+                                                                 entry.action.replace('task_', '')}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-xs font-mono break-words" style={{
+                                                            color: entry.action === 'task_tool_call' ? '#93c5fd' :
+                                                                   entry.action === 'task_thinking' ? 'rgba(255,255,255,0.6)' :
+                                                                   'rgba(255,255,255,0.75)',
+                                                            whiteSpace: 'pre-wrap',
+                                                        }}>
+                                                            {entry.message}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                    <div ref={liveEndRef} />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })()}
 
                 {/* ═══════════════════════════════════════════════════
                     SECTION A: IDENTITY & MEMORY

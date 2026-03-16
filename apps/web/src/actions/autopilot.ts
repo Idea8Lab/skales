@@ -60,6 +60,8 @@ export interface MasterPlanTask {
     description: string;
     priority:    TaskPriority;
     tags?:       string[];
+    /** If set, a 5-field cron expression — task becomes a recurring cron job */
+    schedule?:   string | null;
 }
 
 // ─── User Profile ─────────────────────────────────────────────────────────────
@@ -368,16 +370,28 @@ OUTPUT FORMAT (respond with ONLY valid JSON — no markdown fences, no extra tex
       "title": "Concise action title (max 80 chars)",
       "description": "Detailed instructions for the AI agent executing this task",
       "priority": "high|normal|low",
-      "tags": ["tag1", "tag2"]
+      "tags": ["tag1", "tag2"],
+      "schedule": null
     }
   ]
 }
+
+For each task, decide if it is ONE-TIME or RECURRING.
+- ONE-TIME tasks: set "schedule": null
+- RECURRING tasks: set "schedule" to a standard 5-field cron expression.
+  Examples:
+    "0 8 * * *"     = every day at 8:00 AM
+    "0 9 * * 1"     = every Monday at 9:00 AM
+    "*/30 * * * *"  = every 30 minutes
+    "0 8,18 * * *"  = every day at 8:00 AM and 6:00 PM
+    "0 9 * * 1-5"   = every weekday at 9:00 AM
 
 RULES:
 - Generate 5-12 concrete, executable tasks ordered by logical sequence
 - Each task must be completable by an AI agent without human input (or clearly state what human input is needed)
 - Do NOT repeat tasks. Be specific, not vague.
-- Tasks must directly serve the stated goal.`;
+- Tasks must directly serve the stated goal.
+- If the goal implies daily/weekly/recurring work (monitoring, reporting, checking), use "schedule" with the appropriate cron expression.`;
 
         const raw = await callLLM(settings, systemPrompt, `Generate a complete Master Plan to: ${goal}`);
 
@@ -397,20 +411,50 @@ RULES:
         const roadmap:   string = parsed.roadmap   ?? '';
         const rawTasks: MasterPlanTask[] = Array.isArray(parsed.tasks) ? parsed.tasks : [];
 
-        // Push tasks into tasks.json
+        // Push tasks into tasks.json (one-shot) or cron_jobs (recurring)
         const created: AgentTask[] = [];
+        let cronJobsCreated = 0;
         for (const t of rawTasks) {
             if (!t.title || !t.description) continue;
-            const task = createTask({
-                title:       t.title.slice(0, 200),
-                description: t.description,
-                priority:    t.priority ?? 'normal',
-                source:      'autopilot',
-                tags:        t.tags ?? [],
-                planTitle,
-                maxRetries:  3,
-            });
-            created.push(task);
+
+            // Recurring task → create a cron job instead of a one-shot task
+            if (t.schedule && typeof t.schedule === 'string' && /^\S+\s+\S+\s+\S+\s+\S+\s+\S+$/.test(t.schedule.trim())) {
+                try {
+                    const { createCronJob } = await import('@/actions/tasks');
+                    await createCronJob({
+                        name:     t.title.slice(0, 200),
+                        schedule: t.schedule.trim(),
+                        task:     t.description,
+                        enabled:  true,
+                    });
+                    cronJobsCreated++;
+                } catch (cronErr: any) {
+                    console.warn(`[MasterPlan] Failed to create cron job for "${t.title}":`, cronErr?.message);
+                    // Fallback: create as one-shot task
+                    const task = createTask({
+                        title:       t.title.slice(0, 200),
+                        description: t.description,
+                        priority:    t.priority ?? 'normal',
+                        source:      'autopilot',
+                        tags:        t.tags ?? [],
+                        planTitle,
+                        maxRetries:  3,
+                    });
+                    created.push(task);
+                }
+            } else {
+                // One-shot task (existing behavior)
+                const task = createTask({
+                    title:       t.title.slice(0, 200),
+                    description: t.description,
+                    priority:    t.priority ?? 'normal',
+                    source:      'autopilot',
+                    tags:        t.tags ?? [],
+                    planTitle,
+                    maxRetries:  3,
+                });
+                created.push(task);
+            }
         }
 
         // Archive previous roadmap before overwriting
@@ -432,8 +476,9 @@ RULES:
         await saveUserProfile({ masterPlan: roadmap });
 
         const { log } = await import('@/lib/autopilot-logger');
-        log.success('plan_created', `🗺️ Master Plan "${planTitle}" created with ${created.length} tasks.`, {
-            detail: { planTitle, taskCount: created.length },
+        const cronNote = cronJobsCreated > 0 ? ` + ${cronJobsCreated} recurring schedule(s)` : '';
+        log.success('plan_created', `🗺️ Master Plan "${planTitle}" created with ${created.length} tasks${cronNote}.`, {
+            detail: { planTitle, taskCount: created.length, cronJobsCreated },
         });
 
         return { success: true, tasks: created, roadmap, planTitle };

@@ -699,6 +699,7 @@
     "tabs": {
       "controlRoom": "Sala de control",
       "executionBoard": "Tablero de ejecución",
+      "liveExecution": "Ejecución en vivo",
       "identityMemory": "Identidad y recuerdos",
       "liveHistory": "Historial en vivo"
     },
@@ -783,7 +784,23 @@
       "clickToGenerate": "Haz clic en \"Generar\" para obtener un reporte de lo que pasó mientras estabas ausente."
     },
     "awaitingApproval": "{{count}} esperando aprobación",
-    "addTask": "Agregar"
+    "addTask": "Agregar",
+    "approvalRequired": "Aprobación requerida",
+    "safeModePending": "Modo seguro: las tareas programadas requieren aprobación",
+    "standupDelivered": "Informe stand-up entregado",
+    "standupTime": "Hora de entrega del stand-up",
+    "recurring": "Recurrente",
+    "oneTime": "Una vez",
+    "cronSchedule": "Programación",
+    "live": {
+      "noActiveTask": "No hay ninguna tarea ejecutándose actualmente",
+      "selectTask": "Seleccionar tarea",
+      "selectPrompt": "Selecciona una tarea para ver su traza de ejecución.",
+      "noSteps": "Aún no se han registrado pasos de ejecución para esta tarea.",
+      "thinking": "Pensando",
+      "toolCall": "Llamada de herramienta",
+      "toolResult": "Resultado"
+    }
   },
   "agents": {
     "title": "Agentes",
@@ -1116,6 +1133,7 @@
       "generic": "Algo salió mal. Por favor intenta de nuevo.",
       "network": "Error de red. Verifica tu conexión.",
       "apiKey": "API key inválida. Por favor verifica tu configuración.",
+      "rateLimited": "Límite de solicitudes alcanzado. Por favor espera un momento e inténtalo de nuevo.",
       "modelNotFound": "Modelo no disponible. Prueba con uno diferente.",
       "permissionDenied": "Bloqueado por el modo de seguridad. Cambia a Sin restricciones en Configuración.",
       "blacklisted": "🚫 **{{domain}}** está bloqueado por tu lista negra.",
@@ -1226,5 +1244,26 @@
     "success": "¡Gracias! Tu reporte fue enviado.",
     "tooShort": "Por favor describe el problema con al menos 10 caracteres.",
     "sidebar": "Reportar error"
+  },
+  "feedback": {
+    "title": "Comentarios",
+    "rateTitle": "Valora Skales",
+    "loveIt": "Me encanta",
+    "great": "Genial",
+    "needsImprovement": "Puede mejorar",
+    "unnecessary": "No lo necesito",
+    "tellUsMore": "Cuéntanos más...",
+    "thankYouRating": "¡Gracias por tu opinión!",
+    "reportBug": "Reportar un error",
+    "requestFeature": "Sugerir una función",
+    "featurePlaceholder": "¿Qué debería hacer Skales?",
+    "categoryLabel": "Categoría",
+    "categoryPerformance": "Rendimiento",
+    "categoryIntegration": "Nueva integración",
+    "categoryUiUx": "Interfaz",
+    "categoryOther": "Otro",
+    "submitFeature": "Enviar",
+    "thankYouFeature": "¡Gracias! Revisaremos tu sugerencia.",
+    "optInRequired": "Activa la telemetría en Ajustes para enviar comentarios."
   }
 }

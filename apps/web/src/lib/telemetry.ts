@@ -31,8 +31,10 @@ export type TelemetryEvent =
     | 'error'           // error type only, no stack trace
     ;
 
-// ─── Cooldown dedup (1 minute between same event+payload) ─────────────────────
-const COOLDOWN_MS = 60_000;
+// ─── Cooldown dedup (event-specific cooldowns) ─────────────────────────────────
+const DEFAULT_COOLDOWN_MS = 60_000;
+const SESSION_COOLDOWN_MS = 3_600_000; // 1 hour for session-level events
+const SESSION_EVENTS = new Set(['provider_type', 'language']);
 const lastSent: Record<string, number> = {};
 
 // ─── Telemetry event sender ────────────────────────────────────────────────────
@@ -45,7 +47,8 @@ export async function sendTelemetryEvent(
         // Dedup: skip if same event+payload sent within cooldown window
         const dedupeKey = event + JSON.stringify(extra || {});
         const now = Date.now();
-        if (lastSent[dedupeKey] && now - lastSent[dedupeKey] < COOLDOWN_MS) return;
+        const cooldownMs = SESSION_EVENTS.has(event) ? SESSION_COOLDOWN_MS : DEFAULT_COOLDOWN_MS;
+        if (lastSent[dedupeKey] && now - lastSent[dedupeKey] < cooldownMs) return;
         lastSent[dedupeKey] = now;
         const settingsPath = path.join(DATA_DIR, 'settings.json');
         if (!fs.existsSync(settingsPath)) return;

@@ -10,7 +10,7 @@ If you find this useful, a ⭐ helps others discover it
 
 **Download. Install. Done**
 
-[![Version](https://img.shields.io/badge/version-6.0.1-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
+[![Version](https://img.shields.io/badge/version-6.1.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
 [![License](https://img.shields.io/badge/license-BSL_1.1-1DB954?style=for-the-badge&labelColor=0D1117)](./LICENSE)
 [![Platform](https://img.shields.io/badge/Windows_+_macOS-1DB954?style=for-the-badge&labelColor=0D1117&logo=windows&logoColor=white)](https://skales.app)
 [![GitHub](https://img.shields.io/badge/GitHub-skalesapp%2Fskales-1DB954?style=for-the-badge&labelColor=0D1117&logo=github&logoColor=white)](https://github.com/skalesapp/skales)
@@ -167,6 +167,25 @@ Output is in `dist/`.
 
 ---
 
+### What's New in v6.1.0 — "The Awakening"
+
+Autopilot is now a true autonomous agent. It generates recurring schedules from your goals,
+delivers daily stand-up reports via Telegram, pauses for approval instead of silently skipping,
+and lets you watch it think in real-time via the new Live Execution View.
+
+Meet **💧 Bubbles** — the new mascot skin. A playful blue blob that morphs into shapes.
+
+Plus: Feedback system, 13 bug fixes, GDPR telemetry fix, and a redesigned admin dashboard.
+
+## What's New in v6.0.2
+
+- **Telegram Approval Overhaul** - Text-based approval replaces unreliable inline keyboards. Unrestricted mode now correctly bypasses approval. Agent no longer hallucinates tool execution when blocked
+- **GDPR Telemetry Fix** - Zero network requests when telemetry opt-in is disabled. Defense-in-depth check at API route level
+- **Orphaned Tool Results** - Sanitization removes stale tool_result blocks before API calls, preventing 400 errors
+- **Replicate Image Save** - Generated images now properly download and save to workspace
+- **Bubbles Mascot** - New mascot skin: a blue liquid blob. Select in Settings → Desktop Buddy
+- **Telegram Reset** - New "Reset All" button purges all Telegram data for a fresh start
+
 ## What's New in v6.0.1
 
 - **Agent Execution Mandate** - Agent now acts immediately instead of explaining what it could do. Platform-aware commands: PowerShell on Windows, bash on macOS
@@ -238,7 +257,7 @@ I'm **Mario Simic** - 10+ years in Marketing & Design. I know how software shoul
 
 See [COMMERCIAL-LICENSE.md](./COMMERCIAL-LICENSE.md) for details.
 
-**Local AI Agent (Source Available) - v6.0.1 is the latest release under BSL-1.1.**
+**Local AI Agent (Source Available) - v6.1.0 is the latest release under BSL-1.1.**
 
 ---
 

@@ -699,6 +699,7 @@
     "tabs": {
       "controlRoom": "Salle de contrôle",
       "executionBoard": "Tableau d'exécution",
+      "liveExecution": "Exécution en direct",
       "identityMemory": "Identité et souvenirs",
       "liveHistory": "Historique en direct"
     },
@@ -783,7 +784,23 @@
       "clickToGenerate": "Clique sur \"Générer\" pour obtenir un rapport de ce qui s'est passé pendant ton absence."
     },
     "awaitingApproval": "{{count}} en attente d'approbation",
-    "addTask": "Ajouter"
+    "addTask": "Ajouter",
+    "approvalRequired": "Approbation requise",
+    "safeModePending": "Mode sécurisé : les tâches planifiées nécessitent une approbation",
+    "standupDelivered": "Rapport stand-up livré",
+    "standupTime": "Heure de livraison du stand-up",
+    "recurring": "Récurrent",
+    "oneTime": "Unique",
+    "cronSchedule": "Planification",
+    "live": {
+      "noActiveTask": "Aucune tâche en cours d'exécution",
+      "selectTask": "Sélectionner une tâche",
+      "selectPrompt": "Sélectionnez une tâche pour voir sa trace d'exécution.",
+      "noSteps": "Aucun pas d'exécution enregistré pour cette tâche.",
+      "thinking": "Réflexion",
+      "toolCall": "Appel d'outil",
+      "toolResult": "Résultat"
+    }
   },
   "agents": {
     "title": "Agents",
@@ -1116,6 +1133,7 @@
       "generic": "Quelque chose s'est mal passé. Réessaie.",
       "network": "Erreur réseau. Vérifie ta connexion.",
       "apiKey": "API key invalide. Vérifie tes paramètres.",
+      "rateLimited": "Limite de requêtes atteinte. Veuillez patienter un moment et réessayer.",
       "modelNotFound": "Modèle non disponible. Essaies-en un autre.",
       "permissionDenied": "Bloqué par le mode de sécurité. Passe en Sans restrictions dans les Paramètres.",
       "blacklisted": "🚫 **{{domain}}** est bloqué par ta liste noire.",
@@ -1226,5 +1244,26 @@
     "success": "Merci ! Ton rapport a été envoyé.",
     "tooShort": "Veuillez décrire le problème en au moins 10 caractères.",
     "sidebar": "Signaler un bug"
+  },
+  "feedback": {
+    "title": "Avis",
+    "rateTitle": "Note Skales",
+    "loveIt": "J'adore",
+    "great": "Super",
+    "needsImprovement": "Peut mieux faire",
+    "unnecessary": "Pas pour moi",
+    "tellUsMore": "Dis-nous en plus...",
+    "thankYouRating": "Merci pour ton avis !",
+    "reportBug": "Signaler un bug",
+    "requestFeature": "Suggérer une fonction",
+    "featurePlaceholder": "Que devrait faire Skales ?",
+    "categoryLabel": "Catégorie",
+    "categoryPerformance": "Performance",
+    "categoryIntegration": "Nouvelle intégration",
+    "categoryUiUx": "Interface",
+    "categoryOther": "Autre",
+    "submitFeature": "Envoyer",
+    "thankYouFeature": "Merci ! Nous allons examiner ta suggestion.",
+    "optInRequired": "Active la télémétrie dans les Réglages pour envoyer un avis."
   }
 }

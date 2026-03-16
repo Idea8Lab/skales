@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skales v6.0.1 - Complete Guide</title>
+    <title>Skales v6.1.0 - Complete Guide</title>
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -607,9 +607,9 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="container">
-            <div class="badge">v6.0.1 - Complete Guide</div>
+            <div class="badge">v6.1.0 - Complete Guide</div>
             <div class="hero-logo">🦎</div>
-            <h1>Skales v6.0.1<br>Your AI Companion<br>For Everyday Life</h1>
+            <h1>Skales v6.1.0<br>Your AI Companion<br>For Everyday Life</h1>
             <p class="hero-subtitle">
                 A powerful native desktop AI agent with memory, integrations, and an emergency brake. Runs entirely on your computer as a native app - no browser, no terminal, no cloud. Just your AI, your way.
             </p>
@@ -678,7 +678,7 @@
                 <div class="card">
                     <h3>🪟 Windows</h3>
                     <ol class="step-list">
-                        <li>Download <code>Skales-Setup-6.0.1.exe</code> from skales.app</li>
+                        <li>Download <code>Skales-Setup-6.1.0.exe</code> from skales.app</li>
                         <li>Double-click the installer</li>
                         <li>Windows may show <em>"Windows protected your PC"</em> - this appears because Skales is not code-signed yet (code signing costs $200–400/year). Click <strong>More info → Run anyway</strong>. This is safe.</li>
                         <li>Skales installs and creates a Desktop shortcut</li>
@@ -688,7 +688,7 @@
                 <div class="card">
                     <h3>🍏 macOS (Apple Silicon M1–M4)</h3>
                     <ol class="step-list">
-                        <li>Download <code>Skales-6.0.1-arm64.dmg</code> from skales.app</li>
+                        <li>Download <code>Skales-6.1.0-arm64.dmg</code> from skales.app</li>
                         <li>Open the DMG and drag Skales into Applications</li>
                         <li>First launch: macOS will say <em>"Skales can't be opened because it is from an unidentified developer"</em></li>
                         <li>Fix: Right-click Skales in Applications → click <strong>Open</strong> → click <strong>Open</strong> in the dialog. This is only needed once.</li>
@@ -812,8 +812,21 @@
             <h3 style="margin-top: 2rem;">Buddy Conversations in Main Chat</h3>
             <p>Every buddy conversation is automatically appended to your active chat session in the main window. You can open the main chat at any time to see the full history of what the buddy did, including tool results and approval decisions.</p>
 
+            <h3 style="margin-top: 2rem;">Built-in Skins</h3>
+            <p>Skales v6.1.0 ships with two mascot skins:</p>
+            <table class="cmd-table">
+                <thead>
+                    <tr><th>Skin</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>🦎 <strong>Skales</strong> (default)</td><td>Your trusty green AI companion. Reliable and always ready to help.</td></tr>
+                    <tr><td>💧 <strong>Bubbles</strong> <span style="font-size:0.75em;opacity:0.6;">New in v6.1.0</span></td><td>A playful blue liquid blob that morphs into different shapes. Unpredictable and fun — no two animations are the same.</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 1rem;">Switch skins in <strong>Settings → Desktop App → Buddy Skin</strong>. Each skin shows a description and preview icon in the selector. Both skins are available from day one — no download needed.</p>
+
             <h3 style="margin-top: 2rem;">Custom Skins</h3>
-            <p>The buddy mascot supports multiple skins. By default it ships with the <strong>Skales</strong> lizard skin. If you have multiple skins installed, a skin selector appears in <strong>Settings → Desktop App → Buddy Skin</strong>.</p>
+            <p>You can also create your own skins. If you have multiple skins installed, they all appear in the skin selector.</p>
 
             <h3 style="margin-top: 1.5rem;">How to Add a Custom Skin</h3>
             <ol class="step-list">
@@ -950,6 +963,31 @@
                 <li><strong>Approve/Reject in Telegram:</strong> If you're away from your computer, Skales sends the plan to your Telegram bot as an inline keyboard. Tap ✅ Approve or ❌ Reject directly from your phone.</li>
                 <li><strong>Cancel anytime:</strong> Click the Stop button in chat at any time to halt the current execution.</li>
             </ul>
+
+            <h3 style="margin-top: 2rem;">🤖 Autopilot — Autonomous Agent <span style="font-size:0.7em;opacity:0.6;font-weight:normal;">New in v6.1.0</span></h3>
+            <p>Autopilot is your AI Chief of Staff. Set goals and walk away — Autopilot plans, executes, and reports back autonomously. In v6.1.0 it became a true living agent:</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>📅 Recurring Schedules</h3>
+                    <p>Master Plan now generates cron jobs for recurring goals. Tell Skales "check my email every morning at 8am" and it creates an actual scheduled task — not a one-shot.</p>
+                </div>
+                <div class="card">
+                    <h3>👁️ Live Execution View</h3>
+                    <p>A new tab in the Autopilot dashboard shows real-time agent reasoning, tool calls, and results as they happen. Watch Skales think step by step.</p>
+                </div>
+                <div class="card">
+                    <h3>📋 Daily Stand-up</h3>
+                    <p>Autopilot generates and delivers a daily briefing via Telegram every weekday at 9am (configurable). No button click needed.</p>
+                </div>
+                <div class="card">
+                    <h3>📱 Telegram Approval</h3>
+                    <p>Approve or reject Autopilot tasks from Telegram. Reply <code>approve &lt;id&gt;</code> or <code>reject &lt;id&gt;</code>, or just <code>yes</code>/<code>no</code> when one task is waiting.</p>
+                </div>
+            </div>
+            <div class="highlight-box info" style="margin-top: 1rem;">
+                <h3>Safe Mode + Autopilot</h3>
+                <p style="margin-bottom: 0;">In Safe Mode, scheduled and system tasks now pause for approval instead of being silently skipped. They appear on the Execution Board where you can approve or reject them. You can also approve directly from Telegram.</p>
+            </div>
 
             <h3 style="margin-top: 2rem;">🎨 Creative Tools</h3>
             <ul class="feature-list">
@@ -1477,7 +1515,7 @@
     <section id="safety-mode" class="section">
         <div class="container">
             <h2>🛡️ Safety Mode</h2>
-            <p>Safety Mode controls how much autonomy Skales has when executing actions. Configure it in <strong>Settings → Safety Mode</strong>. In v6.0.1, Safety Mode was simplified to two clear levels.</p>
+            <p>Safety Mode controls how much autonomy Skales has when executing actions. Configure it in <strong>Settings → Safety Mode</strong>. Since v6.0.1, Safety Mode uses two clear levels. In v6.0.2, Unrestricted mode correctly bypasses Telegram approval prompts as well.</p>
 
             <h3 style="margin-top: 2rem;">Two Levels</h3>
             <table class="cmd-table">
@@ -1649,7 +1687,28 @@
     <section id="privacy" class="section">
         <div class="container">
             <h2>🔒 Privacy &amp; Feedback</h2>
-            <div class="badge" style="margin-bottom: 1.5rem;">New in v6.0</div>
+            <div class="badge" style="margin-bottom: 0.75rem;">New in v6.0</div>
+            <div class="badge" style="margin-bottom: 1.5rem; background: rgba(132,204,22,0.1); color: #84cc16; border-color: rgba(132,204,22,0.25);">Updated in v6.1.0</div>
+
+            <h3 style="margin-top: 1rem;">💬 Feedback &amp; Rating Page <span style="font-size:0.75em;opacity:0.6;font-weight:normal;">New in v6.1.0</span></h3>
+            <p>Go to <strong>/feedback</strong> in the sidebar to access the new Feedback page. It has three sections:</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>⭐ Rate Skales</h3>
+                    <p>Four emoji ratings: 😍 Love it, 😊 Good, 😐 Okay, 😞 Needs work. Submit an optional comment with your rating.</p>
+                </div>
+                <div class="card">
+                    <h3>🐛 Report a Bug</h3>
+                    <p>Describe the bug and what you expected to happen. Your Skales version is included automatically. OS type is optional.</p>
+                </div>
+                <div class="card">
+                    <h3>💡 Request a Feature</h3>
+                    <p>Describe what you'd like Skales to do. Feature requests are collected and reviewed for future roadmap planning.</p>
+                </div>
+            </div>
+            <div class="highlight-box info" style="margin-top: 1rem;">
+                <p style="margin: 0;"><strong>Privacy:</strong> Feedback data is only sent if <strong>Anonymous Telemetry is enabled</strong> in Settings. If telemetry is off, your feedback is never transmitted. GDPR compliant.</p>
+            </div>
 
             <h3 style="margin-top: 2rem;">Anonymous Telemetry (Opt-In)</h3>
             <p>Skales includes an <strong>optional, anonymous telemetry</strong> system to help improve the app. It is <strong>off by default</strong> - you choose whether to enable it.</p>
@@ -1784,7 +1843,7 @@
         <div class="container">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🦎</div>
             <p>
-                <strong>Skales v6.0.1</strong><br>
+                <strong>Skales v6.1.0</strong><br>
                 A powerful AI companion for everyday humans.
             </p>
             <p style="margin-top: 1rem;">

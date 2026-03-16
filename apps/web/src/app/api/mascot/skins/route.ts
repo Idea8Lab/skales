@@ -31,10 +31,17 @@ const IMAGE_EXTS       = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif']);
 // Skin name must be alphanumeric + hyphen/underscore only (prevents path traversal)
 const SKIN_RE          = /^[a-z0-9_-]+$/i;
 
+// Known skin descriptions — shown in the skin selector UI
+const SKIN_DESCRIPTIONS: Record<string, string> = {
+    skales:  'Skales - Your trusty green AI companion. Reliable and always ready to help.',
+    bubbles: 'Bubbles - A blue liquid blob that morphs into different shapes. Playful and unpredictable.',
+};
+
 interface SkinMeta {
-    id:      string;
-    label:   string;
-    preview: string | null;
+    id:          string;
+    label:       string;
+    preview:     string | null;
+    description: string | null;
 }
 
 function toLabel(id: string): string {
@@ -90,9 +97,10 @@ export async function GET() {
             if (!hasContent) continue;
 
             skins.push({
-                id:      entry.name,
-                label:   toLabel(entry.name),
-                preview: findPreview(skinDir, entry.name),
+                id:          entry.name,
+                label:       toLabel(entry.name),
+                preview:     findPreview(skinDir, entry.name),
+                description: SKIN_DESCRIPTIONS[entry.name] || null,
             });
         }
 

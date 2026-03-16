@@ -28,6 +28,10 @@ export type LogAction =
     | 'task_blocked'       // anti-loop: max retries exceeded
     | 'task_retrying'      // re-queued after failure (< max retries)
     | 'task_cancelled'
+    | 'task_thinking'      // LLM reasoning step (Live Execution view)
+    | 'task_tool_call'     // Tool invocation (Live Execution view)
+    | 'task_tool_result'   // Tool return value (Live Execution view)
+    | 'task_step'          // Generic intermediate step (Live Execution view)
     | 'heartbeat_tick'
     | 'heartbeat_start'
     | 'heartbeat_stop'
