@@ -326,18 +326,34 @@ responses are only acceptable for pure questions or conversations.
         let loopCount = 0;
         let finalResponse = '';
 
-        // CRITICAL: strip tool-role messages and assistant messages that have tool_calls
-        // from the initial session history. Orphaned tool messages (tool result without a
-        // preceding assistant+tool_calls pair) cause API 400 "Message has tool role" errors.
-        // The current-interaction tool loop (currentMessages) handles tool pairs correctly —
-        // this filter only applies to the historical context loaded from the session file.
+        // Keep tool-role messages and assistant+tool_calls in the session history so
+        // the LLM can see previously executed tools and their results.  This prevents
+        // the model from re-calling tools that were already approved and executed.
+        //
+        // SAFETY: orphaned tool messages (tool result without a preceding assistant+tool_calls
+        // pair) cause API 400 errors.  We filter those out by building a set of valid
+        // tool_call_ids from assistant messages that carry tool_calls, and only keeping
+        // tool results whose tool_call_id appears in that set.
+        const validToolCallIds = new Set<string>();
+        for (const m of session.messages) {
+            if (m.role === 'assistant' && Array.isArray((m as any).tool_calls)) {
+                for (const tc of (m as any).tool_calls) {
+                    if (tc?.id) validToolCallIds.add(tc.id);
+                }
+            }
+        }
         const sessionHistory = session.messages
             .filter((m: ChatMessage) => {
-                if (m.role !== 'user' && m.role !== 'assistant') return false; // exclude tool, system, etc.
-                if (m.role === 'assistant' && Array.isArray(m.tool_calls) && m.tool_calls.length > 0) return false; // exclude assistant msgs that issued tool calls
-                return true;
+                if (m.role === 'user') return true;
+                if (m.role === 'assistant') return true; // keep ALL assistant msgs (with or without tool_calls)
+                if (m.role === 'tool') {
+                    // Only keep tool results that have a matching assistant+tool_calls parent
+                    const callId = (m as any).tool_call_id;
+                    return callId && validToolCallIds.has(callId);
+                }
+                return false; // exclude system, etc.
             })
-            .slice(-30);
+            .slice(-40); // slightly larger window to accommodate tool messages
 
         let currentMessages = [...sessionHistory];
 
@@ -677,22 +693,28 @@ export async function POST(req: NextRequest) {
             }
 
             // Simple yes/no — only applies when exactly 1 autopilot task is awaiting approval
+            // AND that task was recently flagged (within 5 min) to avoid eating unrelated messages
             const yesNo = trimmed.toLowerCase();
             if (yesNo === 'yes' || yesNo === 'no') {
                 try {
                     const waiting = getTasksAwaitingApproval();
                     if (waiting.length === 1) {
                         const t = waiting[0];
-                        if (yesNo === 'yes') {
-                            updateTask(t.id, { approvalStatus: 'approved' });
-                            await sendMessage(tgConfig.botToken, telegramChatId,
-                                `✅ Task *${t.title}* approved. It will run on the next autopilot tick.`);
-                        } else {
-                            updateTask(t.id, { approvalStatus: 'rejected', state: 'cancelled', completedAt: Date.now(), blockedReason: 'Rejected via Telegram' });
-                            await sendMessage(tgConfig.botToken, telegramChatId,
-                                `🚫 Task *${t.title}* rejected and cancelled.`);
+                        const taskAge = Date.now() - (t.updatedAt || t.createdAt || 0);
+                        // Only intercept if the task was recently flagged (within 5 minutes)
+                        if (taskAge < 5 * 60 * 1000) {
+                            if (yesNo === 'yes') {
+                                updateTask(t.id, { approvalStatus: 'approved' });
+                                await sendMessage(tgConfig.botToken, telegramChatId,
+                                    `✅ Task *${t.title}* approved. It will run on the next autopilot tick.`);
+                            } else {
+                                updateTask(t.id, { approvalStatus: 'rejected', state: 'cancelled', completedAt: Date.now(), blockedReason: 'Rejected via Telegram' });
+                                await sendMessage(tgConfig.botToken, telegramChatId,
+                                    `🚫 Task *${t.title}* rejected and cancelled.`);
+                            }
+                            return NextResponse.json({ success: true, handled: 'approval_yesno' });
                         }
-                        return NextResponse.json({ success: true, handled: 'approval_yesno' });
+                        // Task is stale (> 5 min old) — fall through to normal chat
                     }
                     // If 0 or 2+ tasks are waiting, fall through to normal chat
                 } catch { /* non-fatal — fall through to normal chat processing */ }

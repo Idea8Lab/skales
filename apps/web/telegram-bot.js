@@ -1031,8 +1031,8 @@ async function processCallbackQuery(token, callbackQuery, config) {
                 body:    JSON.stringify({ approvalId, decision }),
                 signal:  AbortSignal.timeout(120_000),
             });
-            const data = await res.json();
-            const reply = data.response || (decision === 'approve' ? '✅ Approved and executed.' : '❌ Action declined.');
+            const responseData = await res.json();
+            const reply = responseData.response || (decision === 'approve' ? '✅ Approved and executed.' : '❌ Action declined.');
             await sendMessage(token, chatId, reply);
         } catch (e) {
             await sendMessage(token, chatId, `⚠️ Could not process approval: ${e.message}`);
@@ -1333,10 +1333,12 @@ async function ttsWithGroq(text, apiKey) {
     }
 }
 
-async function ttsWithGoogleFree(text) {
+async function ttsWithGoogleFree(text, lang) {
     // Google Translate TTS — 100% free, no API key, pure HTTP (no WebSocket!)
     // Limit: ~180 chars per request → automatic chunking for long texts
     try {
+        // Use the provided language or fall back to English
+        const ttsLang = (lang || 'en').split('-')[0].toLowerCase();
         const MAX_CHARS = 180;
         const chunks = [];
         let remaining = text.trim().slice(0, 2000); // max 2000 chars total
@@ -1355,7 +1357,7 @@ async function ttsWithGoogleFree(text) {
         const audioBuffers = [];
         for (const chunk of chunks) {
             if (!chunk.trim()) continue;
-            const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=de&q=${encodeURIComponent(chunk)}`;
+            const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=${ttsLang}&q=${encodeURIComponent(chunk)}`;
             const res = await fetch(url, {
                 headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
                 signal: AbortSignal.timeout(15000),
@@ -1459,7 +1461,9 @@ async function textToSpeech(text, settings) {
     }
 
     // 4. Google Translate TTS (completely free, no key, pure HTTP)
-    return await ttsWithGoogleFree(text);
+    // Pass the user's configured language so TTS speaks the correct language
+    const userLang = settings?.nativeLanguage || settings?.locale || 'en';
+    return await ttsWithGoogleFree(text, userLang);
 }
 
 async function sendVoice(token, chatId, audioBuffer, isMP3 = false) {

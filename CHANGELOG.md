@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## V6.2.0 — "The Telegram Fix" (March 2026)
+
+### Critical Fixes
+- Fixed: Endless Telegram approval loop — 9 tools (check_system_status, check_capabilities, check_identity, fetch_skales_docs, analyze_image, generate_voice, update_capabilities, enable_skill, disable_skill) missing from TOOL_SAFETY map caused read-only tools to require approval every call
+- Fixed: TOOL_SAFETY fallback changed from 'confirm' to 'auto' — new tools no longer silently block with a console warning for unmapped tools
+- Fixed: Telegram session history now preserves tool results with orphan protection — LLM no longer re-calls already-executed tools
+- Fixed: Google Translate TTS hardcoded to German (`tl=de`) — now uses user's configured nativeLanguage/locale
+
+### Improvements
+- Telegram approval route now re-enters agent loop for natural responses after tool execution
+- Autopilot "yes"/"no" intercept now checks task age (5 min window) to prevent eating unrelated messages
+- App-shell pageshow event listener properly cleaned up (memory leak fix)
+- Variable shadowing fixed in Telegram callback query handler (`data` → `responseData`)
+- SkalesSettings interface extended with locale, theme, buddy_skin, telemetry_enabled, telemetry_anonymous_id fields
+
 ## V6.1.1 — Hotfix (March 2026)
 - Fixed: Telemetry key mismatch - /api/settings endpoint now exposes telemetry_enabled, feedback page uses correct URL
 - Fixed: Feature Request textarea not editable on /feedback page (was disabled when telemetry appeared off)

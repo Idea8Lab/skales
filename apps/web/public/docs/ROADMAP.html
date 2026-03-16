@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skales Roadmap - v6.1.1</title>
+<title>Skales Roadmap - v6.2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -350,7 +350,7 @@
 
 <nav>
   <a href="https://skales.app" class="nav-logo"><span>🦎</span> Skales</a>
-  <span class="nav-badge">v6.1.1 - BSL 1.1</span>
+  <span class="nav-badge">v6.2.0 - BSL 1.1</span>
   <a href="https://docs.skales.app" class="nav-link">Docs</a>
   <a href="https://skales.app" class="nav-link">Download</a>
 </nav>
@@ -362,7 +362,7 @@
   <div class="hero-meta">
     <div class="hero-meta-item">
       <span class="hero-meta-label">Current Release</span>
-      <span class="hero-meta-value">v6.1.1</span>
+      <span class="hero-meta-value">v6.2.0</span>
     </div>
     <div class="hero-meta-item">
       <span class="hero-meta-label">Status</span>
@@ -463,7 +463,7 @@
       <div class="card-icon">⭐</div>
       <div class="card-body">
         <div class="card-title">Feedback &amp; Rating System</div>
-        <div class="card-desc">Rate Skales, report bugs, and request features — all from one /feedback page. Data sent only with telemetry opt-in. GDPR compliant.</div>
+        <div class="card-desc">Rate Skales, report bugs, and request features - all from one /feedback page. Data sent only with telemetry opt-in. GDPR compliant.</div>
         <div class="card-tags"><span class="tag">DX</span><span class="tag">Feedback</span><span class="tag">GDPR</span></div>
       </div>
       <div class="card-status status-shipped">✓ Shipped</div>
@@ -480,10 +480,79 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════
-       v6.2.0 – NEXT (PLANNED)
+       v6.2.0 – THE TELEGRAM FIX (SHIPPED)
   ════════════════════════════════════════════════ -->
   <div class="release-header" style="margin-top: 3rem;">
-    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.2.0</span>
+    <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">v6.2.0</span>
+    <div>
+      <div class="release-title">The Telegram Fix</div>
+      <div class="release-sub">Telegram Loop Fix · Orphan Tool Protection · TTS Language · Post-Approval LLM · Memory Leak · Type Safety</div>
+    </div>
+    <span class="release-date">March 2026</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🔁</div>
+      <div class="card-body">
+        <div class="card-title">Telegram Endless Loop Fix</div>
+        <div class="card-desc">Nine tools missing from the TOOL_SAFETY map were silently defaulting to 'confirm', causing Telegram to loop forever on basic queries. All nine are now mapped and both fallback paths default to 'auto'.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Bug Fix</span><span class="tag">Approval</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-body">
+        <div class="card-title">Orphan Tool Message Protection</div>
+        <div class="card-desc">Session history sent to the LLM now filters out tool result messages whose tool_call_id has no corresponding assistant tool_call, preventing API 400 errors from orphaned messages.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">Bug Fix</span><span class="tag">API</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗣️</div>
+      <div class="card-body">
+        <div class="card-title">TTS Language Threading</div>
+        <div class="card-desc">Telegram voice responses were always synthesized in German regardless of user locale. ttsWithGoogleFree now accepts a lang parameter and uses the user's configured nativeLanguage or locale setting.</div>
+        <div class="card-tags"><span class="tag">TTS</span><span class="tag">i18n</span><span class="tag">Bug Fix</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-body">
+        <div class="card-title">Post-Approval LLM Response</div>
+        <div class="card-desc">After an approved Telegram tool action executes, the agent re-enters the LLM loop to produce a natural confirmation message rather than returning a raw JSON summary.</div>
+        <div class="card-tags"><span class="tag">Telegram</span><span class="tag">UX</span><span class="tag">Approval</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧹</div>
+      <div class="card-body">
+        <div class="card-title">pageshow Memory Leak Fix</div>
+        <div class="card-desc">Anonymous pageshow handler in app-shell was never removed on unmount, accumulating listeners on every render. Extracted to named function with proper cleanup in the effect return.</div>
+        <div class="card-tags"><span class="tag">Memory</span><span class="tag">Bug Fix</span><span class="tag">React</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <div class="card-body">
+        <div class="card-title">Settings Type Safety</div>
+        <div class="card-desc">SkalesSettings TypeScript interface now includes locale, theme, buddy_skin, telemetry_enabled, and telemetry_anonymous_id fields that were used at runtime but missing from the type definition.</div>
+        <div class="card-tags"><span class="tag">TypeScript</span><span class="tag">Type Safety</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       v6.3.0 – THE EXPANSION UPDATE (PLANNED)
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
+    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.3.0</span>
     <div>
       <div class="release-title">The Expansion Update</div>
       <div class="release-sub">Russian · Linux · Security Dashboard · News Feed · Morning Briefing · HIBP</div>
@@ -549,7 +618,7 @@
   </div>
 
   <div class="release-header" style="margin-top: 3rem;">
-    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.3.0</span>
+    <span class="release-tag" style="color:var(--amber);background:var(--amber-dim);border-color:var(--amber-border);">v6.4.0</span>
     <div>
       <div class="release-title">The Accessibility Update</div>
       <div class="release-sub">Browser Captcha Handoff · Body Double Timer · ADHD Tools</div>
@@ -1541,7 +1610,7 @@
 
 <footer>
   <span class="gecko">🦎</span>
-  Built by <strong>Mario Simic</strong> · Skales v6.1.1 · BSL 1.1<br>
+  Built by <strong>Mario Simic</strong> · Skales v6.2.0 · BSL 1.1<br>
   <span style="margin-top:6px;display:block;">This roadmap is a living document and subject to change.</span>
 </footer>
 

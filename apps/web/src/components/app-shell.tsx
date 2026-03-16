@@ -100,15 +100,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 setWakeUpTick(n => n + 1);
             }
         };
-        document.addEventListener('visibilitychange', handleWakeUp);
-        // Also listen for the BFCache restoration event (mobile Safari / Chrome)
-        window.addEventListener('pageshow', (e) => {
+        const handlePageShow = (e: Event) => {
             if ((e as PageTransitionEvent).persisted) {
                 setWakeUpTick(n => n + 1);
             }
-        });
+        };
+        document.addEventListener('visibilitychange', handleWakeUp);
+        // Also listen for the BFCache restoration event (mobile Safari / Chrome)
+        window.addEventListener('pageshow', handlePageShow);
         return () => {
             document.removeEventListener('visibilitychange', handleWakeUp);
+            window.removeEventListener('pageshow', handlePageShow);
         };
     }, []);
 

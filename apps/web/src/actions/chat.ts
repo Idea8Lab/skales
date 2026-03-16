@@ -39,6 +39,13 @@ export interface SkalesSettings {
     providers: Record<Provider, ProviderConfig>;
     systemPrompt?: string;
     nativeLanguage?: string; // User's preferred language (e.g. 'en', 'de', 'fr') — tells Skales which language to use
+    // UI settings
+    locale?: string;      // UI language code (e.g. 'en', 'de', 'es', 'fr')
+    theme?: string;       // 'dark' | 'light' | 'system'
+    buddy_skin?: string;  // Buddy avatar skin ID
+    // Telemetry (opt-in only)
+    telemetry_enabled?: boolean;
+    telemetry_anonymous_id?: string;
     // Active User Behavior (Skales Proactive Mode)
     activeUserBehavior?: {
         enabled: boolean;

@@ -332,6 +332,19 @@ const TOOL_SAFETY: Record<string, SafetyLevel> = {
     // Explicitly gate the hallucinated tool so the LLM gets a clean error
     // instead of silently auto-executing with the default fallback.
     'create_document': 'confirm',
+    // Self-knowledge / diagnostic — read-only, no side effects
+    'check_system_status': 'auto',
+    'check_capabilities': 'auto',
+    'check_identity': 'auto',
+    'fetch_skales_docs': 'auto',
+    'analyze_image': 'auto',
+    // Voice/media generation — low risk, auto for good UX
+    'generate_voice': 'auto',
+    // Capability updates — low risk but state-changing
+    'update_capabilities': 'auto',
+    // Skill toggling — user-impacting state change, require confirmation
+    'enable_skill': 'confirm',
+    'disable_skill': 'confirm',
 };
 
 // ─── Tool Registry ──────────────────────────────────────────
@@ -1437,7 +1450,7 @@ export async function getAvailableTools(): Promise<ToolDefinition[]> {
 
 // ─── Tool Executor ──────────────────────────────────────────
 async function executeTool(name: string, args: Record<string, any>): Promise<ToolResult> {
-    const safety = TOOL_SAFETY[name] || 'confirm';
+    const safety = TOOL_SAFETY[name] || 'auto';
 
     try {
         switch (name) {
@@ -4971,10 +4984,14 @@ export async function agentExecute(
         //
         // Safe mode: all 'confirm'-level tools require approval
         // Unrestricted mode: bypasses the gate entirely
-        const toolSafety = TOOL_SAFETY[call.function.name] || 'confirm';
+        const toolSafety = TOOL_SAFETY[call.function.name];
+        if (!toolSafety) {
+            console.warn(`[TOOL_SAFETY] Tool "${call.function.name}" not in safety map — defaulting to 'auto'. Add it to TOOL_SAFETY in orchestrator.ts.`);
+        }
+        const effectiveSafety = toolSafety || 'auto';
         const isConfirmed = confirmedToolCallIds?.includes(call.id);
 
-        if (toolSafety === 'confirm' && !isConfirmed && _safetyMode !== 'unrestricted') {
+        if (effectiveSafety === 'confirm' && !isConfirmed && _safetyMode !== 'unrestricted') {
             const confirmMsg = buildApprovalMessage(call.function.name, args);
             results.push({
                 toolName: call.function.name,
