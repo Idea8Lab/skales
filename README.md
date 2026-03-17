@@ -10,7 +10,7 @@ If you find this useful, a ⭐ helps others discover it
 
 **Download. Install. Done**
 
-[![Version](https://img.shields.io/badge/version-6.1.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
+[![Version](https://img.shields.io/badge/version-6.2.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
 [![License](https://img.shields.io/badge/license-BSL_1.1-1DB954?style=for-the-badge&labelColor=0D1117)](./LICENSE)
 [![Platform](https://img.shields.io/badge/Windows_+_macOS-1DB954?style=for-the-badge&labelColor=0D1117&logo=windows&logoColor=white)](https://skales.app)
 [![GitHub](https://img.shields.io/badge/GitHub-skalesapp%2Fskales-1DB954?style=for-the-badge&labelColor=0D1117&logo=github&logoColor=white)](https://github.com/skalesapp/skales)
@@ -246,13 +246,13 @@ Please read the [BSL-1.1 license](./LICENSE) before contributing. All contributi
 
 ## 📖 The Story
 
-Skales started in early 2025 as a bloated Laravel SaaS project. I scrapped it all and rebuilt it via "Vibe Coding" - the result is a local-first AI companion that feels like a real product, not a developer tool.
+Skales started in early 2025 as a bloated Laravel SaaS project. I scrapped it all and rebuilt it as a native desktop app - the result is a local-first AI companion that feels like a real product, not a developer tool.
 
 I'm **Mario Simic** - 10+ years in Marketing & Design. I know how software should look and feel. I got tired of agents that require Terminal setups and Docker containers. So I built something better.
 
 ### 🏆 Credits
 
-- **Claude & Google Gemini** - For powering the Vibe Coding workflow.
+- **Claude & Google Gemini** - For powering the development workflow.
 - **OpenRouter** - The best hub for accessing the world's greatest LLMs.
 
 ---
@@ -265,13 +265,14 @@ I'm **Mario Simic** - 10+ years in Marketing & Design. I know how software shoul
 
 See [COMMERCIAL-LICENSE.md](./COMMERCIAL-LICENSE.md) for details.
 
-**Local AI Agent (Source Available) - v6.1.0 is the latest release under BSL-1.1.**
+**Local AI Agent (Source Available) - v6.2.0 is the latest release under BSL-1.1.**
 
 ---
 
 <div align="center">
 
-**[skales.app](https://skales.app)** · [**GitHub**](https://github.com/skalesapp/skales) · Built with ❤️ and Vibe Coding by **Mario Simic**
+**[skales.app](https://skales.app)** · [**GitHub**](https://github.com/skalesapp/skales) ·Built with ❤️ by **Mario Simic**
+
 
 *Not just an agent. Your desktop companion.* 🦎
 
