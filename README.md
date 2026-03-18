@@ -5,7 +5,7 @@ If you find this useful, a ⭐ helps others discover it
 
 ### Your Local AI Agent - Desktop App for Windows & macOS
 
-[![Skales Demo](https://img.youtube.com/vi/8fXGsQGyxCU/maxresdefault.jpg)](https://youtube.com/watch?v=8fXGsQGyxCU)
+[![Skales Demo](https://img.youtube.com/vi/8fXGsQGyxCU/maxresdefault.jpg?=v2)](https://youtube.com/watch?v=8fXGsQGyxCU)
 **No Terminal. No Docker. No Node.js. No npm.**
 
 **Download. Install. Done**
