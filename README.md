@@ -5,9 +5,18 @@ If you find this useful, a ⭐ helps others discover it
 # 🦎 Skales
 
 ### Your Local AI Agent - Desktop App for Windows, macOS & Linux
-
-[![Skales Demo](https://img.youtube.com/vi/8fXGsQGyxCU/maxresdefault.jpg?=v7)](https://youtube.com/watch?v=8fXGsQGyxCU)
-
+<table border="0">
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://skales.app/magic.gif" width="100%" alt="Skales Magic Animation">
+    </td>
+    <td width="50%" align="center">
+      <a href="https://youtube.com/watch?v=8fXGsQGyxCU">
+        <img src="https://img.youtube.com/vi/8fXGsQGyxCU/maxresdefault.jpg" width="100%" alt="Skales Demo Video">
+      </a>
+    </td>
+  </tr>
+</table>
 **No Terminal. No Docker. No Node.js. No npm.**
 
 **Download. Install. Done.**
