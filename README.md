@@ -213,13 +213,14 @@ Contributions are welcome for bug fixes and non-commercial improvements.
 
 Please read the [BSL-1.1 license](./LICENSE) before contributing. All contributions are subject to the same license terms.
 
-### Contributors
+## 🦎 Contributors
 
 - **[@btafoya](https://github.com/btafoya)** - Linux support, first community contributor
 - **[@bmp-jaller](https://github.com/bmp-jaller)** - IPv6 localhost fix
 - **[@henk717](https://github.com/henk717)** - KoboldCpp feedback, shaping the local AI experience
 - **[@SohaibKhaliq](https://github.com/SohaibKhaliq)** - Korean translation
 - **[@VladB-evs](https://github.com/VladB-evs)** - Portuguese translation
+- **[@v33-kind](https://github.com/v33-kind)** - LM Studio setup documentation
 
 ---
 
