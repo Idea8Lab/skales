@@ -1,1097 +1,1207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skales Guide - Your AI Desktop Buddy</title>
-    <meta name="description" content="Complete guide for Skales - the free AI desktop agent for Windows, macOS and Linux. Setup, features, troubleshooting.">
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --bg-main: #0a0a0f;
-            --bg-surface: #141419;
-            --bg-surface-hover: #1c1c24;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --accent-lime: #84cc16;
-            --accent-lime-dim: rgba(132, 204, 22, 0.1);
-            --accent-red: #ef4444;
-            --accent-red-dim: rgba(239, 68, 68, 0.1);
-            --accent-blue: #3b82f6;
-            --accent-blue-dim: rgba(59, 130, 246, 0.1);
-            --accent-amber: #f59e0b;
-            --accent-amber-dim: rgba(245, 158, 11, 0.1);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-            --nav-height: 70px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: color 0.2s;
-        }
-
-        ul, ol {
-            list-style: none;
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(to bottom right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 0.5rem;
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-        }
-
-        strong {
-            color: var(--text-primary);
-        }
-
-        /* --- UTILITIES --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section {
-            padding: 5rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .text-lime { color: var(--accent-lime); }
-        .text-red  { color: var(--accent-red); }
-        .text-blue { color: var(--accent-blue); }
-        .text-amber { color: var(--accent-amber); }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            background: var(--accent-lime-dim);
-            color: var(--accent-lime);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(132, 204, 22, 0.2);
-        }
-
-        .badge-red {
-            background: var(--accent-red-dim);
-            color: var(--accent-red);
-            border-color: rgba(239, 68, 68, 0.3);
-        }
-
-        .badge-blue {
-            background: var(--accent-blue-dim);
-            color: var(--accent-blue);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        /* --- NAVIGATION --- */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-subtle);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.25rem;
-            flex-wrap: nowrap;
-            align-items: center;
-        }
-
-        .nav-links a,
-        .nav-dropdown > span {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .nav-links a:hover,
-        .nav-dropdown:hover > span {
-            color: var(--accent-lime);
-        }
-
-        .nav-dropdown {
-            position: relative;
-        }
-
-        .nav-dropdown .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 15, 25, 0.97);
-            border: 1px solid var(--border-subtle);
-            border-radius: 0.75rem;
-            padding: 0.5rem 0;
-            min-width: 170px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            z-index: 1001;
-        }
-
-        .nav-dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 0.45rem 1rem;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: color 0.15s, background 0.15s;
-        }
-
-        .dropdown-menu a:hover {
-            color: var(--accent-lime);
-            background: rgba(132,204,22,0.08);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 8rem 0 6rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: var(--nav-height);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(132, 204, 22, 0.08) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .hero-logo {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s;
-            cursor: pointer;
-            font-size: 1rem;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-lime);
-            color: #000;
-            box-shadow: 0 0 20px rgba(132, 204, 22, 0.3);
-        }
-
-        .btn-primary:hover {
-            background-color: #a3e635;
-            transform: translateY(-1px);
-            box-shadow: 0 0 30px rgba(132, 204, 22, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: var(--bg-surface);
-            color: var(--text-primary);
-            border: 1px solid var(--border-subtle);
-            margin-left: 1rem;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--bg-surface-hover);
-            border-color: var(--text-secondary);
-        }
-
-        /* --- CARDS & GRID --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            border-color: var(--accent-lime);
-            transform: translateY(-2px);
-        }
-
-        .card.danger {
-            border-color: rgba(239, 68, 68, 0.3);
-            background: rgba(239, 68, 68, 0.04);
-        }
-
-        .card.danger:hover {
-            border-color: var(--accent-red);
-        }
-
-        .card h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .feature-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .feature-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--accent-lime);
-            font-weight: bold;
-        }
-
-        /* STEP LIST */
-        .step-list {
-            list-style: none;
-            padding: 0;
-            counter-reset: step-counter;
-        }
-
-        .step-list li {
-            counter-increment: step-counter;
-            margin-bottom: 1.5rem;
-            padding-left: 3rem;
-            position: relative;
-            color: var(--text-secondary);
-        }
-
-        .step-list li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2rem;
-            height: 2rem;
-            background: var(--accent-lime);
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        /* --- CODE BLOCKS --- */
-        pre {
-            background: #000;
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 1rem;
-            overflow-x: auto;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        code {
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: #e2e8f0;
-        }
-
-        .cmd-prefix {
-            color: var(--accent-lime);
-            margin-right: 0.5rem;
-            user-select: none;
-        }
-
-        /* HIGHLIGHT BOXES */
-        .highlight-box {
-            background: rgba(132, 204, 22, 0.05);
-            border: 1px solid var(--accent-lime);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .highlight-box h3 {
-            color: var(--accent-lime);
-        }
-
-        .highlight-box.danger {
-            background: rgba(239, 68, 68, 0.05);
-            border-color: var(--accent-red);
-        }
-
-        .highlight-box.danger h3 {
-            color: var(--accent-red);
-        }
-
-        .highlight-box.info {
-            background: rgba(59, 130, 246, 0.05);
-            border-color: var(--accent-blue);
-        }
-
-        .highlight-box.info h3 {
-            color: var(--accent-blue);
-        }
-
-        .highlight-box.warning {
-            background: rgba(245, 158, 11, 0.05);
-            border-color: var(--accent-amber);
-        }
-
-        .highlight-box.warning h3 {
-            color: var(--accent-amber);
-        }
-
-        /* COMMAND TABLE */
-        .cmd-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            font-size: 0.95rem;
-        }
-
-        .cmd-table th {
-            text-align: left;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .cmd-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: var(--text-secondary);
-            vertical-align: top;
-        }
-
-        .cmd-table td:first-child {
-            font-family: var(--font-mono);
-            color: var(--accent-lime);
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        /* PROVIDER GRID */
-        .provider-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .provider-badge {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            transition: border-color 0.2s;
-        }
-
-        .provider-badge:hover {
-            border-color: var(--accent-lime);
-        }
-
-        .provider-badge strong {
-            display: block;
-            margin-top: 0.5rem;
-        }
-
-        /* FAQ */
-        .faq-item {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .faq-item h4 {
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-        }
-
-        .faq-item p {
-            margin-bottom: 0;
-            font-size: 0.95rem;
-        }
-
-        /* --- FOOTER --- */
-        .footer {
-            padding: 4rem 0;
-            text-align: center;
-            border-top: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.5rem; }
-            .nav-links { display: none; }
-            .grid { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .hero { padding: 6rem 0 4rem; }
-            .btn { width: 100%; margin: 0.5rem 0 0 0; }
-            .btn-secondary { margin-left: 0; }
-            .hero-logo { font-size: 3rem; }
-            h1 { font-size: 2rem; }
-            .cmd-table { font-size: 0.85rem; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skales — User Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface-light: #27272a;
+      --border: #27272a;
+      --text: #fafafa;
+      --muted: #a1a1aa;
+      --accent: #84cc16;
+      --accent-hover: #a3e635;
+      --accent-glow: rgba(132, 204, 22, 0.12);
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* Layout */
+    .wrapper { display: flex; min-height: 100vh; }
+
+    nav {
+      width: 260px;
+      min-width: 260px;
+      background: #0f0f12;
+      border-right: 1px solid var(--border);
+      padding: 2rem 1.25rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+    nav .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #000;
+    }
+    nav .logo-text { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    nav .logo-version { font-size: 0.7rem; color: var(--muted); margin-left: 2px; }
+
+    nav .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 1.5rem 0 0.5rem 0.5rem;
+    }
+
+    nav a {
+      display: block;
+      padding: 0.45rem 0.75rem;
+      border-radius: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all 0.15s;
+    }
+    nav a:hover { background: var(--surface-light); color: var(--text); }
+    nav a.active { background: var(--accent-glow); color: var(--accent); font-weight: 500; }
+
+    main {
+      flex: 1;
+      max-width: 820px;
+      padding: 3rem 3.5rem;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent-glow);
+      border: 1px solid rgba(132, 204, 22, 0.3);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 580px; }
+
+    /* Sections */
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    h2 .icon {
+      width: 28px;
+      height: 28px;
+      background: var(--accent-glow);
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 1.5rem 0 0.6rem;
+    }
+
+    p { color: var(--muted); margin-bottom: 0.75rem; }
+    strong { color: var(--text); font-weight: 600; }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: rgba(132, 204, 22, 0.3); }
+    .card .card-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.3rem; }
+    .card .card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .card .badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    .badge-beta { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .badge-alpha { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+    /* OS install */
+    .os-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .os-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+    }
+    .os-card .os-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.35rem; color: var(--text); }
+    .os-card p { font-size: 0.8rem; margin: 0; }
+
+    /* Provider list */
+    .provider-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .provider-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem;
+    }
+    .provider-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .provider-dot.muted { background: var(--muted); }
+    .provider-name { font-weight: 600; font-size: 0.875rem; color: var(--text); min-width: 130px; }
+    .provider-desc { font-size: 0.8rem; color: var(--muted); }
+    .provider-rec {
+      margin-left: auto;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-glow);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Code */
+    code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+    pre code { background: none; border: none; padding: 0; color: #a3e635; font-size: 0.82rem; }
+
+    /* Tips */
+    .tip {
+      background: var(--accent-glow);
+      border: 1px solid rgba(132, 204, 22, 0.25);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+    .tip strong { color: var(--accent); }
+
+    .warn {
+      background: rgba(245, 158, 11, 0.07);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+    .warn strong { color: #fbbf24; }
+
+    /* Shortcuts */
+    .shortcut-list { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.75rem 0; }
+    .shortcut-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+    }
+    .shortcut-key {
+      font-family: monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .shortcut-desc { font-size: 0.83rem; color: var(--muted); }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th {
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--muted);
+      vertical-align: top;
+    }
+    td:first-child { color: var(--text); font-weight: 500; }
+    tr:last-child td { border-bottom: none; }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      main { padding: 2rem 1.5rem; }
+      .os-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
+<div class="wrapper">
 
-    <!-- NAVIGATION -->
-    <nav class="navbar">
-        <div class="container nav-content">
-            <a href="#" class="logo">
-                <span>🦎</span> Skales
-            </a>
-            <div class="nav-links">
-                <a href="#whats-new" style="color: var(--accent-lime);">What's New</a>
-                <a href="#getting-started">Getting Started</a>
-                <a href="#providers">AI Providers</a>
-                <a href="#features">Features</a>
-                <a href="#setup">Setup</a>
-                <a href="#faq">FAQ</a>
-            </div>
-        </div>
-    </nav>
+  <!-- Sidebar Nav -->
+  <nav>
+    <a class="logo" href="#">
+      <div class="logo-mark">S</div>
+      <div>
+        <div class="logo-text">Skales</div>
+        <div class="logo-version">v7.6.5 User Guide</div>
+      </div>
+    </a>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="container">
-            <div class="badge">Guide</div>
-            <div class="badge" style="margin-left: 0.5rem; background: var(--surface-2, rgba(132,204,22,0.12)); color: var(--accent-lime, #84cc16); border-color: rgba(132,204,22,0.3);">v7.6.0</div>
-            <div class="hero-logo">🦎</div>
-            <h1>Skales Guide</h1>
-            <p class="hero-subtitle">
-                Everything you need to know about your AI desktop buddy
-            </p>
-            <div>
-                <a href="#getting-started" class="btn btn-primary">Get Started</a>
-                <a href="#features" class="btn btn-secondary">Explore Features</a>
-            </div>
+    <div class="section-label">Get Started</div>
+    <a href="#install">Installation</a>
+    <a href="#onboarding">First Launch</a>
+    <a href="#providers">Providers</a>
+
+    <div class="section-label">Features</div>
+    <a href="#chat">Chat</a>
+    <a href="#browser">Browser</a>
+    <a href="#planner">Planner</a>
+    <a href="#autopilot">Autopilot</a>
+    <a href="#agents">Agents</a>
+    <a href="#memory">Memory</a>
+    <a href="#skills">Skills</a>
+    <a href="#always-on">Always-On Agent</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#buddy">Desktop Buddy</a>
+    <a href="#voice">Live Voice</a>
+    <a href="#pwa">PWA Mobile</a>
+    <a href="#swarm">Agent Swarm</a>
+    <a href="#themes">Themes</a>
+    <a href="#discover">Discover Feed</a>
+    <a href="#wrapped">Skales Wrapped</a>
+    <a href="#spotlight">Spotlight + Vision</a>
+    <a href="#token-compressor">Token Compressor</a>
+    <a href="#notifications">Notification Center</a>
+
+    <div class="section-label">Integrations</div>
+    <a href="#email">Email</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#twitter">Twitter/X</a>
+    <a href="#images">Image & Video Gen</a>
+    <a href="#group-chat">Group Chat</a>
+    <a href="#documents">Document Generation</a>
+    <a href="#places">Google Places</a>
+    <a href="#ftp">FTP/SFTP Deploy</a>
+    <a href="#export">Export/Import Backup</a>
+    <a href="#agent-sync">Agent-to-Agent</a>
+
+    <div class="section-label">Settings</div>
+    <a href="#setup-koboldcpp">KoboldCpp Setup</a>
+    <a href="#setup-lmstudio">LM Studio Setup</a>
+    <a href="#safety">Safety Mode</a>
+    <a href="#shortcuts">Commands</a>
+    <a href="#bots">Bots</a>
+    <a href="#feedback">Feedback</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">📖 Official Documentation · v7.6.5</div>
+      <h1>Skales <span>User Guide</span></h1>
+      <p>Your personal AI operating system. Chat, automate, create — all running locally on your machine.</p>
+    </div>
+
+    <!-- Installation -->
+    <section id="install">
+      <h2><span class="icon">💾</span> Installation</h2>
+      <p>Download Skales from <strong>skales.app</strong>. Choose the build for your operating system.</p>
+
+      <div class="os-grid">
+        <div class="os-card">
+          <div class="os-name">🍎 macOS</div>
+          <p>Code-signed with Apple Developer ID. If Gatekeeper shows a warning, right-click the app → <strong>Open</strong>. Notarization is coming in a future release.</p>
         </div>
+        <div class="os-card">
+          <div class="os-name">🪟 Windows</div>
+          <p>Standard <code>.exe</code> installer. No administrator rights required. Windows Defender may show a SmartScreen warning on first run — click <strong>More info → Run anyway</strong>.</p>
+        </div>
+        <div class="os-card">
+          <div class="os-name">🐧 Linux</div>
+          <p>Distributed as <code>.AppImage</code>. Make it executable first:</p>
+          <pre><code>chmod +x Skales.AppImage
+./Skales.AppImage</code></pre>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Tip:</strong> Skales runs entirely on your machine. No account required. Your data stays local — conversations, memory, and settings are stored in your home folder under <code>~/.skales-data/</code>.
+      </div>
     </section>
 
-    <!-- WHAT'S NEW IN v7.6.0 -->
-    <section id="whats-new" class="section">
-        <div class="container">
-            <div class="badge" style="background: var(--accent-lime-dim); color: var(--accent-lime); border-color: rgba(132,204,22,0.3); margin-bottom: 1.5rem;">v7.6.0 — The Intelligence Update</div>
-            <h2>What's New in v7.6.0</h2>
-            <p>March 2026 — smarter token usage, better notifications, and enhanced system prompt intelligence. Token Compressor reduces context bloat, in-app Toast Notifications keep you informed, and System Prompt Intelligence makes your AI interactions more effective.</p>
-
-            <div class="grid">
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🔧 Token Compressor</h3>
-                    <p>Three compression levels in Settings → Memory → Token Management. Automatically optimizes context, removes redundant information, and intelligently summarizes past conversations to fit more sessions in your token budget. Never waste tokens on bloat again.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🍞 In-App Toast Notifications</h3>
-                    <p>Lightweight notifications appear directly in the Skales interface instead of system popups. Less intrusive, customizable timing, and they respect your privacy by staying within the app. Configure in Settings → Notifications → Toast Style.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🧠 System Prompt Intelligence</h3>
-                    <p>Enhanced system prompts automatically adapt to your usage patterns and context window size. Skales now uses dynamic prompt tuning to maximize reasoning capability while staying within your chosen model's constraints. Smarter responses, fewer errors.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>⚡ Spotlight Bar</h3>
-                    <p>Press <code>Cmd+Shift+S</code> (Mac) or <code>Ctrl+Shift+S</code> (Windows/Linux) anywhere on your desktop. A floating overlay lets you ask Skales a question, capture your screen for visual context, and get an instant answer — without opening the full app. Toggle in Settings → Appearance.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🧭 Discover Feed</h3>
-                    <p>Join the anonymous community feed with your own gamertag. See what others are building, upvote entries, and browse by category. Navigate to <strong>Discover</strong> in the sidebar. Your identity stays private — no real names, no personal data.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🤝 Agent Swarm (Beta)</h3>
-                    <p>Delegate tasks between Skales instances on your local network. Hub-and-spoke visualization, task history, quick-delegate, and chat integration hints. Enable mDNS in Settings, then navigate to <strong>Swarm</strong>.</p>
-                </div>
-                <div class="card">
-                    <h3>💬 Mini-Chat Mode</h3>
-                    <p>Shrink Skales to a compact, always-on-top chat window. Click <strong>Mini Mode</strong> in the chat toolbar. The window stays on top of other apps so your AI is always one click away.</p>
-                </div>
-                <div class="card">
-                    <h3>🔔 Sound Notifications</h3>
-                    <p>Audible feedback when tasks complete, notifications arrive, or Swarm tasks finish. Includes four sound themes. Toggle in Settings → Notifications.</p>
-                </div>
-                <div class="card">
-                    <h3>🔔 Notification Center</h3>
-                    <p>Dedicated notification page with read/unread state, category filters, and admin broadcast support. Navigate to <strong>Notifications</strong> in the sidebar.</p>
-                </div>
-                <div class="card">
-                    <h3>📅 Calendar Month View + .ics Export</h3>
-                    <p>Full month grid with event previews and click-to-navigate in the Planner. Download your plan as a <code>.ics</code> calendar file without connecting a provider.</p>
-                </div>
-                <div class="card">
-                    <h3>🤖 Desktop Buddy Intelligence</h3>
-                    <p>Proactive messages — morning greetings, idle check-ins, task reminders — now fire independently of Autonomous Mode. Configure frequency in Settings → Friend Mode.</p>
-                </div>
-                <div class="card">
-                    <h3>🔒 Privacy &amp; Security</h3>
-                    <p><strong>Delete My Data</strong> button in Settings → Security &amp; Privacy. Two-step confirmation purges all server-side telemetry, bug reports, and feedback by IP hash. Full GDPR compliance. Signed macOS builds — no more terminal commands at first launch.</p>
-                </div>
-            </div>
-
-            <div class="highlight-box" style="margin-top: 2.5rem;">
-                <h3>🗑️ Retired: Network &amp; DLNA</h3>
-                <p>The Network Scanner and DLNA/UPnP casting features have been retired. The <code>/network</code> route now redirects to Swarm. DLNA casting will return as a dedicated Smart Home Skill in a future update.</p>
-            </div>
-        </div>
+    <!-- Onboarding -->
+    <section id="onboarding">
+      <h2><span class="icon">🚀</span> First Launch</h2>
+      <p>The <strong>onboarding wizard</strong> guides you through setup on first launch:</p>
+      <ol style="margin: 1rem 0 1rem 1.5rem; color: var(--muted); font-size: 0.875rem;">
+        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text)">Language</strong> — Choose from 9 supported languages (EN, DE, ES, FR, RU, ZH, JA, KO, PT)</li>
+        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text)">Provider</strong> — Select your AI provider (OpenRouter recommended)</li>
+        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text)">API Key</strong> — Paste your API key. Keys are stored locally in encrypted settings.</li>
+        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--text)">Model</strong> — Pick a default model. You can switch anytime in Settings or via <code>/model</code> in chat.</li>
+      </ol>
+      <p>After onboarding you land directly in <strong>Chat</strong> — ready to go.</p>
     </section>
 
-    <!-- HOW TO USE SPOTLIGHT -->
-    <section id="spotlight" class="section">
-        <div class="container">
-            <h2>How to Use Spotlight</h2>
-            <p>Spotlight is a floating quick-ask overlay accessible from anywhere on your desktop — even when Skales is minimized to the tray.</p>
+    <!-- Providers -->
+    <section id="providers">
+      <h2><span class="icon">🔌</span> Providers</h2>
+      <p>Skales supports multiple AI providers. Configure them in <strong>Settings → Providers</strong>.</p>
 
-            <ol class="step-list">
-                <li>Press <strong>Cmd+Shift+S</strong> (Mac) or <strong>Ctrl+Shift+S</strong> (Windows/Linux)</li>
-                <li>Type your question in the input field</li>
-                <li>Click the <strong>👁 eye icon</strong> to capture your current screen for visual context</li>
-                <li>Press <strong>Enter</strong> to send and get an instant answer</li>
-                <li>Press <strong>Escape</strong> or click anywhere outside the bar to close it</li>
-                <li>Press the shortcut again to toggle it closed if already open</li>
-            </ol>
-
-            <div class="highlight-box info">
-                <h3>💡 Screen Capture</h3>
-                <p>The eye icon takes a screenshot of your entire screen and attaches it to your query. Use it to ask "What's this error?" or "Help me understand this diagram" — Skales will analyze what's on screen and respond.</p>
-            </div>
-
-            <div class="highlight-box">
-                <h3>Settings</h3>
-                <p>Toggle the Spotlight Bar on or off in <strong>Settings → Notifications → Spotlight Bar</strong>. Disabling it also unregisters the global keyboard shortcut so it never interferes with other apps.</p>
-            </div>
+      <div class="provider-list">
+        <div class="provider-item">
+          <div class="provider-dot"></div>
+          <div class="provider-name">OpenRouter</div>
+          <div class="provider-desc">Gateway to 200+ models from all major labs. One API key, maximum flexibility.</div>
+          <div class="provider-rec">Recommended</div>
         </div>
+        <div class="provider-item">
+          <div class="provider-dot"></div>
+          <div class="provider-name">Anthropic</div>
+          <div class="provider-desc">Direct Claude access (Haiku, Sonnet, Opus). Best for coding and analysis.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot"></div>
+          <div class="provider-name">Google</div>
+          <div class="provider-desc">Gemini 2.0 Flash and Pro. Strong at multimodal tasks and long context.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot"></div>
+          <div class="provider-name">Groq</div>
+          <div class="provider-desc">Blazing-fast inference on Llama and Mixtral models. Great for real-time tasks.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Ollama</div>
+          <div class="provider-desc">Fully local models. Complete privacy — no data leaves your machine. Requires Ollama installed.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">OpenAI</div>
+          <div class="provider-desc">GPT-4o, GPT-4 Turbo, o1 series. Direct OpenAI integration.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Mistral</div>
+          <div class="provider-desc">Mistral AI, Mixtral, and Codestral models. Fast, efficient models for general and code tasks.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Together AI</div>
+          <div class="provider-desc">Access open-source models like Llama, Mistral, and fine-tuned variants via Together's platform.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">xAI</div>
+          <div class="provider-desc">Grok models from xAI. Real-time reasoning on current information.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">DeepSeek</div>
+          <div class="provider-desc">DeepSeek API with R1 and other advanced reasoning models.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Minimax</div>
+          <div class="provider-desc">MiniMax API for accessing advanced language models.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Replicate</div>
+          <div class="provider-desc">Bring Your Own Key (BYOK) for Replicate. Run open-source models on their infrastructure.</div>
+        </div>
+        <div class="provider-item">
+          <div class="provider-dot muted"></div>
+          <div class="provider-name">Custom Endpoint</div>
+          <div class="provider-desc">Connect any OpenAI-compatible API — LM Studio, KoboldCpp, vLLM, or any local server.</div>
+        </div>
+      </div>
+
+      <div class="tip"><strong>💡 Local AI Setup:</strong> Need help setting up local models? See our step-by-step guides: <a href="setup-koboldcpp.html" style="color:var(--accent)">KoboldCpp Setup</a> · <a href="setup-lmstudio.html" style="color:var(--accent)">LM Studio Setup</a></div>
+
+      <div class="tip"><strong>💡 Tip:</strong> You can configure multiple providers and switch between them mid-session. Use <code>/model gpt-4o</code> or the model picker in the chat toolbar.</div>
     </section>
 
-    <!-- GETTING STARTED -->
-    <section id="getting-started" class="section">
-        <div class="container">
-            <h2>Getting Started</h2>
-            <p>Download Skales from <strong>skales.app</strong> and get up and running in minutes.</p>
+    <!-- Chat -->
+    <section id="chat">
+      <h2><span class="icon">💬</span> Chat</h2>
+      <p>The main conversation interface. Skales remembers context, executes tools, and builds session history.</p>
 
-            <h3>Download</h3>
-            <div class="grid-2">
-                <div class="card">
-                    <h3>🪟 Windows</h3>
-                    <p><code>.exe</code> installer for Windows 10+</p>
-                </div>
-                <div class="card">
-                    <h3>🍏 macOS</h3>
-                    <p><code>.dmg</code> package for Intel and Apple Silicon</p>
-                </div>
-                <div class="card">
-                    <h3>🐧 Linux</h3>
-                    <p><code>.AppImage</code> for most Linux distributions (beta)</p>
-                </div>
-            </div>
+      <h3>Multi-Session</h3>
+      <p>Every conversation is saved as a session. Browse and restore past sessions from the sidebar panel. Sessions auto-title based on your first message.</p>
 
-            <h3 style="margin-top: 2rem;">First Launch</h3>
-            <div class="highlight-box">
-                <h3>Setup Wizard</h3>
-                <p>On first launch, Skales walks you through:</p>
-                <ul class="feature-list">
-                    <li>Choosing your AI provider (OpenRouter recommended for beginners)</li>
-                    <li>Entering your API key</li>
-                    <li>Selecting your Desktop Buddy skin</li>
-                </ul>
-            </div>
-        </div>
+      <h3>Agents</h3>
+      <p>Switch between custom AI agents using the persona picker at the top of the chat. Each agent has its own personality, system prompt, and session history.</p>
+
+      <h3>Attached Files</h3>
+      <p>Drag and drop or click the paperclip icon to attach images, PDFs, or code files. Vision-capable models can analyze screenshots and diagrams.</p>
+
+      <h3>Tool Execution</h3>
+      <p>Skales can call tools directly from chat — write files, search the web, send emails, read your calendar, run terminal commands, and more. Tool results are shown inline.</p>
+
+      <div class="warn">
+        <strong>⚠️ Safe Mode</strong> — In Safe Mode, Skales will show an approval prompt before executing destructive actions (delete files, send emails, shell commands). See <a href="#safety" style="color:var(--accent)">Safety Mode</a>.
+      </div>
     </section>
 
-    <!-- AI PROVIDERS -->
-    <section id="providers" class="section">
-        <div class="container">
-            <h2>AI Providers</h2>
-            <p>Choose from cloud-hosted LLMs or run models entirely offline on your machine.</p>
+    <!-- Browser -->
+    <section id="browser">
+      <h2><span class="icon">🌐</span> Browser <span class="badge badge-beta">Beta</span></h2>
+      <p>A built-in browser with AI co-pilot. Navigate the web and ask Skales to help you while browsing.</p>
 
-            <h3>Cloud Providers</h3>
-            <p>Connect to any of these remote AI services via API key:</p>
-            <div class="provider-grid">
-                <div class="provider-badge"><strong>OpenAI</strong></div>
-                <div class="provider-badge"><strong>Anthropic</strong></div>
-                <div class="provider-badge"><strong>Google</strong></div>
-                <div class="provider-badge"><strong>Groq</strong></div>
-                <div class="provider-badge"><strong>Mistral</strong></div>
-                <div class="provider-badge"><strong>xAI</strong></div>
-                <div class="provider-badge"><strong>Minimax</strong></div>
-                <div class="provider-badge"><strong>DeepSeek</strong></div>
-                <div class="provider-badge"><strong>Perplexity</strong></div>
-                <div class="provider-badge"><strong>OpenRouter</strong></div>
-            </div>
+      <h3>How it works</h3>
+      <p>Type a command in the input bar (e.g. <em>"Go to hacker news and summarize the top 5 stories"</em>). Skales navigates, reads the page, and responds — up to 10 agentic steps per command.</p>
 
-            <h3 style="margin-top: 2rem;">Local Models</h3>
-            <p>Run AI models on your own hardware for complete privacy. Skales auto-detects local servers:</p>
-            <div class="provider-grid">
-                <div class="provider-badge"><strong>Ollama</strong></div>
-                <div class="provider-badge"><strong>KoboldCpp</strong></div>
-                <div class="provider-badge"><strong>LM Studio</strong></div>
-                <div class="provider-badge"><strong>vLLM</strong></div>
-            </div>
+      <h3>Session Controls</h3>
+      <table>
+        <thead><tr><th>Control</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>+ New Session</td><td>Clears the current page and conversation log, starts fresh at Google</td></tr>
+          <tr><td>↩ Refresh</td><td>Reloads the current page</td></tr>
+          <tr><td>⬇ Export</td><td>Downloads the conversation log as a Markdown file (visible when log has entries)</td></tr>
+        </tbody>
+      </table>
 
-            <h3 style="margin-top: 2rem;">API Key Setup</h3>
-            <p>For cloud providers, you'll need an API key from your chosen service. Add it in Skales Settings > AI Provider.</p>
-            <p><strong>Local servers don't require API keys</strong> - leave that field empty and Skales will connect via OpenAI Compatible protocol.</p>
-        </div>
+      <h3>Conversation Log</h3>
+      <p>The last 5 exchanges are shown above the input bar — your commands (→) and Skales' responses (🦎). Full history is exported with the Markdown button.</p>
     </section>
 
-    <!-- LOCAL AI SETUP GUIDES -->
-    <section id="local-ai" class="section">
-        <div class="container">
-            <h2>Local AI Setup Guides</h2>
-            <p>Skales works with any OpenAI-compatible local LLM server. Choose your preferred runtime:</p>
+    <!-- Planner -->
+    <section id="planner">
+      <h2><span class="icon">📅</span> Planner <span class="badge badge-beta">Beta</span></h2>
+      <p>AI-powered daily planner that learns your work patterns. An 8-step wizard learns your preferences, generates time-blocked plans from calendar events, and pushes them back to your calendar. Chat integration with "plan my day" commands.</p>
 
-            <div class="grid-2">
-                <div class="card">
-                    <h3>🦙 KoboldCpp</h3>
-                    <p>Single-file executable, runs any GGUF model. Built-in TTS, STT, and image generation. Tool calling supported.</p>
-                    <a href="setup-koboldcpp.html" class="btn btn-secondary" style="margin-top: 1rem; display: inline-block;">KoboldCpp Setup Guide →</a>
-                </div>
-                <div class="card">
-                    <h3>🎬 LM Studio</h3>
-                    <p>Desktop app with model browser and local server. Easy GPU acceleration. OpenAI-compatible endpoint built in.</p>
-                    <a href="setup-lmstudio.html" class="btn btn-secondary" style="margin-top: 1rem; display: inline-block;">LM Studio Setup Guide →</a>
-                </div>
-            </div>
-        </div>
+      <h3>8-Step Wizard</h3>
+      <p>On first use, a guided wizard learns your work patterns, available hours, break preferences, and constraints. This context is used to personalize all future plan generation.</p>
+
+      <h3>Month View</h3>
+      <p>The default calendar view shows the entire month at a glance. Click on any day to see detailed plans.</p>
+
+      <h3>Daily Context</h3>
+      <p>Add day-specific notes directly in your planner (e.g., <strong>"I'm busy at 12:00"</strong> or <strong>"Important deadline"</strong>). The AI uses this context to generate smarter schedules around your constraints.</p>
+
+      <h3>Generate & Regenerate</h3>
+      <p>Use <strong>Generate</strong> to create a new daily plan from your calendar events, or <strong>Regenerate</strong> to try again with different AI reasoning. Plans are automatically saved and synced back to your calendar.</p>
+
+      <h3>.ICS Export</h3>
+      <p>Download plans as <code>.ics</code> files for use with any calendar application — no provider connection needed.</p>
+
+      <h3>Chat Integration</h3>
+      <p>In chat, ask "plan my day" or "schedule my week" and Skales will generate plans directly from context.</p>
     </section>
 
-    <!-- KOBOLDCPP SETUP -->
-    <section id="koboldcpp" class="section">
-        <div class="container">
-            <h2>KoboldCpp Setup</h2>
-            <p>KoboldCpp brings local AI to your PC with one-click model loading and built-in features.</p>
+    <!-- Autopilot -->
+    <section id="autopilot">
+      <h2><span class="icon">⚡</span> Autopilot</h2>
+      <p>Background task runner with a Kanban board. Delegate long-running tasks and Skales will execute them autonomously while you work on other things.</p>
 
-            <ol class="step-list">
-                <li>Download from <a href="https://github.com/LostRuins/koboldcpp" target="_blank" rel="noopener">github.com/LostRuins/koboldcpp</a></li>
-                <li>Launch KoboldCpp and select a GGUF model to load</li>
-                <li>In Skales, go to Settings &gt; AI Provider and choose <strong>OpenAI Compatible</strong></li>
-                <li>Enter: <code>http://127.0.0.1:5001/v1</code> (use 127.0.0.1, not localhost)</li>
-                <li>Leave the API key field blank — KoboldCpp doesn't require one</li>
-                <li>Click <strong>Fetch Models</strong> to verify connection</li>
-            </ol>
+      <h3>Task Board</h3>
+      <p>Tasks move through: <strong>Pending → In Progress → Done</strong>. You can review results, retry failed tasks, or cancel in-progress ones.</p>
 
-            <p style="margin-top: 1rem;"><a href="setup-koboldcpp.html">→ Full KoboldCpp setup guide with Vision, TTS, and troubleshooting</a></p>
+      <h3>Live Execution</h3>
+      <p>Watch Skales think through each step in real time. Tool calls, decisions, and results are shown as they happen.</p>
 
-            <h3 style="margin-top: 2rem;">Features</h3>
-            <ul class="feature-list">
-                <li>Built-in Text-to-Speech (TTS)</li>
-                <li>Built-in Speech-to-Text (STT)</li>
-                <li>Built-in image generation</li>
-                <li>Tool calling (JSON fixing built in)</li>
-                <li>Multimodal / Vision support</li>
-                <li>Uncapped timeout for slower hardware</li>
-            </ul>
-        </div>
+      <h3>Cost Control</h3>
+      <p>Set a max API calls per hour in Settings → Autopilot to prevent runaway costs. Autopilot pauses automatically when the limit is reached.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Autopilot must be enabled in Settings → Autopilot → Enable Autopilot for background task processing. Friend Mode and Buddy Intelligence work independently of this toggle.</div>
     </section>
 
-    <!-- OLLAMA SETUP -->
-    <section id="ollama" class="section">
-        <div class="container">
-            <h2>Ollama Setup</h2>
-            <p>Ollama makes running large language models on your machine simple and fast.</p>
-
-            <ol class="step-list">
-                <li>Install from <code>ollama.com</code></li>
-                <li>Pull a model: <code>ollama pull llama2</code> (or any other model)</li>
-                <li>Skales auto-detects Ollama. No manual configuration needed.</li>
-                <li>Works fully offline once the model is downloaded</li>
-            </ol>
-
-            <div class="highlight-box info">
-                <h3>💡 Auto-Detection</h3>
-                <p>Skales automatically finds Ollama running on localhost. Just install, pull a model, and Skales will see it.</p>
-            </div>
-        </div>
+    <!-- Agents -->
+    <section id="agents">
+      <h2><span class="icon">🤖</span> Agents</h2>
+      <p>Create custom AI personas with their own name, personality, system prompt, and model selection. Agents appear in the chat persona picker and each maintain a separate conversation history.</p>
+      <p>Built-in personas include: <strong>Default</strong>, <strong>Entrepreneur</strong>, <strong>Coder</strong>, <strong>Family</strong>, and <strong>Student</strong>.</p>
     </section>
 
-    <!-- FEATURES -->
-    <section id="features" class="section">
-        <div class="container">
-            <h2>Features</h2>
-            <p>Skales is packed with tools to make your life easier. Here's what you can do:</p>
+    <!-- Memory -->
+    <section id="memory">
+      <h2><span class="icon">🧠</span> Memory</h2>
+      <p><strong>Bi-Temporal Memory</strong> — Auto-extracts facts and preferences from conversations. Skales builds a persistent understanding of who you are over time, storing memory locally and injecting relevant context before every reply.</p>
 
-            <div class="grid">
-                <div class="card">
-                    <h3>💬 Chat</h3>
-                    <p>Talk to your AI with full context memory. Skales learns from your conversations.</p>
-                </div>
-                <div class="card">
-                    <h3>📅 Planner AI</h3>
-                    <p>Daily scheduling with automatic calendar sync to Google, Apple, and Outlook.</p>
-                </div>
-                <div class="card">
-                    <h3>📆 Calendar</h3>
-                    <p>Native calendar integration for Google, Apple, and Outlook accounts.</p>
-                </div>
-                <div class="card">
-                    <h3>💻 Lio AI</h3>
-                    <p>Code builder with FTP/SFTP deployment for publishing your projects.</p>
-                </div>
-                <div class="card">
-                    <h3>🚀 Autopilot</h3>
-                    <p>Autonomous ReAct execution for multi-step tasks with your approval at checkpoints.</p>
-                </div>
-                <div class="card">
-                    <h3>🎯 Custom Skills</h3>
-                    <p>Create and train custom AI skills for specialized tasks.</p>
-                </div>
-                <div class="card">
-                    <h3>👥 Group Chat</h3>
-                    <p>Multi-persona conversations with different AI personalities at once.</p>
-                </div>
-                <div class="card">
-                    <h3>🧠 Memory</h3>
-                    <p>Persistent context that grows smarter over time. Bi-temporal memory system.</p>
-                </div>
-                <div class="card">
-                    <h3>🦎 Desktop Buddy</h3>
-                    <p>Three cute skins (Skales, Bubbles, Capy) with proactive notifications and approval system.</p>
-                </div>
-                <div class="card">
-                    <h3>📱 Telegram Bot</h3>
-                    <p>Access Skales from your phone via Telegram. Works with pairing codes.</p>
-                </div>
-                <div class="card">
-                    <h3>💬 Discord & WhatsApp</h3>
-                    <p>Chat with your AI bot on Discord and WhatsApp.</p>
-                </div>
-                <div class="card">
-                    <h3>📧 Email</h3>
-                    <p>IMAP/SMTP support for reading and sending emails on your behalf.</p>
-                </div>
-                <div class="card">
-                    <h3>🖼️ Image Generation</h3>
-                    <p>Replicate integration plus local image generation options.</p>
-                </div>
-                <div class="card">
-                    <h3>🎙️ Voice</h3>
-                    <p>Text-to-Speech and Speech-to-Text with cloud and local options.</p>
-                </div>
-                <div class="card">
-                    <h3>✅ Tasks</h3>
-                    <p>Native to-do management integrated with your AI.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>⚡ Spotlight Bar <span style="font-size: 0.7em; background: var(--accent-lime-dim); color: var(--accent-lime); border: 1px solid rgba(132,204,22,0.3); border-radius: 20px; padding: 0.1em 0.5em; margin-left: 0.25em;">NEW</span></h3>
-                    <p>Global hotkey quick-ask overlay with screen capture. Press Cmd/Ctrl+Shift+S from anywhere.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🧭 Discover Feed <span style="font-size: 0.7em; background: var(--accent-lime-dim); color: var(--accent-lime); border: 1px solid rgba(132,204,22,0.3); border-radius: 20px; padding: 0.1em 0.5em; margin-left: 0.25em;">NEW</span></h3>
-                    <p>Anonymous community feed. See what others are building, upvote, and join with a gamertag.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>🤝 Agent Swarm <span style="font-size: 0.7em; background: var(--accent-lime-dim); color: var(--accent-lime); border: 1px solid rgba(132,204,22,0.3); border-radius: 20px; padding: 0.1em 0.5em; margin-left: 0.25em;">NEW</span></h3>
-                    <p>Delegate tasks between Skales instances on your LAN. Hub-and-spoke visualization.</p>
-                </div>
-                <div class="card" style="border-left: 3px solid var(--accent-lime);">
-                    <h3>💬 Mini-Chat Mode <span style="font-size: 0.7em; background: var(--accent-lime-dim); color: var(--accent-lime); border: 1px solid rgba(132,204,22,0.3); border-radius: 20px; padding: 0.1em 0.5em; margin-left: 0.25em;">NEW</span></h3>
-                    <p>Compact always-on-top chat window. Toggle from the chat header.</p>
-                </div>
-                <div class="card">
-                    <h3>🔔 Sound Notifications</h3>
-                    <p>Audible feedback when tasks complete. Four built-in sound themes, configurable in Settings.</p>
-                </div>
-                <div class="card">
-                    <h3>🔔 Notification Center</h3>
-                    <p>Dedicated page for all notifications with read/unread state and admin broadcast support.</p>
-                </div>
-            </div>
-        </div>
+      <table>
+        <thead><tr><th>Type</th><th>What it stores</th></tr></thead>
+        <tbody>
+          <tr><td>Short-term</td><td>Facts from the current session — names, preferences, context</td></tr>
+          <tr><td>Long-term</td><td>Extracted highlights across sessions — important facts, decisions, habits</td></tr>
+          <tr><td>Episodic</td><td>Notable conversations and events timestamped for recall</td></tr>
+        </tbody>
+      </table>
+
+      <p>Manage memories in <strong>Settings → Memory</strong>. You can view, edit, or delete individual entries. Up to 5 relevant memories are automatically recalled per conversation.</p>
     </section>
 
-    <!-- SETUP SECTIONS -->
-    <section id="setup" class="section">
-        <div class="container">
-            <h2>Telegram Bot Setup</h2>
-            <p>Use Skales from your phone via Telegram.</p>
+    <!-- Skills -->
+    <section id="skills">
+      <h2><span class="icon">🔧</span> Skills</h2>
+      <p>Skills extend what Skales can do. Built-in skills are always available. Custom skills can be created and shared.</p>
 
-            <ol class="step-list">
-                <li>Create a new bot with <code>@BotFather</code> on Telegram</li>
-                <li>Copy your bot token</li>
-                <li>In Skales, go to Settings > Integrations > Telegram</li>
-                <li>Paste the token and click <strong>Save & Connect</strong></li>
-                <li>Send <code>/start</code> to your bot</li>
-                <li>Enter the pairing code shown in Skales</li>
-            </ol>
+      <h3>Built-in Skills</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">File System</div><div class="card-desc">Read, write, move, delete files and folders on your machine.</div></div>
+        <div class="card"><div class="card-title">Shell Commands</div><div class="card-desc">Run terminal commands, scripts, and system operations.</div></div>
+        <div class="card"><div class="card-title">Web Search</div><div class="card-desc">Search the internet and summarize results in real time.</div></div>
+        <div class="card"><div class="card-title">Email</div><div class="card-desc">Read, compose, and send emails from your configured account.</div></div>
+        <div class="card"><div class="card-title">Calendar</div><div class="card-desc">Read events, create reminders, and query your schedule.</div></div>
+        <div class="card"><div class="card-title">Telegram</div><div class="card-desc">Send and receive messages via your Telegram bot.</div></div>
+        <div class="card"><div class="card-title">WhatsApp</div><div class="card-desc">Message via WhatsApp Web.js integration.</div></div>
+        <div class="card"><div class="card-title">Documents</div><div class="card-desc">Read and write Word, PDF, and text documents.</div></div>
+        <div class="card"><div class="card-title">Voice TTS</div><div class="card-desc">Text-to-speech with ElevenLabs, Azure, or system voices.</div></div>
+        <div class="card"><div class="card-title">Network</div><div class="card-desc">Scan devices, check connectivity, query network info.</div></div>
+        <div class="card"><div class="card-title">Casting</div><div class="card-desc">Send content to Chromecast and compatible devices.</div></div>
+        <div class="card"><div class="card-title">Image Gen</div><div class="card-desc">Generate images via Replicate or local endpoints.</div></div>
+      </div>
 
-            <div class="highlight-box warning">
-                <h3>⚠️ Offline Workaround</h3>
-                <p>If Telegram connectivity is offline, check that localhost resolves correctly. IPv6 issues can prevent connection.</p>
-            </div>
-        </div>
+      <h3>Custom Skills</h3>
+      <p>Build your own skills in <strong>Settings → Custom Skills</strong>. Describe what the skill should do, and Skales generates the implementation. Skills are stored as JSON and can be exported and shared.</p>
     </section>
 
-    <!-- DESKTOP BUDDY -->
-    <section id="buddy" class="section">
-        <div class="container">
-            <h2>Desktop Buddy</h2>
-            <p>Skales lives on your desktop with three adorable skins to choose from.</p>
+    <!-- Always-On -->
+    <section id="always-on">
+      <h2><span class="icon">⏰</span> Always-On Agent <span class="badge badge-beta">Beta</span></h2>
+      <p>Schedule recurring tasks using cron expressions. Skales runs them automatically in the background, even when you're not actively chatting.</p>
 
-            <h3>Available Skins</h3>
-            <div class="provider-grid">
-                <div class="provider-badge"><strong>🦎 Skales</strong><p style="font-size: 0.85rem; margin-top: 0.25rem; color: var(--text-secondary);">The gecko</p></div>
-                <div class="provider-badge"><strong>🫧 Bubbles</strong><p style="font-size: 0.85rem; margin-top: 0.25rem; color: var(--text-secondary);">The blob</p></div>
-                <div class="provider-badge"><strong>🦫 Capy</strong><p style="font-size: 0.85rem; margin-top: 0.25rem; color: var(--text-secondary);">The capybara</p></div>
-            </div>
+      <h3>Built-in Jobs</h3>
+      <table>
+        <thead><tr><th>Job</th><th>Schedule</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Identity Maintenance</td><td>Daily</td><td>Updates your Skales identity file with new learnings, memories, and preferences.</td></tr>
+          <tr><td>Morning Briefing</td><td>Configurable</td><td>Daily summary of tasks, calendar, and news. Delivered to Telegram if configured.</td></tr>
+        </tbody>
+      </table>
 
-            <h3 style="margin-top: 2rem;">How to Switch Skins</h3>
-            <ol class="step-list">
-                <li>Open Skales Settings</li>
-                <li>Go to Appearance</li>
-                <li>Select your favorite Desktop Buddy skin</li>
-            </ol>
-
-            <h3 style="margin-top: 2rem;">Features</h3>
-            <ul class="feature-list">
-                <li>Proactive notifications about your tasks and reminders</li>
-                <li>Approval system for actions that need your permission</li>
-                <li>Speech bubbles for interaction and feedback</li>
-            </ul>
-        </div>
+      <h3>Custom Schedules</h3>
+      <p>Add any cron job in Settings → Always-On. Examples:</p>
+      <pre><code>0 9 * * 1-5    # Weekdays at 9 AM
+0 */2 * * *    # Every 2 hours
+0 20 * * *     # Every day at 8 PM</code></pre>
     </section>
 
-    <!-- FILE SANDBOX / SAFE MODE -->
-    <section id="sandbox" class="section">
-        <div class="container">
-            <h2>File Sandbox / Safe Mode</h2>
-            <p>Control what parts of your computer Skales can access.</p>
+    <!-- Dashboard -->
+    <section id="dashboard">
+      <h2><span class="icon">📊</span> Dashboard</h2>
+      <p>A customizable home screen with status cards and optional widgets.</p>
 
-            <h3>Modes</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Workspace-Only</h3>
-                    <p>Restrict access to a specific workspace folder only.</p>
-                </div>
-                <div class="card">
-                    <h3>Custom</h3>
-                    <p>Define custom allowed directories for granular control.</p>
-                </div>
-                <div class="card">
-                    <h3>Unrestricted</h3>
-                    <p>Full file system access (use with caution).</p>
-                </div>
-            </div>
+      <h3>Status Cards</h3>
+      <p>Always visible: connected providers, API status, active bots (Telegram, WhatsApp, Discord), theme selector, recent sessions.</p>
 
-            <div class="highlight-box">
-                <h3>Note</h3>
-                <p>The <code>.skales-data</code> directory is always allowed regardless of sandbox mode.</p>
-            </div>
-        </div>
+      <h3>Optional Widgets</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">🗓 Calendar</div><div class="card-desc">Upcoming events from your connected calendar.</div></div>
+        <div class="card"><div class="card-title">🌤 Weather</div><div class="card-desc">Current conditions and forecast for your location.</div></div>
+        <div class="card"><div class="card-title">🦎 Buddy</div><div class="card-desc">Quick access to your Desktop Buddy companion.</div></div>
+        <div class="card"><div class="card-title">📧 Email</div><div class="card-desc">Unread email summary from your connected account.</div></div>
+        <div class="card"><div class="card-title">✅ Tasks</div><div class="card-desc">Active Autopilot tasks and their status.</div></div>
+        <div class="card"><div class="card-title">📋 Plan</div><div class="card-desc">Today's AI-generated daily plan.</div></div>
+        <div class="card"><div class="card-title">📈 Stats</div><div class="card-desc">Usage statistics, token counts, and session history.</div></div>
+      </div>
+      <p style="margin-top:0.75rem;">Enable or disable widgets in <strong>Settings → Dashboard</strong>.</p>
+
+      <h3>In-App Notifications</h3>
+      <p>Toast notifications appear in-app for important events: task completions, message arrivals, calendar reminders, and system alerts. Notifications can be accessed in the dedicated Notification Center for history and filtering.</p>
     </section>
 
-    <!-- LINUX BETA -->
-    <section id="linux" class="section">
-        <div class="container">
-            <h2>Linux (Beta)</h2>
-            <p>Skales is available for Linux via AppImage. Performance is excellent on modern systems.</p>
+    <!-- Desktop Buddy -->
+    <section id="buddy">
+      <h2><span class="icon">🦎</span> Desktop Buddy</h2>
+      <p>A floating AI companion that lives on your desktop. Always accessible, even when Skales is minimized.</p>
 
-            <h3>Installation</h3>
-            <ol class="step-list">
-                <li>Download the AppImage from <code>skales.app</code></li>
-                <li>Make it executable: <code>chmod +x Skales-*.AppImage</code></li>
-                <li>Run it: <code>./Skales-*.AppImage</code></li>
-            </ol>
+      <h3>Skins</h3>
+      <p>Switch between multiple visual skins in <strong>Settings → Buddy</strong>. Skins use WebM video with alpha channel transparency for smooth animations.</p>
 
-            <h3 style="margin-top: 2rem;">Known Quirks</h3>
-            <ul class="feature-list" style="list-style-position: inside;">
-                <li>Tiling window managers may require extra configuration</li>
-                <li>GNOME tray integration works best with newer GNOME versions</li>
-            </ul>
+      <h3>Approve / Decline</h3>
+      <p>When Skales needs confirmation before an action (in Safe Mode), the Buddy shows an approval card. Tap <strong>Allow</strong> or <strong>Deny</strong> without opening the full app.</p>
 
-            <div class="highlight-box info">
-                <h3>💡 Beta Status</h3>
-                <p>Linux support is still in beta. Report issues on GitHub to help us improve.</p>
-            </div>
-        </div>
+      <h3>Friend Mode</h3>
+      <p>When Friend Mode is enabled, the Buddy proactively reaches out — checking in, celebrating wins, or sending nudges based on your activity. Messages can be delivered via Chat, Telegram, or WhatsApp.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Friend Mode works independently of Autopilot. You don't need Autopilot enabled to receive proactive messages.</div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq" class="section">
-        <div class="container">
-            <h2>FAQ</h2>
+    <!-- Live Voice -->
+    <section id="voice">
+      <h2><span class="icon">🎤</span> Live Voice <span class="badge badge-beta">Beta</span></h2>
+      <p>Full-duplex voice conversation. Speak naturally and Skales responds with synthesized speech.</p>
 
-            <div class="faq-item">
-                <h4>What do I do if the auto-updater has issues?</h4>
-                <p>Manual updates are always available from skales.app. Download the latest version and reinstall.</p>
-            </div>
+      <h3>STT (Speech-to-Text)</h3>
+      <p>Cascade order: <strong>Azure Speech</strong> → <strong>Groq Whisper</strong> → <strong>OpenAI Whisper</strong> → <strong>Web Speech API</strong> (browser fallback). Configure Azure and Groq keys in Settings → Voice.</p>
 
-            <div class="faq-item">
-                <h4>Why isn't my Telegram bot connecting offline?</h4>
-                <p>Check that localhost resolves correctly on your system. IPv6 configuration issues can prevent connection to local services.</p>
-            </div>
-
-            <div class="faq-item">
-                <h4>The chat keeps stopping. What's wrong?</h4>
-                <p>Check your API key is valid, your network connection is stable, and your AI provider account has available credits or quota.</p>
-            </div>
-
-            <div class="faq-item">
-                <h4>Ollama isn't being detected. How do I fix it?</h4>
-                <p>Make sure Ollama is running on localhost:11434. Restart Skales after starting Ollama. Check firewall settings if Skales still doesn't detect it.</p>
-            </div>
-
-            <div class="faq-item">
-                <h4>Why does KoboldCpp show an auth error?</h4>
-                <p>Ensure you're using the correct endpoint: <code>http://127.0.0.1:5001/v1</code>. Leave the API key field empty for local servers.</p>
-            </div>
-        </div>
+      <h3>TTS (Text-to-Speech)</h3>
+      <p>Supported providers: <strong>ElevenLabs</strong>, <strong>Azure TTS</strong>, <strong>Groq TTS</strong>, <strong>System TTS</strong>. Voice and speed are configurable in Settings → Voice.</p>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <p style="margin-bottom: 2rem;">
-                <strong>Skales</strong> - Your AI Desktop Buddy
-            </p>
-            <p style="margin-bottom: 2rem;">
-                <a href="https://x.com/skalesapp" style="color: var(--accent-lime); margin-right: 1rem;">X/Twitter</a>
-                <a href="https://instagram.com/skales.app" style="color: var(--accent-lime); margin-right: 1rem;">Instagram</a>
-                <a href="https://tiktok.com/@skales.app" style="color: var(--accent-lime); margin-right: 1rem;">TikTok</a>
-                <a href="https://youtube.com/@skalesapp" style="color: var(--accent-lime); margin-right: 1rem;">YouTube</a>
-            </p>
-            <p style="margin-bottom: 1rem;">
-                <a href="https://skales.app" style="color: var(--accent-lime); margin-right: 1rem;">skales.app</a>
-                <a href="https://github.com/skalesapp/skales" style="color: var(--accent-lime);">GitHub</a>
-            </p>
-            <p>Made by Mario Simic</p>
-        </div>
+    <!-- PWA -->
+    <section id="pwa">
+      <h2><span class="icon">📱</span> PWA Mobile <span class="badge badge-beta">Beta</span></h2>
+      <p>Access Skales from your phone without installing a mobile app. Uses <strong>Tailscale</strong> to create a private tunnel to your desktop (free for personal use).</p>
+
+      <ol style="margin: 1rem 0 1rem 1.5rem; color: var(--muted); font-size: 0.875rem;">
+        <li style="margin-bottom: 0.5rem;">Install Tailscale on your desktop and phone — <strong>tailscale.com</strong></li>
+        <li style="margin-bottom: 0.5rem;">Sign in with the same account on both devices</li>
+        <li style="margin-bottom: 0.5rem;">In Skales: <strong>Settings → Mobile (PWA)</strong> — copy the Tailscale URL</li>
+        <li style="margin-bottom: 0.5rem;">Open that URL on your phone → tap <strong>Add to Home Screen</strong></li>
+      </ol>
+
+      <div class="tip"><strong>💡 Tip:</strong> Tailscale is free for personal use and far more reliable than exposing a port to the internet. Think of it like Telegram or WhatsApp — your phone connects to your desktop privately.</div>
+    </section>
+
+    <!-- Agent Swarm -->
+    <section id="swarm">
+      <h2><span class="icon">🐝</span> Agent Swarm <span class="badge badge-alpha">Alpha</span></h2>
+      <p>Run multiple Skales instances on your network and have them collaborate. Uses <strong>mDNS</strong> to discover peers automatically — no configuration needed on a local network.</p>
+      <p>One instance acts as the <strong>coordinator</strong>, dispatching sub-tasks to <strong>worker</strong> instances. Results are aggregated and returned to the coordinator's chat.</p>
+    </section>
+
+    <!-- Themes -->
+    <section id="themes">
+      <h2><span class="icon">🎨</span> Themes</h2>
+      <table>
+        <thead><tr><th>Theme</th><th>Mode</th><th>Layout</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Skales (default)</td><td>Dark / Light</td><td>Sidebar</td><td>Clean, professional. The default experience.</td></tr>
+          <tr><td>Obsidian</td><td>Dark</td><td>Top Nav</td><td>Deep black, wide layout — great for large screens.</td></tr>
+          <tr><td>Snowfield</td><td>Light</td><td>Icon Rail</td><td>Minimal icon sidebar, high contrast white.</td></tr>
+          <tr><td>Neon</td><td>Dark</td><td>Icon Rail</td><td>Vibrant accent colors, compact icon-only sidebar.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.75rem;">Change themes on the Dashboard or in Settings → Appearance.</p>
+    </section>
+
+    <!-- Safety Mode -->
+    <section id="safety">
+      <h2><span class="icon">🛡</span> Safety Mode</h2>
+      <table>
+        <thead><tr><th>Mode</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td>Unrestricted</td><td>Skales executes all tool calls immediately — no prompts. Best for power users who trust their workflows.</td></tr>
+          <tr><td>Safe Mode</td><td>Skales requests your approval before critical actions: deleting files, sending emails, running shell commands, making network requests.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.75rem;">Configure in <strong>Settings → Safety</strong>. The Desktop Buddy shows approval prompts even when the main window is closed.</p>
+
+      <h3>Admin Panel v6</h3>
+      <p>For users with admin access, the Admin Panel provides infrastructure management with enhanced security:</p>
+      <ul style="margin: 0.5rem 0 0.75rem 1.5rem; color: var(--muted); font-size: 0.875rem;">
+        <li style="margin-bottom: 0.4rem;"><strong style="color:var(--text)">Brute-Force Protection</strong> — Failed login attempts trigger automatic lockouts</li>
+        <li style="margin-bottom: 0.4rem;"><strong style="color:var(--text)">CSRF Protection</strong> — All state-changing requests require valid CSRF tokens</li>
+        <li style="margin-bottom: 0.4rem;"><strong style="color:var(--text)">Rate Limiting</strong> — API endpoints are rate-limited to prevent abuse and DoS attacks</li>
+      </ul>
+    </section>
+
+    <!-- Commands -->
+    <section id="shortcuts">
+      <h2><span class="icon">⌨️</span> Chat Commands</h2>
+      <p>Type <code>/</code> in the chat input to open the command picker. Available commands:</p>
+
+      <div class="shortcut-list">
+        <div class="shortcut-item"><div class="shortcut-key">/model</div><div class="shortcut-desc">Switch the active AI model inline (e.g. <code>/model claude-opus-4</code>)</div></div>
+        <div class="shortcut-item"><div class="shortcut-key">/new</div><div class="shortcut-desc">Start a new chat session</div></div>
+        <div class="shortcut-item"><div class="shortcut-key">/memory</div><div class="shortcut-desc">Show or search remembered facts</div></div>
+        <div class="shortcut-item"><div class="shortcut-key">/clear</div><div class="shortcut-desc">Clear current session messages</div></div>
+        <div class="shortcut-item"><div class="shortcut-key">/kill</div><div class="shortcut-desc">Stop any running Autopilot task immediately</div></div>
+        <div class="shortcut-item"><div class="shortcut-key">/help</div><div class="shortcut-desc">Show the full command list</div></div>
+      </div>
+    </section>
+
+    <!-- Bots -->
+    <section id="bots">
+      <h2><span class="icon">🤖</span> Bot Integrations</h2>
+      <p>Connect Skales to messaging platforms to chat from anywhere.</p>
+
+      <h3>Telegram</h3>
+      <p>Create a bot via <strong>@BotFather</strong>, paste the token in Settings → Integrations → Telegram. Send messages to your bot to talk to Skales from your phone.</p>
+
+      <h3>WhatsApp</h3>
+      <p>Scan the QR code shown in Settings → Integrations → WhatsApp. Uses WhatsApp Web — your number is paired, no separate account needed.</p>
+
+      <h3>Discord</h3>
+      <p>Create a Discord application and bot token at <strong>discord.com/developers</strong>. Paste the token in Settings → Integrations → Discord. Invite the bot to your server.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> All three bots connect to <code>localhost</code> — they only work when Skales is running on your machine. They are not cloud services.</div>
+    </section>
+
+    <!-- Discover Feed -->
+    <section id="discover">
+      <h2><span class="icon">🌍</span> Discover Feed</h2>
+      <p>A global activity feed where Skales can share AI-generated content and connect with other users. Posts are published to the community with full privacy control.</p>
+
+      <h3>Gamertag System</h3>
+      <p>Every Skales instance gets a unique gamertag for identity. Build reputation through community engagement: upvotes, replies, and follows.</p>
+
+      <h3>Upvotes & Category Filters</h3>
+      <p>Filter the Discover feed by category (News, Code, Creative, Insights, etc.). Upvote posts you find useful — top posts surface higher in the feed.</p>
+
+      <h3>AI Summaries</h3>
+      <p>When Skales generates content for the Discover feed, it creates an AI summary for preview. You can approve, reject, or edit summaries before posting.</p>
+
+      <h3>GIF Support</h3>
+      <p>Attach Tenor/Giphy GIFs to AI Summaries. GIF preview shows in pending approval, overflow-safe rendering in feed cards.</p>
+
+      <h3>AI Reply & Repost</h3>
+      <p>Reply to feed entries with AI-generated text or repost entries to amplify community content. Both require authentication and are rate-limited (5 reposts/hour).</p>
+
+      <h3>Personality System & Vibes</h3>
+      <p>User personality profiles influence AI summary tone and style. The <strong>Vibes</strong> tab is a server-side filtered view showing only <code>ai_summary</code> entries for a curated experience.</p>
+    </section>
+
+    <!-- Skales Wrapped -->
+    <section id="wrapped">
+      <h2><span class="icon">🎁</span> Skales Wrapped</h2>
+      <p>A Spotify-style weekly stats card that summarizes your interaction patterns, personality insights, and top topics. Auto-generated every Monday at 8:00 AM or on-demand.</p>
+
+      <h3>Two Formats</h3>
+      <p><strong>Square (1:1)</strong> — For feeds and dashboards. <strong>Story (9:16)</strong> — For mobile and vertical displays. Both adapt to your theme.</p>
+
+      <h3>Theme-Matched Designs</h3>
+      <p>Wrapped cards come in 4 dark themes and 4 light themes, automatically matching your Skales appearance settings. Designs include custom typography and color gradients.</p>
+
+      <h3>Personality Badges</h3>
+      <p>9 badges based on usage patterns: Balanced ⚖️, On Fire 🔥, Power User ⚡, Night Owl 🦉, Early Bird 🌅, Multitasker 🎯, Creative Soul 🎨, Swarm Master 🐝, Researcher 🔬. Your badge updates each week.</p>
+
+      <h3>Count-Up Animations & Confetti</h3>
+      <p>Wrapped cards animate with count-up effects on reveal, complete with celebratory confetti burst and staggered stat reveals. Floating particles and glow effects create an immersive experience.</p>
+
+      <h3>Share & Download</h3>
+      <p>Download your Wrapped card as PNG, copy it to clipboard, or post directly to your Discover feed. Wrapped cards are linked to archives so you can compare past weeks.</p>
+
+      <h3>History & Archive</h3>
+      <p>All past Wrapped cards are archived automatically. View your history directly on the Wrapped page — compare activity, streaks, and badges from week to week.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Share your Wrapped to the Discover feed to show your personality to the community. A sidebar pulsing dot indicates when a new Wrapped is ready.</div>
+    </section>
+
+    <!-- Spotlight + Vision -->
+    <section id="spotlight">
+      <h2><span class="icon">👁️</span> Spotlight + Vision</h2>
+      <p>A floating, always-accessible search bar and AI vision system. Press <strong>Cmd/Ctrl+Shift+S</strong> to open.</p>
+
+      <h3>Floating Search Bar</h3>
+      <p>Spotlight is a lightweight modal that stays on top of any application. Search your conversations, memory, Autopilot tasks, or web content without context-switching.</p>
+
+      <h3>Eye Button for Vision</h3>
+      <p>Click the eye icon in Spotlight to capture your current screen and send it to the AI for analysis. Perfect for debugging, design review, or visual questions.</p>
+
+      <h3>Mini-Chat Mode</h3>
+      <p>Spotlight includes a mini chat window for quick interactions. Switch to full chat app with a single click if you need more space.</p>
+
+      <h3>System Prompt Intelligence</h3>
+      <p>Vision captures work with optimized prompts for different tasks: code debugging, UI design feedback, document extraction, and more. Prompts are configurable in Settings → Spotlight.</p>
+    </section>
+
+    <!-- Token Compressor -->
+    <section id="token-compressor">
+      <h2><span class="icon">⚙️</span> Token Compressor</h2>
+      <p>An intelligent system prompt compression tool that reduces API costs by condensing lengthy system prompts without losing critical functionality.</p>
+
+      <h3>Three Compression Levels</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">Full</div><div class="card-desc">Complete system prompt with all context and behavior guidelines. Highest quality, highest token cost.</div></div>
+        <div class="card"><div class="card-title">Compact</div><div class="card-desc">Essential instructions only. ~50% token reduction while maintaining core functionality.</div></div>
+        <div class="card"><div class="card-title">Minimal</div><div class="card-desc">Ultra-condensed core directives. ~70% token reduction for cost-sensitive workflows.</div></div>
+      </div>
+
+      <h3>Configure in Settings</h3>
+      <p>Choose your default compression level in <strong>Settings</strong>. Level 2 (Minimal) is ideal for Spotlight and quick tasks where token savings matter most.</p>
+
+      <h3>Smart Retention</h3>
+      <p>The compressor intelligently retains safety guidelines, identity preferences, and critical logic while removing verbose explanations. Token savings compound across long conversations.</p>
+    </section>
+
+    <!-- Notification Center -->
+    <section id="notifications">
+      <h2><span class="icon">🔔</span> Notification Center</h2>
+      <p>A dedicated page for all notifications — task completions, calendar alerts, swarm results, and admin broadcasts. Access via the bell icon in the sidebar.</p>
+
+      <h3>Read / Unread Tracking</h3>
+      <p>Each notification is marked read or unread. Unread count appears on the notification bell icon. Mark notifications as read individually or in bulk.</p>
+
+      <h3>Filtering & Categories</h3>
+      <p>Filter notifications by type: Messages, Tasks, Calendar, Alerts, System, Bots. Search notifications by keyword or date range.</p>
+
+      <h3>Admin Broadcasts</h3>
+      <p>System administrators can broadcast important messages to all users. Broadcasts appear in the Notification Center with a special Admin Badge and persistent flag.</p>
+
+      <h3>Archive & History</h3>
+      <p>Notifications are archived after 30 days but remain searchable in the history. Keep important notifications by starring them — starred notifications never auto-archive.</p>
+    </section>
+
+    <!-- Email Integration -->
+    <section id="email">
+      <h2><span class="icon">📧</span> Email Integration</h2>
+      <p>Read, compose, reply, search, and manage emails with attachments. IMAP/SMTP with safety gates. Multi-account support with per-mailbox whitelists.</p>
+
+      <h3>Multi-Account Support</h3>
+      <p>Connect multiple email accounts in <strong>Settings → Email</strong>. Each account has its own IMAP/SMTP configuration and can be managed independently.</p>
+
+      <h3>Attachment Handling</h3>
+      <p>Download email attachments, view previews, and pass them to AI for analysis. Skales can generate replies based on email content or attachments.</p>
+
+      <h3>Safety Gates</h3>
+      <p>In Safe Mode, email sending requires your approval. Configure whitelists for specific mailboxes to automate trusted conversations while keeping sensitive accounts protected.</p>
+
+      <h3>Search & Archive</h3>
+      <p>Search emails by subject, sender, or content. Archive and manage folders directly from Skales without opening your email client.</p>
+    </section>
+
+    <!-- Calendar Integration -->
+    <section id="calendar">
+      <h2><span class="icon">📆</span> Calendar Integration</h2>
+      <p>Google Calendar (OAuth), Apple Calendar (CalDAV), and Outlook (Microsoft Graph API). Read/write access with event reminders and synchronization.</p>
+
+      <h3>OAuth & CalDAV Support</h3>
+      <p>Connect your calendar via OAuth for Google and Outlook, or CalDAV for Apple Calendar and any CalDAV-compatible server. Skales handles authentication securely.</p>
+
+      <h3>Read & Write Access</h3>
+      <p>View your schedule, create events, update existing events, and set reminders. Calendar sync works bidirectionally with the Planner.</p>
+
+      <h3>Event Reminders</h3>
+      <p>Skales can notify you of upcoming events and integrate them into your AI-generated daily plans.</p>
+
+      <h3>Multi-Calendar</h3>
+      <p>Sync multiple calendars from the same provider. Skales unifies them into a single view for better planning.</p>
+    </section>
+
+    <!-- Twitter/X Integration -->
+    <section id="twitter">
+      <h2><span class="icon">𝕏</span> Twitter/X Integration</h2>
+      <p>Post tweets, read your timeline, reply to mentions. OAuth 1.0a authentication with rate limiting and safety gates.</p>
+
+      <h3>Post & Compose</h3>
+      <p>Ask Skales to compose and post tweets directly. In Safe Mode, previews require your approval before posting.</p>
+
+      <h3>Timeline & Mentions</h3>
+      <p>Read your home timeline and respond to mentions. Skales can auto-reply to mentions with AI-generated responses (in Autopilot mode).</p>
+
+      <h3>Media Attachments</h3>
+      <p>Include images and videos in tweets. Skales handles file uploads and media management.</p>
+    </section>
+
+    <!-- Image & Video Generation -->
+    <section id="images">
+      <h2><span class="icon">🎨</span> Image & Video Generation</h2>
+      <p>Generate images and videos with Google Imagen 3, Veo 3, Replicate SDXL, FLUX, and 50+ more models.</p>
+
+      <h3>Google Imagen 3</h3>
+      <p>High-quality image generation with advanced prompt understanding and style control. Requires Google Cloud API key.</p>
+
+      <h3>Google Veo 3</h3>
+      <p>AI video generation for creating short clips from text descriptions. Ideal for social media and creative content.</p>
+
+      <h3>Replicate Models</h3>
+      <p>Access to SDXL, FLUX, and 50+ community models via Replicate. Full control over model selection and parameters.</p>
+
+      <h3>Local Generation</h3>
+      <p>Generate images locally using Stable Diffusion or FLUX with your own hardware (requires GPU). Completely offline, no API keys needed.</p>
+    </section>
+
+    <!-- Group Chat -->
+    <section id="group-chat">
+      <h2><span class="icon">👥</span> Group Chat</h2>
+      <p>Multiple AI personas debate your questions in configurable rounds. Perfect for exploring different perspectives and validating ideas.</p>
+
+      <h3>Custom Personas</h3>
+      <p>Select which agents participate in the debate. Each agent uses its own system prompt and personality to generate responses.</p>
+
+      <h3>Configurable Rounds</h3>
+      <p>Set the number of rounds for debate. Each round, agents respond to the previous turn's arguments.</p>
+
+      <h3>Unified View</h3>
+      <p>See all agent responses side-by-side with clear attribution. Toggle between full responses and summary mode.</p>
+    </section>
+
+    <!-- Document Generation -->
+    <section id="documents">
+      <h2><span class="icon">📄</span> Document Generation</h2>
+      <p>Create Excel (.xlsx), Word (.docx), and PDF files from natural language. Ask "create a budget spreadsheet" and Skales generates it.</p>
+
+      <h3>Excel (.xlsx)</h3>
+      <p>Generate spreadsheets with formulas, formatting, and multiple sheets. Skales can create budgets, tables, charts, and data compilations.</p>
+
+      <h3>Word (.docx)</h3>
+      <p>Generate formatted documents with headings, paragraphs, tables, and lists. Perfect for reports, proposals, and technical documentation.</p>
+
+      <h3>PDF Export</h3>
+      <p>Convert documents to PDF format. PDFs are fully formatted and ready for sharing or printing.</p>
+
+      <h3>Dynamic Templates</h3>
+      <p>Describe what you need and Skales generates appropriate structure and content. No template library required.</p>
+    </section>
+
+    <!-- Google Places -->
+    <section id="places">
+      <h2><span class="icon">🗺️</span> Google Places</h2>
+      <p>Search nearby places, geocode addresses, get directions, and fetch business details. Requires Google Places API key.</p>
+
+      <h3>Nearby Search</h3>
+      <p>Find restaurants, stores, parks, and other places near your location or a specified address. Filter by type, rating, and distance.</p>
+
+      <h3>Geocoding</h3>
+      <p>Convert addresses to coordinates and vice versa. Useful for mapping and location-based workflows.</p>
+
+      <h3>Directions</h3>
+      <p>Get turn-by-turn directions between two points. Skales returns multiple route options with estimated times.</p>
+
+      <h3>Business Details</h3>
+      <p>Fetch phone numbers, hours, reviews, photos, and other details for any place. Great for research and planning.</p>
+    </section>
+
+    <!-- FTP/SFTP Deploy -->
+    <section id="ftp">
+      <h2><span class="icon">🚀</span> FTP/SFTP Deploy</h2>
+      <p>Central server profile management. Deploy Lio AI projects with one click to your hosting.</p>
+
+      <h3>Server Profiles</h3>
+      <p>Store FTP/SFTP connection details securely in <strong>Settings → Deploy</strong>. Encrypt credentials locally using your master password.</p>
+
+      <h3>One-Click Deploy</h3>
+      <p>Build your Lio AI project and deploy directly to a server. Skales handles file transfers and confirms deployment success.</p>
+
+      <h3>Live Preview</h3>
+      <p>After deployment, quickly open your deployed project in the browser to verify it's running correctly.</p>
+    </section>
+
+    <!-- Export / Import Backup -->
+    <section id="export">
+      <h2><span class="icon">💾</span> Export / Import Backup</h2>
+      <p>One-click ZIP backup of all settings, memories, and integrations. Export to restore on another machine or create versioned backups.</p>
+
+      <h3>Full Data Export</h3>
+      <p>Download a ZIP archive containing all your Skales data: conversations, memory, agent definitions, custom skills, settings, and integration credentials.</p>
+
+      <h3>Selective Restore</h3>
+      <p>When importing a backup, choose what to restore: conversations only, memory only, settings, or everything. Existing data is preserved unless you choose to overwrite.</p>
+
+      <h3>Encryption Support</h3>
+      <p>Backups respect your local encryption settings. Sensitive data like API keys are encrypted in the ZIP archive.</p>
+
+      <h3>Version Control</h3>
+      <p>Date-stamped backups let you maintain multiple versions. Restore to any previous backup version at any time.</p>
+    </section>
+
+    <!-- Agent-to-Agent Protocol -->
+    <section id="agent-sync">
+      <h2><span class="icon">🤝</span> Agent-to-Agent Protocol</h2>
+      <p>Multi-Skales collaboration on the same network. The <code>/api/agent-sync</code> endpoint enables distributed task delegation and shared context.</p>
+
+      <h3>mDNS Discovery</h3>
+      <p>Skales instances automatically discover each other on local networks via mDNS. No manual configuration required.</p>
+
+      <h3>Task Delegation</h3>
+      <p>Send tasks to other Skales instances for parallel processing. Combine results into a unified response.</p>
+
+      <h3>Shared Context</h3>
+      <p>Share memory, settings, or conversation context between instances. Perfect for distributed teams or coordinated automation.</p>
+
+      <h3>Secure Communication</h3>
+      <p>Communication is encrypted and authenticated via local tokens. No external servers required.</p>
+    </section>
+
+    <!-- Custom Skill Interactive UI -->
+    <section id="skills-interactive">
+      <h2><span class="icon">🎛️</span> Custom Skill Interactive UI</h2>
+      <p>Create skills with interactive elements: buttons, forms, input fields, and custom scripts. Interactive elements run in sandboxed iframes for security.</p>
+
+      <h3>Sandboxed iframes</h3>
+      <p>Skill UIs run in isolated iframe contexts. They cannot access main app memory, settings, or your conversations. Full isolation prevents malicious code execution.</p>
+
+      <h3>Bridge API</h3>
+      <p>Skills communicate with Skales through the Bridge API: <code>skales.rerun()</code> re-executes the skill, <code>skales.navigate()</code> opens pages, <code>skales.send()</code> sends data to the host. Secured via postMessage origin validation.</p>
+
+      <h3>Buttons & Forms</h3>
+      <p>Define buttons with custom labels and click handlers. Build forms with text inputs, dropdowns, checkboxes, and file uploads. Capture user input and send it back to the skill.</p>
+
+      <h3>Scripts & Logic</h3>
+      <p>Skills can include client-side JavaScript for calculations, formatting, or UI state management. Server-side logic runs in the skill's backend with full Skales API access.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Interactive UI skills are ideal for custom dashboards, data entry tools, workflow builders, and configuration wizards. See the Skill Development Guide for examples.</div>
+    </section>
+
+    <!-- KoboldCpp Setup -->
+    <section id="setup-koboldcpp">
+      <h2><span class="icon">⚙️</span> KoboldCpp Setup</h2>
+      <p>Step-by-step guide to setting up KoboldCpp for local AI inference with Skales.</p>
+
+      <h3>Download & Install KoboldCpp</h3>
+      <p>Visit <a href="https://github.com/LostRuins/koboldcpp" style="color:var(--accent)">KoboldCpp GitHub</a> and download the latest release for your OS (Windows, Linux, or macOS).</p>
+
+      <h3>Download a Model</h3>
+      <p>KoboldCpp uses GGUF format models. Popular options include Mistral 7B, Llama 2, or OpenHermes. Download from <a href="https://huggingface.co/models?search=gguf" style="color:var(--accent)">Hugging Face</a> (search for GGUF models).</p>
+
+      <h3>Launch KoboldCpp</h3>
+      <p>Run KoboldCpp executable, select your GGUF model, and click <strong>Launch</strong>. The server starts on <code>localhost:5001</code> by default.</p>
+
+      <h3>Configure in Skales</h3>
+      <p>In <strong>Settings → Providers → Custom Endpoint</strong>:</p>
+      <ul style="margin: 0.5rem 0 0.5rem 1.5rem; color: var(--muted); font-size: 0.875rem;">
+        <li style="margin-bottom: 0.4rem;"><strong style="color: var(--text)">Endpoint URL:</strong> <code>http://localhost:5001/api/v1/completions</code></li>
+        <li style="margin-bottom: 0.4rem;"><strong style="color: var(--text)">API Key:</strong> Leave blank or use any dummy key</li>
+      </ul>
+      <p>Click <strong>Test Connection</strong> to verify. Once connected, KoboldCpp models appear in your model selector.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> KoboldCpp supports up to 4-bit quantization, keeping even large models under 8GB RAM. Perfect for local-only operation.</div>
+    </section>
+
+    <!-- LM Studio Setup -->
+    <section id="setup-lmstudio">
+      <h2><span class="icon">⚙️</span> LM Studio Setup</h2>
+      <p>Step-by-step guide to setting up LM Studio for local AI inference with Skales.</p>
+
+      <h3>Download & Install LM Studio</h3>
+      <p>Visit <a href="https://lmstudio.ai" style="color:var(--accent)">lmstudio.ai</a> and download the app for your OS. Installation is straightforward — just open the installer.</p>
+
+      <h3>Download a Model</h3>
+      <p>Open LM Studio and search for models in the left sidebar. Popular choices: Mistral 7B, Neural Chat, or LLaMA 2. Click the download button (↓) next to any model.</p>
+
+      <h3>Load the Model</h3>
+      <p>Once downloaded, click the model in the library, then click <strong>Load Model</strong> in the top section. This loads it into memory for inference.</p>
+
+      <h3>Start Local Server</h3>
+      <p>Click the <strong>Local Server</strong> tab on the left sidebar. Set your desired parameters (max tokens, temperature, etc.) and click <strong>Start Server</strong>. The server runs on <code>localhost:1234</code> by default.</p>
+
+      <h3>Configure in Skales</h3>
+      <p>In <strong>Settings → Providers → Custom Endpoint</strong>:</p>
+      <ul style="margin: 0.5rem 0 0.5rem 1.5rem; color: var(--muted); font-size: 0.875rem;">
+        <li style="margin-bottom: 0.4rem;"><strong style="color: var(--text)">Endpoint URL:</strong> <code>http://localhost:1234/v1/chat/completions</code></li>
+        <li style="margin-bottom: 0.4rem;"><strong style="color: var(--text)">API Key:</strong> Leave blank or use any dummy key</li>
+      </ul>
+      <p>Click <strong>Test Connection</strong>. Once connected, your loaded model is available in Skales.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> LM Studio has a friendly UI for model management and inference parameters. Great for beginners or users who prefer a visual interface.</div>
+    </section>
+
+    <!-- Feedback -->
+    <section id="feedback">
+      <h2><span class="icon">💌</span> Feedback & Reports</h2>
+      <p>Found a bug or have a suggestion? Use the <strong>Feedback</strong> button in the sidebar or visit <strong>Settings → Feedback</strong>.</p>
+      <p>Your reports are saved locally under <strong>Your Reports</strong> so you can track their status. Anonymous telemetry (feature usage, not content) can be disabled in Settings → Privacy.</p>
+      <p>Community and support: <a href="https://skales.app" style="color:var(--accent)">skales.app</a></p>
+    </section>
+
+    <footer>
+      <span>Skales v7.6.5 — © 2024–2026 Mario Simic — BSL 1.1</span>
+      <a href="https://skales.app">skales.app</a>
     </footer>
 
+  </main>
+</div>
 </body>
 </html>

@@ -23,7 +23,7 @@ If you find this useful, a ⭐ helps others discover it
 
 **Download. Install. Done.**
 
-[![Version](https://img.shields.io/badge/version-7.6.0-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
+[![Version](https://img.shields.io/badge/version-7.6.5-1DB954?style=for-the-badge&labelColor=0D1117)](https://skales.app)
 [![License](https://img.shields.io/badge/license-BSL_1.1-1DB954?style=for-the-badge&labelColor=0D1117)](./LICENSE)
 
 [![Platform](https://img.shields.io/badge/Windows_+_macOS_+_Linux-1DB954?style=for-the-badge&labelColor=0D1117&logo=windows&logoColor=white)](https://skales.app)
@@ -60,7 +60,7 @@ If you find this useful, a ⭐ helps others discover it
 
 ---
 
-## 🆕 What's New in v7.6.0 — The Intelligence Update
+## 🆕 What's New in v7.6.5 — The Intelligence Update
 
 **⚡ Token Compressor** - 3-level system prompt compression (Full/Compact/Minimal) saves up to 70% API tokens. Perfect for budget-conscious users. Configurable in Settings.
 
@@ -73,6 +73,10 @@ If you find this useful, a ⭐ helps others discover it
 **🎮 Custom Skill Interactive UI** - Skills with buttons, forms, and scripts now work via sandboxed iframes with a Bridge API (`skales.rerun()`, `skales.navigate()`, `skales.send()`).
 
 **🛡️ Admin Security Hardening** - Brute-force protection, CSRF tokens, rate limiting on all public APIs, input validation, security headers. Admin panel v6 with mobile burger menu.
+
+**📊 Skales Wrapped** - Spotify-style weekly stats card. Auto-generated every Monday or on-demand. Shareable Square (1:1) and Story (9:16) formats. Theme-matched designs, confetti celebration, animated activity chart, 9 personality badges. Download PNG, Copy, or Post to Discover.
+
+**💬 Discover Feed Upgrades** - GIF support (Tenor/Giphy), AI Reply & Repost with auth + rate limiting, Personality System, server-side Vibes tab. Expanded NSFW filter (30+ terms). DSGVO-compliant delete with reply-to scrubbing.
 
 **Plus everything from v7.5.0:** Discover Feed, Spotlight + Vision, Mini-Chat, Sound Notifications, Agent Swarm, Notification Center, Calendar Month View, TTS Local, Privacy Policy, 9 Languages.
 ---
@@ -148,6 +152,8 @@ If you find this useful, a ⭐ helps others discover it
 **🤝 Agent-to-Agent Protocol** - `/api/agent-sync` endpoint for multi-Skales collaboration on the same network.
 
 **💾 Export / Import Backup** - One-click ZIP backup of all settings, memories, and integrations.
+
+**📊 Skales Wrapped** - Weekly stats card inspired by Spotify Wrapped. Auto-generates every Monday at 8am. Two formats: Square (1:1, 540x540) and Story (9:16, 405x720). Client-side PNG generation with html2canvas. Theme-aware card designs matching your Skales theme. Count-up animations, confetti celebration, 7-day activity chart, 9 personality badges. Download, Copy to Clipboard, or Post to Discover.
 
 **👑 Skales+** - Coming soon. Free tier stays free forever. Join the waitlist from Settings.
 
@@ -251,7 +257,7 @@ I'm **Mario Simic** - 10+ years in Marketing & Design. I got tired of agents tha
 
 See [COMMERCIAL-LICENSE.md](./COMMERCIAL-LICENSE.md) for details.
 
-**Local AI Agent (Source Available) - v7.6.0 (The Intelligence Update) is the latest release under BSL-1.1.**
+**Local AI Agent (Source Available) - v7.6.5 (The Intelligence Update) is the latest release under BSL-1.1.**
 
 ---
 

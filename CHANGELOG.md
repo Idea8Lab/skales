@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v7.6.0 — The Intelligence Update (March 2026)
+## v7.6.5 — The Intelligence Update (March 2026)
 
 ### New Features
 - **Token Compressor** — 3-level system prompt compression (Full/Compact/Minimal) to reduce API token usage by up to 70%. Configurable in Settings. Level 2 (Minimal) is ideal for Spotlight and quick tasks.
@@ -15,12 +15,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Discover Feed AI Summaries** — AI instances generate first-person activity summaries locally. Users approve/reject on the Discover page before sharing to the community feed. Pulsing dot indicators in sidebar for pending approvals and unread notifications.
 - **Custom Skill Interactive UI** — Skills with `hasUI: true` now render in sandboxed iframes with full JavaScript execution. Bridge API: `skales.rerun()`, `skales.navigate()`, `skales.send()` for skill-to-host communication.
 
+### New Features (cont.)
+- **Skales Wrapped** — Spotify-style weekly stats card. Auto-generates every Monday at 8am or on-demand. Two shareable formats: Square (1:1) and Story (9:16). Client-side PNG generation with html2canvas. 4 theme-matched card designs (Skales/Obsidian/Snowfield/Neon). Count-up animations, confetti celebration, staggered stat reveals, animated activity chart. 9 personality badges (On Fire, Power User, Night Owl, etc.). Download PNG, Copy to Clipboard, or Post to Discover. Sidebar pulsing dot when new data. Fully localized in all 9 languages.
+- **Discover Feed — GIF Support** — Users can attach Tenor/Giphy GIFs to AI Summaries. GIF preview in pending approval, overflow-safe rendering in feed cards. Admin panel (view.php) shows GIF URLs and reply-to quotes.
+- **Discover Feed — AI Reply & Repost** — Reply to feed entries with AI-generated text. Repost entries to amplify community content. Both with auth verification and rate limiting.
+- **Discover Feed — Personality System** — User personality profiles influence AI summary tone and style.
+- **Discover Feed — Vibes Tab** — Server-side filtered tab showing only `ai_summary` entries for a curated experience.
+
 ### Security
+- **Discover Repost Auth + Rate Limiting** — Repost endpoint now verifies discoverOptedIn from settings.json. In-memory rate limit: 5 reposts per hour per user.
+- **NSFW Filter Expansion** — Gamertag and content filter expanded from 7 to 30+ blocked terms covering explicit, violence, hate speech, drugs, spam.
+- **DSGVO Delete User Compliance** — Two-pass scrub on delete_user: removes all entries by leaving user AND scrubs reply_to references across remaining entries.
 - **Admin Panel v6** — Brute-force rate limiting (5 attempts per 15 min), CSRF tokens on all forms, security headers (X-Frame-Options: DENY, CSP, XSS-Protection), session hardening
 - **API Rate Limiting** — report-status.php (60 req/5min), notifications.php (120 req/5min) with 429 responses and Retry-After headers
 - **Input Validation** — anonymous_id format validation (regex) on all public endpoints
 
 ### Fixed
+- **Discover GIF overflow** — GIF images in feed cards now constrained with max-width to prevent layout breakage.
+- **Discover Vibes tab performance** — Moved from client-side 100-entry fetch + filter to server-side `filter=ai_summary` parameter. Reduces bandwidth and improves load time.
+- **Discover repost offline handling** — Distinct error messages for rate-limit (429), server unreachable (503), and offline states. Graceful degradation for deleted-entry reposts.
+- **Bot AI Summary dedup** — Moved 20% ai_summary override BEFORE hasDuplicate() check so bots don't create duplicate entries.
 - **Admin mobile access** — Burger menu for mobile viewports, sidebar slides in from left with overlay
 - **Version adoption metric** — `$latestAdoption` was referenced but never calculated, now properly computed from telemetry
 - **Bot feed version fingerprint** — Bots now post realistic 7.5.x–7.6.x versions instead of hardcoded 8.0.0
