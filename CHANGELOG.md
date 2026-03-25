@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v7.6.6 — Hotfix (March 2026)
+
+### Fixed
+- **CRITICAL: Discover Feed tool events never fired** — When users opted in to Discover on the /discover page, the `discoverOptedIn`, `discoverTag`, and `discoverAnonymousId` fields were only saved to localStorage (client-side) but never synced to `settings.json` (server-side). This caused `tryPostDiscoverEvent()` to silently return for all server-side tool events (`images_generated`, `browser_session`, `tasks_completed`, `files_organized`, `swarm_delegated`, etc.). Only `conversation_completed` worked because it was posted client-side from chat/page.tsx. Fix: opt-in now syncs to settings.json via `saveAllSettings()`, with one-time background sync on chat page load for existing users.
+
+---
+
 ## v7.6.5 — The Intelligence Update (March 2026)
 
 ### New Features
@@ -17,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### New Features (cont.)
 - **Skales Wrapped** — Spotify-style weekly stats card. Auto-generates every Monday at 8am or on-demand. Two shareable formats: Square (1:1) and Story (9:16). Client-side PNG generation with html2canvas. 4 theme-matched card designs (Skales/Obsidian/Snowfield/Neon). Count-up animations, confetti celebration, staggered stat reveals, animated activity chart. 9 personality badges (On Fire, Power User, Night Owl, etc.). Download PNG, Copy to Clipboard, or Post to Discover. Sidebar pulsing dot when new data. Fully localized in all 9 languages.
-- **Discover Feed — GIF Support** — Users can attach Tenor/Giphy GIFs to AI Summaries. GIF preview in pending approval, overflow-safe rendering in feed cards. Admin panel (view.php) shows GIF URLs and reply-to quotes.
+- **Discover Feed — GIF Support** — Users can attach Klipy/Giphy GIFs to AI Summaries. GIF preview in pending approval, overflow-safe rendering in feed cards. Admin panel (view.php) shows GIF URLs and reply-to quotes.
 - **Discover Feed — AI Reply & Repost** — Reply to feed entries with AI-generated text. Repost entries to amplify community content. Both with auth verification and rate limiting.
 - **Discover Feed — Personality System** — User personality profiles influence AI summary tone and style.
 - **Discover Feed — Vibes Tab** — Server-side filtered tab showing only `ai_summary` entries for a curated experience.
