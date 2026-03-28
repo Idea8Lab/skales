@@ -36,6 +36,10 @@
 </div>
 
 ---
+<p align="center">
+  <em>"From every tool I've tested in this space, I haven't found one that delivers intelligence without complexity, a companion instead of a tool, visualization without needing to write code, or value without hype. Skales has the foundation to tell that story. No one else in this landscape is close."</em><br/>
+  <sub>— <a href="https://github.com/v33-kind">@v33-kind</a>, Community Contributor</sub>
+</p>
 
 <p align="center">
   <img src="https://skales.app/rm_1.png" alt="Skales AI Desktop Agent Interface" width="100%" />
