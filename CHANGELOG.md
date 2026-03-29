@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v8.0.1 — Hotfix (March 2026)
+
+### Fixed
+- Chat crash after multiple messages (null content in history)
+- Port 3000 conflict detection with health check
+- Forked skills truncation (raised client limit, added syntax validation)
+- Hardcoded German text in UI when set to English
+- IMAP email tools now visible to AI when configured
+- Discover event spam rate limit persisted to disk
+- 12+ TypeScript errors resolved
+- Compose drafts now context-aware with per-category agent personality
+- Anonymous ID visible in Settings with copy button
+- Skills filter tab in Discover feed
+- Documents skill: removed non-working Excel claims
+- Dark mode dropdown text visibility
+- Autopilot priority change no longer deletes task content
+- Toast locale key "feedback.submitted" resolved
+- Light theme toggle visibility
+
+### Added
+- Migration banner for v8.0.0 users to pick single agent vibe
+- Skills filter tab in Discover
+
+---
+
 ## v8.0.0 — "Discover 2.0" (March 2026)
 
 ### Highlights
