@@ -1,12 +1,12 @@
 <div align="center">
   <p>If you find this useful, a ⭐ helps others discover it</p>
-  <br>
-  <a href="https://skales.app">
-    <img src="https://skales.app/rm_logo.png" alt="Skales Local AI Agent Logo" width="250" />
-  </a>
-
   <h1>Skales 🦎</h1>
-
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=k83NlptVmfc">
+    <img src="https://img.youtube.com/vi/k83NlptVmfc/maxresdefault.jpg" 
+         alt="Skales Demo Video" width="100%" />
+  </a>
+</p>
   <p>
     <strong>Your Local AI Desktop Agent for Windows, macOS & Linux</strong>
   </p>
@@ -73,7 +73,18 @@ Skales is an AI agent that lives on your desktop. Not in a browser tab, not behi
 <p align="center">
   <img src="https://skales.app/magic.gif" alt="Desktop Buddy, Companion, Execution Commands, Reminder, Notification" width="100%" />
 </p>
-A floating animated mascot that lives on your screen. 3 skins (Skales the gecko, Bubbles the blob, and a Clippy tribute). Click to chat, approve tool executions directly from the speech bubble, or minimize to tray. **It's your AI, visible.**
+
+A floating animated mascot that lives on your screen. 
+
+### Three Skins included
+<p align="left">
+  <a href="https://skales.app">
+    <img src="https://skales.app/rm_logo.png" alt="Skales Local AI Agent Logo" width="250" />
+  </a><br>
+  </p>
+  
+Skins: Skales the gecko, Bubbles the Bubble and Capy the Capybara. 
+Click to chat, approve tool executions directly from the speech bubble, or minimize to tray. **It's your AI, visible.**
 
 ### 🦁 Lio AI (Code Builder)
 <p align="center">
