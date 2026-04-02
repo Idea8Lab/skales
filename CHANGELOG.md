@@ -6,6 +6,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## v9.0.0 — "For the People" (April 2026)
+
+### Highlights
+- **Agent Skills Import**: Native support for the SKILL.md open standard. Import from Claude Code, Codex, Copilot, Cursor. GitHub URL, local folder, or paste. Works across Chat, Codework, Browser, Spotlight, and Lio AI.
+- **Skales Codework**: Autonomous coding agent. Select project folder, describe task, pick model, watch live diffs in 3-panel GUI. Session history and follow-up conversations.
+- **Organization**: Multi-agent teams with CEO delegation, departments, Company Packs.
+- **Computer Use**: Desktop automation via screenshots, clicks, keyboard, scrolling.
+- **Calendar Sync**: Google, Apple, Outlook, CalDAV unified in Planner.
+- **7 Integrations**: Notion, Todoist, Spotify, Smart Home, Google Drive, GitHub, Google Docs.
+
+### New Features
+- DevKit with API Playground, Debug Panel, CLI, 50+ tool reference
+- Migration Importer (ChatGPT, Claude, Copilot, Gemini, OpenClaw, Hermes)
+- MCP Server Support (Model Context Protocol)
+- New default theme "Skales Modern" (navy + emerald, light/dark)
+- Messaging Gateway (Slack, Signal actions)
+- 9 professional agents with real system prompts
+- DeepSeek direct provider
+- Browser Workspaces and Playbooks
+- Custom model ID input per agent
+- Settings dynamic search (35+ sections)
+- Swarm VPN fallback with manual peer IP
+- OG preview cards in Discover
+
+### Changed
+- Default theme from Classic to Skales Modern
+- Light mode as default on first launch
+- Skills default state: core features ON, experimental OFF
+- Browser loop detection relaxed to 5x (was 2x)
+- Bubble dismiss timer to 60s
+- Badge color from lime to emerald
+- Removed "2.0" from Discover branding
+- Removed "Beta" from Browser
+- 12 languages (added Turkish, Croatian)
+
+### Fixed
+- Calendar events async export crash
+- Codework tool hallucination (customTools in agentDecide)
+- Spotlight white flash on open (layout.tsx backgroundColor)
+- Theme flash on restart
+- Migration importer IPC channel error (select-file)
+- Telegram inline keyboard, toast dedup, key persistence
+- Settings search not finding Planner/Calendar
+- Advanced Integrations in wrong Settings tab
+- Raw translation keys in UI
+- write EIO crash in main.js
+- Codework/Organization skill check logic
+- Swarm sidebar gating and Skills page toggle
+- border-dashed replaced throughout
+
+---
+
 ## v8.0.2 — Hotfix (April 2026)
 
 ### Fixed
