@@ -1,6 +1,6 @@
 
 <div align="center">
-  <p>If you find this useful, a ⭐ helps others discover it</p>
+  <sub>If you find this useful, a ⭐ helps others discover it</sub>
   <h1>Skales 🦎</h1>
 <p align="center">
   <a href="https://www.youtube.com/watch?v=k83NlptVmfc">
@@ -34,7 +34,8 @@
     <a href="https://docs.skales.app">Documentation</a> · <a href="https://getskales.app">Blog</a> · <a href="./CHANGELOG.md">Changelog</a> · <a href="https://github.com/skalesapp/skales/discussions">Community</a>
   </p>
   <p>
-    <sub>Switching from <b>OpenClaw</b>, <b>Hermes Agent</b>, or <b>ChatGPT</b>? Skales has a built-in migration importer. Settings > Import from Another Tool.</sub>
+    <sub>Switching from <b>OpenClaw</b>, <b>Hermes Agent</b>, or <b>ChatGPT</b>? Skales has a built-in migration importer. 
+      <br>Settings > Import from Another Tool.</sub>
   </p>
 
 </div>
