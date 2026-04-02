@@ -31,7 +31,7 @@
     <a href="https://skales.app/download/latest-linux"><b>Linux</b></a>
   </p>
   <p>
-    <a href="https://docs.skales.app">Documentation</a> · <a href="https://getskales.app">Blog</a> · <a href="./CHANGELOG.md">Changelog</a> · <a href="https://github.com/skalesapp/skales/discussions">Community</a>
+    <a href="https://docs.skales.app">Documentation</a> · <a href="https://github.com/skalesapp/devkit">DevKit</a> · <a href="https://getskales.app">Blog</a> · <a href="./CHANGELOG.md">Changelog</a> · <a href="https://github.com/skalesapp/skales/discussions">Community</a>
   </p>
   <p>
     <sub>Switching from <b>OpenClaw</b>, <b>Hermes Agent</b>, or <b>ChatGPT</b>? Skales has a built-in migration importer. 
@@ -132,7 +132,7 @@ Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple
 | **Email** | Gmail / IMAP with attachments |
 | **Messaging** | Telegram, Discord, WhatsApp, Slack, Signal |
 | **Voice** | Live Duplex Voice via Groq, OpenAI, Azure, ElevenLabs |
-| **Developer** | DevKit API, CLI, MCP Servers, Agent Skills (SKILL.md) |
+| **Developer** | [DevKit](https://github.com/skalesapp/devkit) API, CLI, MCP Servers, Agent Skills (SKILL.md) |
 | **Custom** | Agent Skills (SKILL.md), .skill.zip, or let AI build skills |
 
 ---
