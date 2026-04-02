@@ -7,6 +7,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## v9.0.1 — Hotfix (April 2026)
+
+### Fixed
+- **Organization**: White screen crash when executing tasks (React Error #31)
+- **Organization**: CEO routing now parses JSON responses correctly
+- **Organization**: Agents now have full tool access (email, files, browser)
+- **Organization**: Results saved as markdown files, History tab expandable
+- **Organization**: Safety Mode warning banner
+- **Codework**: Shell command errors no longer abort the session
+- **Codework**: Duplicate file write detection (prevents infinite loops)
+- **Codework**: Agent reasoning/thinking visible in Activity Log
+- **Codework**: Step limit increased to 50 (was 25)
+- **Codework**: Session resume loads full history
+- **Codework**: Undo works without git (backup-based)
+- **Codework**: Safety Mode warning banner
+- Shared `safeRender` utility for safe JSX rendering
+
+
 ## v9.0.0 — "For the People" (April 2026)
 
 ### Highlights
