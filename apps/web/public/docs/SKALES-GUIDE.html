@@ -361,7 +361,7 @@
       <div class="logo-mark">S</div>
       <div>
         <div class="logo-text">Skales</div>
-        <div class="logo-version">v9.0.0 User Guide</div>
+        <div class="logo-version">v9.1.0 User Guide</div>
       </div>
     </a>
 
@@ -372,8 +372,11 @@
 
     <div class="section-label">Features</div>
     <a href="#chat">Chat</a>
+    <a href="#studio">Studio</a>
+    <a href="#templates">Templates</a>
     <a href="#browser">Browser</a>
     <a href="#planner">Planner</a>
+    <a href="#ai-tasks">AI Tasks</a>
     <a href="#autopilot">Autopilot</a>
     <a href="#agents">Agents</a>
     <a href="#memory">Memory</a>
@@ -391,12 +394,19 @@
     <a href="#voice">Live Voice</a>
     <a href="#spark">Spark ⚡</a>
     <a href="#swarm">Agent Swarm</a>
+    <a href="#fallback">Fallback Provider</a>
+    <a href="#ollama-marketplace">Ollama Marketplace</a>
+    <a href="#knowledge-graph">Knowledge Graph</a>
+    <a href="#social">Social Media</a>
     <a href="#themes">Themes</a>
     <a href="#discover">Discover Feed</a>
     <a href="#wrapped">Skales Wrapped</a>
     <a href="#spotlight">Spotlight + Vision</a>
     <a href="#token-compressor">Token Compressor</a>
     <a href="#notifications">Notification Center</a>
+    <a href="#auto-compress">Auto-Compress</a>
+    <a href="#tool-loop">Tool Loop Protection</a>
+    <a href="#danger-zone">Danger Zone</a>
 
     <div class="section-label">Integrations</div>
     <a href="#email">Email</a>
@@ -431,7 +441,7 @@
 
     <!-- Hero -->
     <div class="hero">
-      <div class="hero-badge">📖 Official Documentation · v9.0.0</div>
+      <div class="hero-badge">📖 Official Documentation · v9.1.0</div>
       <h1>Skales <span>User Guide</span></h1>
       <p>Your personal AI operating system. Chat, automate, create — all running locally on your machine.</p>
     </div>
@@ -587,6 +597,77 @@
       </div>
     </section>
 
+    <!-- Studio -->
+    <section id="studio">
+      <h2><span class="icon">🎨</span> Skales Studio <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>An all-in-one AI creative suite built into Skales. Generate images, videos, voice audio, and music — all from a single interface. Every output is saved to your Gallery and can be reused at any time.</p>
+
+      <h3>Image Generation</h3>
+      <p>Describe what you want and choose your provider. Skales Visuals is the built-in renderer. For higher resolution or photorealism, connect Replicate (Flux, SDXL), HuggingFace, OpenAI DALL-E, or a local ComfyUI/Stable Diffusion WebUI instance. Export as PNG.</p>
+
+      <h3>Video Creation</h3>
+      <p>Describe a motion graphic in plain language — counters, text animations, infographics, slideshows, social posts. Skales Studio renders it instantly in the live preview. Iterate with follow-up instructions. When you're happy with the result, export as MP4 using the built-in FFmpeg renderer. Categories: Text Animation, Infographic, Data Visualization, Logo Intro, Slideshow, Social Post, Counter/Stats.</p>
+
+      <h3>Voice / TTS</h3>
+      <p>Paste or type a script and generate speech. Skales auto-detects your available TTS provider: Local (OS voices), ElevenLabs, Azure Neural TTS, Groq TTS, OpenAI TTS, or Google TTS. Preview in-app, then download as MP3.</p>
+
+      <h3>Music Generation</h3>
+      <p>Generate AI music via Meta MusicGen (HuggingFace). Select genre, mood, and duration. Preview and download the result directly from the Studio interface.</p>
+
+      <h3>Gallery</h3>
+      <p>Every Studio output — images, videos, audio — is automatically saved to your Gallery. Filter by type, search by prompt, or browse the masonry grid. Click <strong>Reuse</strong> on any entry to jump back to the generating tab with the prompt and preview restored so you can continue iterating.</p>
+
+      <h3>Brand Kit</h3>
+      <p>Configure your brand once in <strong>Studio → Brand Kit</strong>: logo, primary colors, fonts, tagline, and tone of voice. Enable the <em>Use Brand Kit</em> checkbox in Image or Video generation to automatically inject brand context into every prompt.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> All Studio files are stored under <code>~/.skales-data/studio/</code>. Images go to <code>gallery/</code>, videos to <code>videos/</code>. Filenames are prefixed with <code>skales_studio_</code>.</div>
+    </section>
+
+    <!-- Templates -->
+    <section id="templates">
+      <h2><span class="icon">🗂️</span> Templates <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>37 pre-built prompt templates spanning every Skales module. Click any template to open the target module with the prompt already filled in — no copy-pasting required.</p>
+
+      <h3>Template Categories</h3>
+      <table>
+        <thead><tr><th>Category</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Chat</td><td>Research briefing, email rewrite, document summary</td></tr>
+          <tr><td>Codework</td><td>Refactor for readability, add unit tests, migrate to TypeScript</td></tr>
+          <tr><td>Organization</td><td>Marketing campaign, competitive analysis, product spec</td></tr>
+          <tr><td>Lio AI</td><td>Landing page, dashboard component, data visualizer</td></tr>
+          <tr><td>Browser</td><td>Price comparison, news digest, form auto-fill</td></tr>
+          <tr><td>Planner</td><td>Weekly agenda, project breakdown, task prioritizer</td></tr>
+          <tr><td>Studio</td><td>Brand intro video, podcast cover art, social post graphic</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Template Maker</h3>
+      <p>Build your own templates with the AI-guided interview wizard. Describe your use case, and the Template Maker generates a reusable prompt with the right structure, placeholders, and target module. Custom templates are stored locally and can be shared via the Discover Feed.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Templates shared to Discover can be forked by other users — a great way to share your best workflows with the community.</div>
+    </section>
+
+    <!-- AI Tasks -->
+    <section id="ai-tasks">
+      <h2><span class="icon">⏰</span> Planner AI Tasks <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>Schedule AI tasks to run automatically — once, daily, weekly, or monthly. Tasks are visible in the Planner calendar as purple blocks and execute silently in the background.</p>
+
+      <h3>Creating a Task</h3>
+      <p>Open <strong>Planner → AI Tasks</strong>, click <strong>New Task</strong>, describe what the AI should do, and set a schedule. The task is saved with a cron expression and fires automatically at the specified time.</p>
+
+      <h3>Confidence Scoring</h3>
+      <p>Before executing, the AI scores its confidence in completing the task safely (0–100%). Tasks scoring below 50% are skipped automatically and flagged for review, preventing accidental destructive actions.</p>
+
+      <h3>Dry Run Mode</h3>
+      <p>Enable Dry Run to simulate task execution without actually performing any actions. The AI describes exactly what it would do — useful for testing tasks before activating them on a live schedule.</p>
+
+      <h3>Task History</h3>
+      <p>Each task run is logged with the tools used, duration, and a summary of the result. Review the history from the AI Tasks panel to audit what ran and when.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> Browser Playbooks can be scheduled as AI Tasks — record a workflow once, then let Skales replay it on a recurring schedule.</div>
+    </section>
+
     <!-- Browser -->
     <section id="browser">
       <h2><span class="icon">🌐</span> Browser <span class="badge badge-beta">Beta</span></h2>
@@ -672,6 +753,9 @@
       </table>
 
       <p>Manage memories in <strong>Settings → Memory</strong>. You can view, edit, or delete individual entries. Up to 5 relevant memories are automatically recalled per conversation.</p>
+
+      <h3>Shared Organization Memory <span class="badge badge-new">New in v9.0.5</span></h3>
+      <p>Organization teams have their own shared memory pool. Team members read and write shared context — project decisions, research findings, meeting notes — that persists across execution runs. Shared memory is separate from your personal memory and managed in the Organization settings.</p>
     </section>
 
     <!-- Skills -->
@@ -749,6 +833,9 @@
         </tbody>
       </table>
 
+      <h3>File System Access (Browse) <span class="badge badge-new">New in v9.0.5</span></h3>
+      <p>The folder picker now uses the native File System Access API where available, with automatic fallback to Electron's dialog for broader compatibility. Select any project folder on your machine with a familiar OS-native dialog.</p>
+
       <h3>Sessions</h3>
       <p>Every Codework run is saved as a session. View past sessions on the welcome screen. Delete sessions with the trash icon. Continue a conversation after the agent finishes with the follow-up input.</p>
     </section>
@@ -769,8 +856,32 @@
         </tbody>
       </table>
 
-      <h3>Execute Tab</h3>
-      <p>Describe a task, select a team, and the CEO agent delegates it to the right agents. Results are aggregated and returned.</p>
+      <h3>Canvas Office <span class="badge badge-new">New in v9.0.5</span></h3>
+      <p>A real-time animated canvas visualization of your organization. Agents are rendered as interactive nodes on a 2D canvas with smooth animations, connection lines between team members, and status indicators. The canvas auto-scales to fit your org structure and uses requestAnimationFrame for 60fps rendering.</p>
+
+      <h3>Execute Tab with Live Polling</h3>
+      <p>Describe a task, select a team, and the CEO agent delegates it to the right agents. The Execute tab now features live step-by-step progress streaming — watch each agent's work unfold in real time with a scrolling log, elapsed timer, and abort button. Results are aggregated and returned when all subtasks complete.</p>
+
+      <h3>Projects</h3>
+      <p>Save and manage reusable project configurations. Each project stores a name, description, selected team, and default instructions. Load a project to pre-fill the Execute tab instantly. Create, edit, and delete projects from the Projects panel.</p>
+
+      <h3>Shared Memory</h3>
+      <p>Organization agents share a dedicated memory pool separate from your personal chat memory. Team members can read and write shared context — meeting notes, project decisions, research findings — that persists across execution runs. Manage shared memories from the Organization settings.</p>
+
+      <h3>Safe Mode in Organization</h3>
+      <p>When Safe Mode is enabled, organization agents are instructed to avoid destructive actions. Instead of sending emails or running shell commands directly, agents prepare the content as files and report what they would have done. You can review and execute manually.</p>
+      <table>
+        <thead><tr><th>Mode</th><th>Behavior in Organization</th></tr></thead>
+        <tbody>
+          <tr><td>Safe Mode</td><td>Agents prepare emails as files, describe commands without executing. You review and send manually.</td></tr>
+          <tr><td>Unrestricted</td><td>Agents execute all actions including sending emails and running commands without confirmation.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Email in Organization</h3>
+      <p>Organization agents can now send emails as part of their workflows. In Unrestricted mode, the send_email tool executes immediately. In Safe Mode, agents save prepared emails as files for your review.</p>
+
+      <div class="warn"><strong>⚠️ Unrestricted Mode</strong> — In Unrestricted mode, organization agents execute all actions including emails and system commands without confirmation. Use with caution.</div>
     </section>
 
     <!-- Computer Use -->
@@ -931,10 +1042,13 @@
         <thead><tr><th>Mode</th><th>Behavior</th></tr></thead>
         <tbody>
           <tr><td>Unrestricted</td><td>Skales executes all tool calls immediately — no prompts. Best for power users who trust their workflows.</td></tr>
-          <tr><td>Safe Mode</td><td>Skales requests your approval before critical actions: deleting files, sending emails, running shell commands, making network requests.</td></tr>
+          <tr><td>Safe Mode</td><td>Skales requests your approval before critical actions: deleting files, sending emails, running shell commands, making network requests. In Organization, agents prepare destructive actions as files for manual review instead of executing them.</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.75rem;">Configure in <strong>Settings → Safety</strong>. The Desktop Buddy shows approval prompts even when the main window is closed.</p>
+
+      <h3>Safe Mode in Organization <span class="badge badge-new">New in v9.0.5</span></h3>
+      <p>Safe Mode now extends to Organization execution. When enabled, organization agents cannot call send_email, reply_email, delete_email, execute_command, or delete_file. Instead, they prepare the content and save it as a file for your manual review. The Execute tab displays the current safety mode status.</p>
 
       <h3>Admin Panel v6</h3>
       <p>For users with admin access, the Admin Panel provides infrastructure management with enhanced security:</p>
@@ -1401,6 +1515,131 @@
       <div class="tip"><strong>💡 Tip:</strong> LM Studio has a friendly UI for model management and inference parameters. Great for beginners or users who prefer a visual interface.</div>
     </section>
 
+    <!-- Auto-Compress -->
+    <section id="auto-compress">
+      <h2><span class="icon">📦</span> Auto-Compress <span class="badge badge-new">New in v9.0.5</span></h2>
+      <p>Conversations automatically compress when they exceed the model's context window. Skales summarizes older messages to free up token space while preserving important context, allowing conversations to continue indefinitely without manual intervention.</p>
+
+      <h3>How It Works</h3>
+      <p>When your conversation approaches the token limit, Skales generates a concise summary of the oldest messages and replaces them with the compressed version. Key facts, decisions, and context are retained. The compression is seamless — you can keep chatting without interruption.</p>
+
+      <h3>Token Budget</h3>
+      <p>Works alongside the Token Compressor setting. Auto-Compress handles conversation history, while Token Compressor handles system prompt size. Together they maximize how much useful context fits in every request.</p>
+    </section>
+
+    <!-- Tool Loop Protection -->
+    <section id="tool-loop">
+      <h2><span class="icon">🔄</span> Tool Loop Protection <span class="badge badge-new">New in v9.0.5</span></h2>
+      <p>Prevents runaway agent loops where the AI calls the same tool repeatedly without making progress. Two limits are enforced per agent turn:</p>
+
+      <table>
+        <thead><tr><th>Limit</th><th>Value</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Max identical calls</td><td>2</td><td>The same tool with the same arguments can only be called twice per turn</td></tr>
+          <tr><td>Max total tool calls</td><td>20</td><td>Total tool calls per single agent turn are capped at 20</td></tr>
+        </tbody>
+      </table>
+
+      <p>When either limit is hit, the agent receives a warning message and must proceed without the blocked tool call. This prevents infinite loops and excessive API usage.</p>
+    </section>
+
+    <!-- Danger Zone -->
+    <section id="danger-zone">
+      <h2><span class="icon">⚠️</span> Danger Zone <span class="badge badge-new">New in v9.0.5</span></h2>
+      <p>Located in <strong>Settings → Danger Zone</strong>. Contains destructive actions that require careful consideration.</p>
+
+      <h3>Delete My Server Data</h3>
+      <p>Permanently deletes all your data from the Skales server including conversations, memories, settings, and integrations. This action cannot be undone. Local data on your machine is not affected.</p>
+
+      <div class="warn"><strong>⚠️ Irreversible</strong> — Server data deletion is permanent. Make sure you have a backup (Settings → Export) before proceeding.</div>
+    </section>
+
+    <!-- Fallback Provider Chain -->
+    <section id="fallback">
+      <h2><span class="icon">🔁</span> Fallback Provider Chain <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>Configure one or more backup AI providers that Skales switches to automatically when your primary provider fails or becomes unavailable. Eliminates downtime during API outages.</p>
+
+      <h3>Setup</h3>
+      <p>Go to <strong>Settings → Providers → Fallback Chain</strong>. Add providers in priority order — Skales will try each in sequence until one responds successfully.</p>
+
+      <h3>Failover Behavior</h3>
+      <p>When the primary provider fails, Skales activates the next in the chain and shows a banner: <em>"Fallback active: Using [provider name]"</em>. The switch is seamless — the current conversation continues without interruption.</p>
+
+      <h3>Auto-Recovery</h3>
+      <p>Skales checks the primary provider every 60 seconds. When it recovers, Skales automatically switches back and dismisses the fallback banner. No manual action needed.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> API keys are inherited from your saved provider settings — you don't need to re-enter them in the fallback chain configuration.</div>
+    </section>
+
+    <!-- Ollama Marketplace -->
+    <section id="ollama-marketplace">
+      <h2><span class="icon">🛒</span> Ollama Model Marketplace <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>Browse and install recommended local AI models with one click — no terminal required. Available in <strong>Settings → Local AI → Ollama Marketplace</strong>.</p>
+
+      <h3>Available Models</h3>
+      <table>
+        <thead><tr><th>Model</th><th>Size</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td>Gemma 3</td><td>~5GB</td><td>General chat, multilingual</td></tr>
+          <tr><td>Llama 3.3</td><td>~43GB</td><td>High-quality reasoning</td></tr>
+          <tr><td>DeepSeek R1</td><td>~8GB</td><td>Advanced reasoning, math</td></tr>
+          <tr><td>Mistral</td><td>~4GB</td><td>Fast, general purpose</td></tr>
+          <tr><td>Phi-4</td><td>~9GB</td><td>Compact, strong reasoning</td></tr>
+          <tr><td>Qwen 3</td><td>~5GB</td><td>Multilingual, coding</td></tr>
+          <tr><td>Codestral</td><td>~13GB</td><td>Code generation</td></tr>
+        </tbody>
+      </table>
+
+      <p>Click <strong>Install</strong> next to any model to start the download. A progress bar tracks the download. Once complete, the model is immediately available in all Skales modules.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> ComfyUI and Stable Diffusion WebUI are auto-detected if running locally — no manual URL entry needed. Check <strong>Settings → Local AI → Local Image Tools</strong>.</div>
+    </section>
+
+    <!-- Knowledge Graph -->
+    <section id="knowledge-graph">
+      <h2><span class="icon">🕸️</span> Knowledge Graph <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>An enterprise-grade knowledge graph that builds relationships between entities as you work. Skales learns about your projects, people, tools, and preferences and connects them automatically.</p>
+
+      <h3>How It Works</h3>
+      <p>As agents complete tasks, they extract entities (projects, contacts, tools, decisions) and record relationships between them. The graph grows organically without manual input.</p>
+
+      <h3>Agent Tools</h3>
+      <table>
+        <thead><tr><th>Tool</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>knowledge_graph_query</td><td>Search and retrieve related entities</td></tr>
+          <tr><td>knowledge_graph_update</td><td>Add or update entities and relationships</td></tr>
+          <tr><td>knowledge_graph_delete</td><td>Remove entities from the graph</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Management</h3>
+      <p>Enable, disable, or fully reset the knowledge graph in <strong>Settings → Knowledge Graph</strong>. Disabling stops new data from being added but preserves existing relationships.</p>
+    </section>
+
+    <!-- Social Media -->
+    <section id="social">
+      <h2><span class="icon">📲</span> Social Media Integration <span class="badge badge-new">New in v9.1.0</span></h2>
+      <p>Connect your social accounts and post Studio content directly without leaving Skales.</p>
+
+      <h3>Supported Platforms</h3>
+      <table>
+        <thead><tr><th>Platform</th><th>Status</th><th>Auth Method</th></tr></thead>
+        <tbody>
+          <tr><td>YouTube</td><td>✓ Available</td><td>OAuth (Google)</td></tr>
+          <tr><td>LinkedIn</td><td>✓ Available</td><td>OAuth</td></tr>
+          <tr><td>Instagram</td><td>v9.2.0</td><td>Meta OAuth</td></tr>
+          <tr><td>TikTok</td><td>v9.2.0</td><td>TikTok OAuth</td></tr>
+          <tr><td>Facebook</td><td>v9.2.0</td><td>Meta OAuth</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Connecting Accounts</h3>
+      <p>Go to <strong>Settings → Social Media</strong> and click <strong>Connect</strong> next to the desired platform. Follow the OAuth flow. Once connected, the <strong>social_post</strong> and <strong>social_upload</strong> agent tools become available.</p>
+
+      <div class="tip"><strong>💡 Tip:</strong> The Studio Export tab includes format presets for every platform (TikTok 9:16, YouTube 16:9, Instagram 1:1, LinkedIn 1.91:1, X/Twitter 16:9) with platform-specific size recommendations.</div>
+    </section>
+
     <!-- Feedback -->
     <section id="feedback">
       <h2><span class="icon">💌</span> Feedback & Reports</h2>
@@ -1410,7 +1649,7 @@
     </section>
 
     <footer>
-      <span>Skales v9.0.0 — © 2024–2026 Mario Simic — BSL 1.1</span>
+      <span>Skales v9.1.0 — © 2024–2026 Mario Simic — BSL 1.1</span>
       <a href="https://skales.app">skales.app</a>
     </footer>
 

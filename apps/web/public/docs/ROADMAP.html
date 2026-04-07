@@ -381,9 +381,210 @@
 <div class="content">
 
   <!-- ═══════════════════════════════════════════════
-       SHIPPED – v9.0.0 FOR THE PEOPLE (CURRENT)
+       SHIPPED – v9.1.0 THE STUDIO UPDATE (CURRENT)
   ════════════════════════════════════════════════ -->
   <div class="release-header">
+    <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">Shipped</span>
+    <div>
+      <div class="release-title">v9.1.0 — The Studio Update <span style="font-size:0.75em;opacity:0.6;font-weight:400;">April 7, 2026</span></div>
+      <div class="release-sub">Biggest feature release in Skales history — Studio, Templates, Planner AI Tasks, and 40+ improvements.</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card featured">
+      <div class="card-icon">🎨</div>
+      <div class="card-body">
+        <div class="card-title">Skales Studio</div>
+        <div class="card-subtitle">New Feature</div>
+        <div class="card-desc">All-in-one AI creative suite. Image generation (Skales Visuals, Replicate, HuggingFace, DALL-E, ComfyUI), video creation with live preview and MP4 export, Voice/TTS with multi-provider auto-detection, Music generation via MusicGen, Gallery with masonry layout and Reuse, Brand Kit injection.</div>
+        <div class="card-tags"><span class="tag">Studio</span><span class="tag">Image</span><span class="tag">Video</span><span class="tag">Voice</span><span class="tag">Music</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card featured">
+      <div class="card-icon">🗂️</div>
+      <div class="card-body">
+        <div class="card-title">Templates</div>
+        <div class="card-subtitle">New Feature</div>
+        <div class="card-desc">37 pre-built prompt templates across Chat, Codework, Organization, Lio AI, Browser, Planner, and Studio. Click-to-open with pre-filled prompts. Template Maker AI wizard for building custom templates. Share via Discover Feed.</div>
+        <div class="card-tags"><span class="tag">Templates</span><span class="tag">Productivity</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card featured">
+      <div class="card-icon">⏰</div>
+      <div class="card-body">
+        <div class="card-title">Planner AI Tasks</div>
+        <div class="card-subtitle">New Feature</div>
+        <div class="card-desc">Schedule recurring AI tasks (once, daily, weekly, monthly) via cron. Tasks appear as purple blocks in the Planner calendar. Confidence scoring skips uncertain tasks. Dry Run mode. Full task history with tools used and duration.</div>
+        <div class="card-tags"><span class="tag">Planner</span><span class="tag">Automation</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card featured">
+      <div class="card-icon">🔁</div>
+      <div class="card-body">
+        <div class="card-title">Fallback Provider Chain</div>
+        <div class="card-subtitle">New Feature</div>
+        <div class="card-desc">Configure backup AI providers that activate automatically when the primary fails. Banner notification, auto-recovery every 60s, keys inherited from saved settings. Zero downtime during API outages.</div>
+        <div class="card-tags"><span class="tag">Reliability</span><span class="tag">Providers</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛒</div>
+      <div class="card-body">
+        <div class="card-title">Ollama Model Marketplace</div>
+        <div class="card-desc">One-click install for Gemma 3, Llama 3.3, DeepSeek R1, Mistral, Phi-4, Qwen 3, Codestral. Download progress bar. Auto-detection of ComfyUI and Stable Diffusion WebUI.</div>
+        <div class="card-tags"><span class="tag">Local AI</span><span class="tag">Ollama</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <div class="card-body">
+        <div class="card-title">Browser Playbooks</div>
+        <div class="card-desc">Record browser sessions as replayable workflows. Auto-captures navigations, clicks, and inputs. Schedule as recurring Planner tasks. playbook_run and playbook_list agent tools.</div>
+        <div class="card-tags"><span class="tag">Browser</span><span class="tag">Automation</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📲</div>
+      <div class="card-body">
+        <div class="card-title">Social Media Integration</div>
+        <div class="card-desc">YouTube and LinkedIn OAuth. Post directly from Studio Export. social_post and social_upload agent tools. Export presets for TikTok 9:16, YouTube 16:9, Instagram 1:1, LinkedIn 1.91:1.</div>
+        <div class="card-tags"><span class="tag">Social</span><span class="tag">YouTube</span><span class="tag">LinkedIn</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🕸️</div>
+      <div class="card-body">
+        <div class="card-title">Knowledge Graph</div>
+        <div class="card-desc">Enterprise knowledge graph builds entity relationships as you work. Projects, people, tools, preferences. knowledge_graph_query / update / delete agent tools. Toggle + reset in Settings.</div>
+        <div class="card-tags"><span class="tag">Memory</span><span class="tag">Enterprise</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <div class="card-body">
+        <div class="card-title">Internationalization Overhaul</div>
+        <div class="card-desc">2800+ translation keys across 12 languages. All Settings strings converted from hardcoded to i18n (450+ keys). Bootstrap wizard, module pages, and error messages fully translated.</div>
+        <div class="card-tags"><span class="tag">i18n</span><span class="tag">12 Languages</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <div class="card-body">
+        <div class="card-title">40+ Bug Fixes &amp; Improvements</div>
+        <div class="card-desc">Render progress tracking, gallery file path resolution, template click pre-fill, FFmpeg path resolution, path traversal hardening (CWE-22), Dashboard i18n keys, Planner calendar events, fallback chain persistence, Studio model names premium refresh.</div>
+        <div class="card-tags"><span class="tag">Stability</span><span class="tag">Security</span></div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SHIPPED – v9.0.5 PATCH RELEASE
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
+    <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">Shipped</span>
+    <div>
+      <div class="release-title">v9.0.5 — Stability + Organization <span style="font-size:0.75em;opacity:0.6;font-weight:400;">April 2026</span></div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card featured">
+      <div class="card-icon">🏢</div>
+      <div class="card-body">
+        <div class="card-title">Canvas Office</div>
+        <div class="card-desc">Real-time animated 2D canvas visualization of your Organization. Agents rendered as interactive nodes with connection lines, status indicators, and smooth 60fps animations.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card featured">
+      <div class="card-icon">📡</div>
+      <div class="card-body">
+        <div class="card-title">Live Execution Polling</div>
+        <div class="card-desc">Organization Execute tab now streams step-by-step progress in real time. Scrolling activity log, elapsed timer, and abort button for full visibility into agent work.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📁</div>
+      <div class="card-body">
+        <div class="card-title">Organization Projects</div>
+        <div class="card-desc">Save and load reusable project configurations with team, description, and default instructions. Instant pre-fill for the Execute tab.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧠</div>
+      <div class="card-body">
+        <div class="card-title">Shared Organization Memory</div>
+        <div class="card-desc">Team-level memory pool separate from personal chat memory. Agents read and write shared context that persists across execution runs.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-body">
+        <div class="card-title">Safe Mode in Organization</div>
+        <div class="card-desc">Organization agents respect Safe Mode. Destructive tools are blocked via system prompt enforcement — emails saved as files, commands described but not run.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <div class="card-body">
+        <div class="card-title">Auto-Compress</div>
+        <div class="card-desc">Conversations automatically compress when approaching the token limit. Older messages are summarized to free space while preserving key context.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-body">
+        <div class="card-title">Tool Loop Protection</div>
+        <div class="card-desc">Prevents runaway agent loops. Max 2 identical tool calls and 20 total tool calls per agent turn. Stops infinite loops and excessive API usage.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📧</div>
+      <div class="card-body">
+        <div class="card-title">Email in Organization</div>
+        <div class="card-desc">Organization agents can send emails as part of workflows. Works with the approval gate — Safe Mode saves drafts, Unrestricted sends immediately.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📂</div>
+      <div class="card-body">
+        <div class="card-title">File System Access Browse</div>
+        <div class="card-desc">Native File System Access API for folder selection in Codework and Organization. Automatic fallback to Electron dialog for compatibility.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚠️</div>
+      <div class="card-body">
+        <div class="card-title">Danger Zone</div>
+        <div class="card-desc">New Settings section for destructive actions. Delete My Server Data with clear warnings and confirmation. Separate button text from description for clarity.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SHIPPED – v9.0.0 FOR THE PEOPLE
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
     <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">Shipped</span>
     <div>
       <div class="release-title">v9.0.0 — For the People <span style="font-size:0.75em;opacity:0.6;font-weight:400;">April 2026</span></div>
@@ -1402,7 +1603,44 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════
-       COMING SOON
+       SHIPPED – v9.1.0 ORGANIZATION PRO
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
+    <span class="release-tag" style="color:var(--green);background:var(--green-dim);border-color:var(--green-border);">Shipped</span>
+    <div>
+      <div class="release-title">v9.1.0 — Organization Pro <span style="font-size:0.75em;opacity:0.6;font-weight:400;">April 2026</span></div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">✅</div>
+      <div class="card-body">
+        <div class="card-title">Real-Time Approval UI</div>
+        <div class="card-desc">Interactive approve/reject buttons for destructive tool calls during Organization execution. State machine architecture breaks execution into segments for true non-blocking approval.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <div class="card-body">
+        <div class="card-title">Organization State Machine</div>
+        <div class="card-desc">Refactored execution engine that breaks multi-agent workflows into resumable segments. Enables pause, resume, approval gates, and retry without blocking the server thread.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📁</div>
+      <div class="card-body">
+        <div class="card-title">Organization Projects CRUD</div>
+        <div class="card-desc">Full create, rename, archive, restore, and continue workflow for Organization projects. Switch between saved configurations instantly from the Execute tab.</div>
+      </div>
+      <div class="card-status status-shipped">✓ Shipped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       COMING SOON – What's Next
   ════════════════════════════════════════════════ -->
   <div class="release-header" style="margin-top: 3rem;">
     <span class="release-tag" style="color:var(--blue);background:var(--blue-dim);border-color:var(--blue-border);">Coming Soon</span>
@@ -1529,6 +1767,92 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════
+       PLANNED – v9.2.0
+  ════════════════════════════════════════════════ -->
+  <div class="release-header" style="margin-top: 3rem;">
+    <span class="release-tag" style="color:var(--blue);background:var(--blue-dim);border-color:var(--blue-border);">Coming Soon</span>
+    <div>
+      <div class="release-title">v9.2.0 — Next Release</div>
+      <div class="release-sub">Studio cloud providers, social posting expansion, Morning Briefing Agent, and more.</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-body">
+        <div class="card-title">Skales Mobile</div>
+        <div class="card-desc">React Native companion app for iOS and Android. Full remote control of your desktop instance: chat, trigger tasks, review briefings, and approve tool executions from your phone.</div>
+        <div class="card-tags"><span class="tag">Mobile</span><span class="tag">React Native</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌅</div>
+      <div class="card-body">
+        <div class="card-title">Morning Briefing Agent</div>
+        <div class="card-desc">Automated daily briefing at your configured time. Pulls calendar events, pending tasks, unread emails, weather, and top news into a structured summary delivered in Chat.</div>
+        <div class="card-tags"><span class="tag">Automation</span><span class="tag">Planner</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <div class="card-body">
+        <div class="card-title">Cloud Video Providers</div>
+        <div class="card-desc">Kling AI, Veo 2, MiniMax Video, and Seedance integration in Studio. Generate high-quality cinematic video from text prompts using frontier cloud video models.</div>
+        <div class="card-tags"><span class="tag">Studio</span><span class="tag">Video</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📸</div>
+      <div class="card-body">
+        <div class="card-title">Instagram, TikTok &amp; Facebook Posting</div>
+        <div class="card-desc">Complete the social media suite with Meta platforms. Post images and videos directly from Studio Export to Instagram, TikTok, and Facebook Pages via OAuth.</div>
+        <div class="card-tags"><span class="tag">Social</span><span class="tag">Studio</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎙️</div>
+      <div class="card-body">
+        <div class="card-title">TTS Voice Model Marketplace</div>
+        <div class="card-desc">Install and manage local TTS voice models: Coqui TTS, Bark, Piper, OpenVoice. Browse voices, preview samples, and set defaults per language — all without an API key.</div>
+        <div class="card-tags"><span class="tag">Studio</span><span class="tag">Voice</span><span class="tag">Local AI</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <div class="card-body">
+        <div class="card-title">Streak &amp; Activity Score</div>
+        <div class="card-desc">Daily usage streaks, weekly activity scores, and milestone badges. Visualized on the Dashboard and in Skales Wrapped. Friendly gamification to keep your AI habits consistent.</div>
+        <div class="card-tags"><span class="tag">Gamification</span><span class="tag">Dashboard</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-body">
+        <div class="card-title">Discover Feed Improvements</div>
+        <div class="card-desc">Community challenges, trending skills leaderboard, push notifications for Sparks and replies, and verified creator badges. Making Discover the most active AI community feed.</div>
+        <div class="card-tags"><span class="tag">Discover</span><span class="tag">Community</span></div>
+      </div>
+      <div class="card-status status-open">Coming Soon</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <div class="card-body">
+        <div class="card-title">Skales Cloud (Deferred)</div>
+        <div class="card-desc">Hosted version of Skales. Same features, zero local setup. End-to-end encrypted. Deferred while local performance improvements are prioritized.</div>
+        <div class="card-tags"><span class="tag">Cloud</span><span class="tag">Future</span></div>
+      </div>
+      <div class="card-status status-planned">Future</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
        FUTURE
   ════════════════════════════════════════════════ -->
   <div class="release-header" style="margin-top: 3rem;">
@@ -1563,6 +1887,22 @@
       </div>
       <div class="card-status status-planned">Future</div>
     </div>
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <div class="card-body">
+        <div class="card-title">Skales Cloud</div>
+        <div class="card-desc">Hosted version of Skales for users who prefer not to run locally. Same features, zero setup. Your data encrypted at rest and in transit.</div>
+      </div>
+      <div class="card-status status-planned">Future</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-body">
+        <div class="card-title">Skales Pocket</div>
+        <div class="card-desc">Native mobile app for iOS and Android. Full chat, memory, and agent capabilities in your pocket. Syncs with your desktop instance.</div>
+      </div>
+      <div class="card-status status-planned">Future</div>
+    </div>
   </div>
 </div><!-- /content -->
 
@@ -1578,7 +1918,7 @@
     <a href="https://skales.app">skales.app</a> ·
     <a href="https://github.com/skalesapp/skales">github.com/skalesapp/skales</a>
   </div>
-  <div style="margin-bottom: 8px; color: var(--text-dim); font-size: 12px;">Skales v9.0.0 — For the People</div>
+  <div style="margin-bottom: 8px; color: var(--text-dim); font-size: 12px;">Skales v9.1.0 — The Studio Update</div>
   Made by <strong>Mario Simic</strong>
 </footer>
 

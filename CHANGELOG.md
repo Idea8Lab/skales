@@ -7,6 +7,136 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## v9.1.0 — "The Studio Update"
+Released: April 7, 2026
+
+The biggest feature release in Skales history. Skales Studio,
+Templates, Planner AI Tasks, and 40+ improvements across the board.
+
+### Skales Studio (NEW)
+- **Image Generation** — Multi-provider support: Skales Visuals
+  (built-in renderer), Replicate (Flux, SDXL), HuggingFace,
+  OpenAI DALL-E, ComfyUI (local), Stable Diffusion WebUI (local)
+- **Video Creation** — Describe a motion graphic, preview the animation live,
+  iterate with natural language, export as MP4. Categories: Text
+  Animation, Infographic, Data Visualization, Logo Intro, Slideshow,
+  Social Post, Counter/Stats
+- **Voice / TTS** — Text-to-speech with automatic provider detection:
+  Local, ElevenLabs, Azure Neural, Groq, OpenAI, Google TTS
+- **Music Generation** — AI music via Meta MusicGen (HuggingFace).
+  Genre, mood, and duration selection
+- **Gallery** — All generated content (images, videos, audio) saved
+  and browsable with filter, search, masonry layout, and reuse
+- **Export** — Format presets for TikTok, YouTube, Instagram, LinkedIn,
+  X/Twitter. AI caption and hashtag generator (v9.2.0)
+- **Brand Kit** — Save logo, colors, fonts, tagline, tone of voice.
+  Optional injection into all Studio generations
+
+### Templates (NEW)
+- 37 pre-built templates across all modules: Chat, Codework,
+  Organization, Lio AI, Browser, Planner, Studio
+- Click a template → opens the module with prompt pre-filled
+- Template Maker: AI-guided interview wizard to create custom templates
+- Templates shared via Discover Feed (fork from other users)
+
+### Planner AI Tasks (NEW)
+- Schedule AI tasks: once, daily, weekly, monthly
+- Tasks appear in the calendar grid (purple blocks)
+- Auto-execution via cron scheduler
+- Confidence scoring: tasks below 50% confidence are skipped
+- Dry Run mode: simulate without executing destructive actions
+- Task result history with tools used and duration
+
+### Fallback Provider Chain (NEW)
+- Configure backup AI providers in Settings
+- If primary provider fails: auto-switch to fallback
+- Banner notification: "Fallback active: Using [provider]"
+- Auto-recovery: checks primary every 60 seconds
+- API keys inherited from saved provider settings
+
+### Ollama Model Marketplace (NEW)
+- One-click install for recommended local models
+- Gemma 3, Llama 3.3, DeepSeek R1, Mistral, Phi-4, Qwen 3,
+  Codestral listed with sizes and descriptions
+- Progress bar during download
+- Auto-detection of ComfyUI and Stable Diffusion WebUI
+
+### Browser Playbooks (NEW)
+- Record browser sessions as replayable workflows
+- Auto-capture URL navigations, clicks, and inputs
+- Schedule playbooks as recurring Planner tasks
+- playbook_run agent tool for chat/organization use
+
+### Social Media Integration (NEW)
+- YouTube and LinkedIn OAuth connection in Settings
+- Post directly from Studio Export tab
+- Instagram, TikTok, Facebook placeholders for v9.2.0
+
+### Knowledge Graph (NEW)
+- Enterprise knowledge graph builds relationships as you work
+- Entities: projects, people, tools, preferences
+- Agent tools: query, update, delete
+- Enable/disable toggle + reset in Settings
+
+### Organization Improvements
+- Real approval UI with state machine (approve/reject destructive tools)
+- Canvas Office visualization
+- Shared memory between agents
+- Projects CRUD (create, rename, archive, restore, continue)
+
+### Agent Tools (21 new)
+brand_kit_read, image_generate, image_edit, image_upscale,
+image_remove_background, video_create, video_add_scene, video_render,
+video_preview_scene, video_add_audio, voice_generate, content_from_url,
+social_post, social_upload, planner_create_task, planner_list_tasks,
+knowledge_graph_query, knowledge_graph_update, knowledge_graph_delete,
+playbook_run, playbook_list
+
+### Internationalization
+- 2800+ translation keys across all 12 languages
+- All Settings strings now multilingual (450+ converted from hardcoded)
+- All module pages fully translated
+- Bootstrap wizard fully translated with proper locale loading
+
+### Bug Fixes
+- Fixed: Dashboard greeting showing raw i18n keys
+- Fixed: Planner week/day view missing calendar events
+- Fixed: Path traversal vulnerability on code routes (CWE-22 hardened)
+- Fixed: Discover posts showing tips instead of completed tasks
+- Fixed: Fallback chain providers not removable after save
+- Fixed: Template click not inserting prompt in target module
+- Fixed: FFmpeg path resolution on macOS/Linux/Windows
+- Fixed: Browser links opening in new tab crashing session
+- Fixed: Render progress stuck at 0% (file-based job store)
+- Fixed: Gallery video downloads serving wrong path
+- Removed Beta badges from Swarm, Codework, Organization
+- Added Beta badges to Studio, Templates, Playbooks
+
+### Infrastructure
+- File naming: all Studio outputs prefixed skales_studio_*
+- SECURITY.md added to GitHub repository
+- Token compressor descriptions now translatable
+- Settings search keywords expanded for all new sections
+- Settings gear icon navigates to correct section via hash anchor
+
+---
+
+## v9.0.2 — Patch (April 2026)
+
+### Fixed
+- Settings: API keys no longer disappear when switching models (useRef fallback)
+- Codework: Project names are now sanitized to valid npm-compatible slugs
+- Organization: Clipboard copy now works in Electron with visual feedback
+- Organization: Agents now respond in the user's configured language
+- Discover: Post templates rewritten to describe user activity (user-centric)
+- Discover: Added events for Codework and Organization completions
+
+### Added
+- YouTube Data API v3 integration (search, video details, channel info, trending, captions)
+- Codework: web_search tool for AI-powered code generation
+
+---
+
 ## v9.0.0 — "For the People" (April 2026)
 
 ### Highlights
@@ -129,7 +259,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Skill AI watermarking for sharing verification
 - Share to Discover button for AI-created Custom Skills
 - Fork Skill: one-click copy of community skills with safety disclaimer
-- Bot personalities with AI-generated contextual posts and soul files
 - Heartbeat system with online counter and network visualization
 - Report system for feed moderation with admin review
 - Image sharing pipeline with admin approval workflow
@@ -205,10 +334,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Discover GIF overflow** — GIF images in feed cards now constrained with max-width to prevent layout breakage.
 - **Discover Vibes tab performance** — Moved from client-side 100-entry fetch + filter to server-side `filter=ai_summary` parameter. Reduces bandwidth and improves load time.
 - **Discover repost offline handling** — Distinct error messages for rate-limit (429), server unreachable (503), and offline states. Graceful degradation for deleted-entry reposts.
-- **Bot AI Summary dedup** — Moved 20% ai_summary override BEFORE hasDuplicate() check so bots don't create duplicate entries.
 - **Admin mobile access** — Burger menu for mobile viewports, sidebar slides in from left with overlay
 - **Version adoption metric** — `$latestAdoption` was referenced but never calculated, now properly computed from telemetry
-- **Bot feed version fingerprint** — Bots now post realistic 7.5.x–7.6.x versions instead of hardcoded values
 - **Custom Skill buttons** — `dangerouslySetInnerHTML` replaced with iframe srcdoc, onclick handlers and scripts now execute
 - **postMessage origin validation** — Dual validation (origin + source window) for skill iframe communication
 - **Notification polling optimization** — Split local (30s) and remote (120s) polling intervals, saving 75% server load

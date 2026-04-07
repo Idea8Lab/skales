@@ -14,11 +14,11 @@
 
   <p>
     One-click install. No Docker. No terminal. 15+ AI providers. Runs locally with Ollama.<br/>
-    Chat, code autonomously, control your desktop, browse the web, organize multi-agent teams, manage calendars, send emails, and automate your day.
+    Chat, code autonomously, create images & videos, control your desktop, browse the web, organize multi-agent teams, manage calendars, send emails, and automate your day.
   </p>
 
   <p>
-    <a href="https://github.com/skalesapp/skales/releases/tag/v9.0.0"><img src="https://img.shields.io/badge/version-9.0.0-10b981?style=flat-square" alt="Version 9.0.0" /></a>
+    <a href="https://github.com/skalesapp/skales/releases/tag/v9.1.0"><img src="https://img.shields.io/badge/version-9.1.0-10b981?style=flat-square" alt="Version 9.1.0" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/license-BSL_1.1-10b981?style=flat-square" alt="License" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/Windows_+_macOS_+_Linux-10b981?style=flat-square&logo=windows&logoColor=white" alt="Platform" /></a>
     <a href="https://github.com/skalesapp/skales/stargazers"><img src="https://img.shields.io/github/stars/skalesapp/skales?style=flat-square&color=10b981" alt="Stars" /></a>
@@ -94,6 +94,15 @@ Your AI can see and control your screen. Screenshots, mouse clicks, keyboard inp
 </p>
 Describe what you want and Lio builds it. Multi-AI architecting: One AI designs, one reviews, one builds. Generates HTML, CSS, JS, Python in a sandboxed live preview. Deploy to FTP/SFTP with one click.
 
+### 🎨 Skales Studio
+Create images, videos, voice, and music with AI — all from one place.
+Multiple providers: built-in Skales Visuals, Replicate, HuggingFace,
+DALL-E, ComfyUI, local Stable Diffusion. Export as PNG, MP4, or audio.
+Brand Kit keeps everything on-brand. Social export presets for every platform.
+
+### 🗂️ Templates
+37 pre-built prompt templates across Chat, Codework, Organization, Lio AI, Browser, Planner, and Studio. Click to open the module with the prompt pre-filled. Build your own with the AI-guided Template Maker.
+
 ### 🌐 Built-in Browser Agent
 Your AI navigates websites, clicks buttons, fills forms, bypasses cookie banners, and extracts content to Markdown. Workspaces to save sessions. Playbooks for repeatable workflows.
 
@@ -115,8 +124,8 @@ A floating animated mascot on your screen. Three skins: Skales the gecko, Bubble
   </a>
 </p>
 
-### 📅 Planner, Calendar and Autopilot
-Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple Calendar, Outlook, or any CalDAV server. Your AI sees your events and schedules around them. Automated tasks on a Kanban board run in the background.
+### 📅 Planner, Calendar and AI Tasks
+Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple Calendar, Outlook, or any CalDAV server. Your AI sees your events and schedules around them. Automated tasks on a Kanban board run in the background. Schedule recurring AI tasks with cron precision — once, daily, weekly, or monthly.
 
 ---
 
