@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <a href="https://github.com/skalesapp/skales/releases/tag/v9.1.0"><img src="https://img.shields.io/badge/version-9.1.0-10b981?style=flat-square" alt="Version 9.1.0" /></a>
+    <a href="https://github.com/skalesapp/skales/releases/tag/v9.1.1"><img src="https://img.shields.io/badge/version-9.1.1-10b981?style=flat-square" alt="Version 9.1.1" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/license-BSL_1.1-10b981?style=flat-square" alt="License" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/Windows_+_macOS_+_Linux-10b981?style=flat-square&logo=windows&logoColor=white" alt="Platform" /></a>
     <a href="https://github.com/skalesapp/skales/stargazers"><img src="https://img.shields.io/github/stars/skalesapp/skales?style=flat-square&color=10b981" alt="Stars" /></a>
@@ -222,7 +222,7 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 
 12 Languages: EN, DE, ES, FR, IT, PT, KO, ZH, JA, VI, HR, TR.
 
-**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind).
+**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind), [@sidharth-vijayan](https://github.com/sidharth-vijayan), [@saagnik23](https://github.com/saagnik23).
 
 [Discussions](https://github.com/skalesapp/skales/discussions) · [Bug Reports](https://github.com/skalesapp/skales/issues)
 
