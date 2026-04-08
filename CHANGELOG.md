@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v9.1.1 — "The Studio Update" (Hotfix)
+Timeout increased to 180s
 
 ## v9.1.0 — "The Studio Update"
 Released: April 7, 2026
