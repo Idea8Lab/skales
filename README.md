@@ -1,4 +1,3 @@
-
 <div align="center">
   <p>If you find this useful, a ⭐ helps others discover it</p>
   <h1>Skales 🦎</h1>
@@ -81,7 +80,7 @@ Import skills from the Agent Skills format used by Claude Code, Codex, GitHub Co
 Select any project folder. Describe the task. Pick your model. Watch the agent read your files, plan an approach, write code, run tests, and show you live diffs in a 3-panel GUI. Session history, follow-up conversations, undo support. Like Cursor or Claude Code, but built into your desktop agent.
 
 ### 🏢 Organization
-Build an AI company. Create departments, assign specialized agents, set team leaders, and delegate complex tasks. The CEO agent auto-routes work to the right team. Export and import Company Packs to share your org setup.
+Build an AI company. Create departments, assign specialized agents, set team leaders, and delegate complex tasks. The CEO agent auto-routes work to the right team. Export and import Company Packs to share your org setup. Advisor Strategy: use a powerful model for planning and a fast model for execution.
 
 ### 🖥️ Computer Use
 Your AI can see and control your screen. Screenshots, mouse clicks, keyboard input, scrolling. Every action requires approval in Safety Mode. Screenshots appear inline in chat.
@@ -92,19 +91,19 @@ Your AI can see and control your screen. Screenshots, mouse clicks, keyboard inp
     <img src="https://img.youtube.com/vi/GRl_ef4_g8U/maxresdefault.jpg" width="100%" alt="Skales Code Builder Demo Video">
   </a>
 </p>
-Describe what you want and Lio builds it. Multi-AI architecting: One AI designs, one reviews, one builds. Generates HTML, CSS, JS, Python in a sandboxed live preview. Deploy to FTP/SFTP with one click.
+Describe what you want and Lio builds it. Multi-AI architecting: One AI designs, one reviews, one builds. Generates HTML, CSS, JS, Python in a sandboxed live preview. Deploy to FTP/SFTP with one click. Template gallery with quick-start options.
 
 ### 🎨 Skales Studio
-Create images, videos, voice, and music with AI — all from one place.
-Multiple providers: built-in Skales Visuals, Replicate, HuggingFace,
-DALL-E, ComfyUI, local Stable Diffusion. Export as PNG, MP4, or audio.
-Brand Kit keeps everything on-brand. Social export presets for every platform.
+Create images, videos, voice, and music with AI from one place. Multiple providers: built-in Skales Visuals, Replicate, HuggingFace, DALL-E, ComfyUI, local Stable Diffusion. 10 Style Presets, Camera Controls, dynamic model fetching. Export as PNG, MP4, or audio. Brand Kit keeps everything on-brand.
 
 ### 🗂️ Templates
 37 pre-built prompt templates across Chat, Codework, Organization, Lio AI, Browser, Planner, and Studio. Click to open the module with the prompt pre-filled. Build your own with the AI-guided Template Maker.
 
 ### 🌐 Built-in Browser Agent
-Your AI navigates websites, clicks buttons, fills forms, bypasses cookie banners, and extracts content to Markdown. Workspaces to save sessions. Playbooks for repeatable workflows.
+Your AI navigates websites, clicks buttons, fills forms, bypasses cookie banners, and extracts content to Markdown. Workspaces to save sessions. Playbooks for repeatable workflows. Session isolation with privacy controls. Semantic element detection via accessibility tree.
+
+### 🌐 WordPress Integration (NEW in v9.2.0)
+Connect to any WordPress site with the [Skales Connector Plugin](https://github.com/skalesapp/wordpress). Type "create a landing page for my product" and Skales builds it with full HTML/CSS. Manage pages, posts, WooCommerce products, SEO meta, media uploads, and cache clearing through natural language. AI Command Bar with conversational multi-step execution. Elementor support (beta), WooCommerce bulk pricing (beta).
 
 ### 🔍 Spotlight and Vision
 <p align="center">
@@ -125,7 +124,10 @@ A floating animated mascot on your screen. Three skins: Skales the gecko, Bubble
 </p>
 
 ### 📅 Planner, Calendar and AI Tasks
-Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple Calendar, Outlook, or any CalDAV server. Your AI sees your events and schedules around them. Automated tasks on a Kanban board run in the background. Schedule recurring AI tasks with cron precision — once, daily, weekly, or monthly.
+Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple Calendar, Outlook, or any CalDAV server. Your AI sees your events and schedules around them. Automated tasks on a Kanban board run in the background. Schedule recurring AI tasks with cron precision.
+
+### 🧠 Memory and Dreaming
+Skales remembers you. Short-term and long-term memory, identity maintenance, and a 3-phase overnight memory consolidation engine (Dreaming) that promotes important facts and discards noise. Dream Diary included (beta).
 
 ---
 
@@ -133,6 +135,7 @@ Daily and weekly planning with a visual calendar. Connect Google Calendar, Apple
 
 | Category | Integrations |
 |----------|-------------|
+| **CMS** | WordPress (pages, posts, media, WooCommerce, SEO, Elementor) |
 | **Calendars** | Google Calendar, Apple Calendar (CalDAV), Outlook (Microsoft Graph) |
 | **Productivity** | Notion, Todoist, Google Drive, Google Docs, GitHub |
 | **Smart Home** | Home Assistant (lights, temperature, services) |
@@ -188,6 +191,7 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 - **Offline:** Works entirely offline with Ollama or LM Studio.
 - **Sandboxed:** Configurable file operation boundaries.
 - **Signed:** macOS Apple Developer ID. Windows signing coming.
+- **WordPress:** Token-based auth (SHA-256). No data leaves your site. Plugin is MIT-licensed.
 
 ---
 
@@ -214,7 +218,7 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 | **Styling** | Tailwind CSS |
 | **Language** | TypeScript |
 | **Storage** | `~/.skales-data` (JSON + SQLite) |
-| **AI** | ReAct agent loop, 50+ tools, multi-agent delegation |
+| **AI** | ReAct agent loop, 70+ tools, multi-agent delegation, context-aware tool filtering |
 
 ---
 
@@ -222,7 +226,7 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 
 12 Languages: EN, DE, ES, FR, IT, PT, KO, ZH, JA, VI, HR, TR.
 
-**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind).
+**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind), [@sidharth-vijayan](https://github.com/sidharth-vijayan).
 
 [Discussions](https://github.com/skalesapp/skales/discussions) · [Bug Reports](https://github.com/skalesapp/skales/issues)
 
@@ -240,10 +244,13 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 
 ## 📜 License
 
-**BSL 1.1** — Free for personal and educational use. Commercial use requires a license. See [LICENSE](./LICENSE).
-
+**BSL 1.1** — Free for personal and commercial use. See [LICENSE](./LICENSE).
+ 
+WordPress Plugin: **MIT** — [github.com/skalesapp/wordpress](https://github.com/skalesapp/wordpress)
+ 
 Built with ❤️ in Vienna by [Mario Simic](https://mariosimic.at). 🦎
 
-<div align="center">
+  
+<div align="left">
   <a href="https://skales.app">skales.app</a>
 </div>
