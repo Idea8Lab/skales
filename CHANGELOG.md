@@ -6,8 +6,75 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v9.1.1 — "The Studio Update" (Hotfix)
-Timeout increased to 180s
+
+## v9.2.0 — "The Bridge" (April 2026)
+
+### WordPress Integration (NEW)
+- Skales Connector Plugin (MIT-licensed) for WordPress sites
+- Token-based authentication (SHA-256 hashed)
+- Auto-detect installed plugins (Elementor, WooCommerce, RankMath, Yoast, cache plugins)
+- Create/edit/delete pages and blog posts with full HTML support
+- Elementor page building via JSON sections/columns/widgets
+- WooCommerce bulk price updates by category
+- SEO meta management (RankMath + Yoast)
+- Media upload (images, videos, PDFs via base64)
+- Cache clearing for all major cache plugins
+- Full-width CSS injection for Skales-created pages
+- Dedicated WordPress management page with AI Command Bar (conversational, real tool execution)
+- Per-page AI content generator (inline edit with AI Generate)
+- 12 WordPress tools registered in orchestrator with full ReAct loop (`wpAgentCommand`)
+
+### Stability & Performance
+- **Chat loop dedup fix**: Duplicate tool call detection in chat page's agent loop (exact args dedup + tool name cap at 3)
+- **Tool filter**: Context-based tool filtering (`filterToolsForContext`) reduces 70+ tools to ~10-15 per call based on message content keywords
+- **MAX_LOOPS reduced**: 20 → 10 (real tasks complete in <8 iterations)
+- **Skill loading safety**: Missing .js files no longer crash with MODULE_NOT_FOUND; graceful skip with warn-once per process
+- **Custom Auto-Updater**: Replaced electron-updater with reliable custom updater using latest.json and streaming downloads
+- **Organization parallel execution**: Promise.all for independent subtasks
+- **Anthropic timeout**: Increased from 90s to 120s for large tool payloads
+
+### New Features
+- **Advisor Strategy**: Opus/GPT-5 for planning, Sonnet/Haiku for execution
+- **Memory Consolidation (Dreaming)**: 3-phase overnight memory engine with Dream Diary
+- **Studio Upgrades**: Dynamic model fetching, 10 Style Presets, Camera Controls, Quality Gates with ffprobe
+- **Browser Privacy**: Session isolation, clear cookies/cache/history
+- **Browser Control v2**: Semantic element detection via accessibility tree
+- **OpenClaw Skill Importer**: Import community skills on Custom Skills page
+- **Codework v2**: Multi-file workspace
+- **Lio AI v2**: Template gallery
+- **Social Publishing**: YouTube direct upload + browser-assisted posting
+
+### Improvements
+- Settings page reorganized: Memory tab, Studio tab, proper grouping
+- Sidebar grouped into Main/Tools/System sections with always-visible tooltips
+- Skills renamed to "Add-Ons" with Activate/Deactivate All
+- useModels shared hook: fresh models everywhere (not hardcoded)
+- Dark mode persistence: cookie + settings.json double-save
+- Templates cache (localStorage + server-side)
+- 12 locale files with 50+ new i18n keys
+- BSL-1.1 license clarification header
+
+### Bug Fixes
+- Tool-call infinite loop (was in chat/page.tsx, not orchestrator.ts — hard cap moved before execution)
+- Browser links opening new windows (new-window event + DOM override)
+- save-file-dialog IPC handler registered
+- Settings search covers all new sections (WordPress, Advisor, Dreaming, Memory)
+- Sidebar tooltip always visible (PR #64 credit: sidharth-vijayan)
+- Settings replaceState crash on Next.js 14 (try/catch wrapper)
+- Studio: Black image, video preview centering, gallery download, reference image handling
+- Browser: Session isolation, privacy dropdown, history clear, new tab crash
+- Theme + locale persistence to settings.json (survives localStorage wipes)
+- ONNX runtime webpack warnings suppressed
+
+### Technical
+- electron-builder.yml v9.2.0
+- Capabilities/system prompt v9.2.0
+- Playwright detection unified (dynamic version scanning)
+- DNA markers verified intact
+- WordPress plugin: skales-wordpress/ (MIT license, kses filters bypassed for full HTML)
+- CONTRIBUTORS.md added
+
+---
 
 ## v9.1.0 — "The Studio Update"
 Released: April 7, 2026

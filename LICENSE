@@ -3,9 +3,16 @@ Business Source License 1.1
 License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 "Business Source License" is a trademark of MariaDB Corporation Ab.
 
+-----------------------------------------------------------------------------
+IN PLAIN TERMS:
+  Free for personal use, learning, and non-commercial experimentation.
+  You may NOT host it as a SaaS, sell it, or build a competing product
+  without written permission from the author (Mario Simic).
+-----------------------------------------------------------------------------
+
 Licensor: Mario Simic
-Licensed Work: Skales 
-Version: 9.1.1
+Licensed Work: Skales
+Version: 9.2.0
 
 Additional Use Grant:
 You may copy, modify, create derivative works, and redistribute the Licensed Work for non-production and non-commercial internal testing or personal use. You may NOT use the Licensed Work to provide a commercial SaaS (Software-as-a-Service), managed hosting, or any competing commercial product to third parties without prior written consent from the Licensor.

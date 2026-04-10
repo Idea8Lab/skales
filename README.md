@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <a href="https://github.com/skalesapp/skales/releases/tag/v9.1.1"><img src="https://img.shields.io/badge/version-9.1.1-10b981?style=flat-square" alt="Version 9.1.1" /></a>
+    <a href="https://github.com/skalesapp/skales/releases/tag/v9.2.0"><img src="https://img.shields.io/badge/version-9.2.0-10b981?style=flat-square" alt="Version 9.2.0" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/license-BSL_1.1-10b981?style=flat-square" alt="License" /></a>
     <a href="https://skales.app"><img src="https://img.shields.io/badge/Windows_+_macOS_+_Linux-10b981?style=flat-square&logo=windows&logoColor=white" alt="Platform" /></a>
     <a href="https://github.com/skalesapp/skales/stargazers"><img src="https://img.shields.io/github/stars/skalesapp/skales?style=flat-square&color=10b981" alt="Stars" /></a>
@@ -95,12 +95,7 @@ Your AI can see and control your screen. Screenshots, mouse clicks, keyboard inp
 Describe what you want and Lio builds it. Multi-AI architecting: One AI designs, one reviews, one builds. Generates HTML, CSS, JS, Python in a sandboxed live preview. Deploy to FTP/SFTP with one click.
 
 ### 🎨 Skales Studio
-
-<p align="center">
-  <img src="https://skales.app/ss_0.gif" alt="Skales Studio - Image, Video, Audio, Music" width="100%" />
-</p>
-
-Create animated visuals, images, videos, voice, and music with AI — all from one place.
+Create images, videos, voice, and music with AI — all from one place.
 Multiple providers: built-in Skales Visuals, Replicate, HuggingFace,
 DALL-E, ComfyUI, local Stable Diffusion. Export as PNG, MP4, or audio.
 Brand Kit keeps everything on-brand. Social export presets for every platform.
@@ -227,7 +222,7 @@ Like Spotify Wrapped for your AI. Auto-generates every Monday. Activities, top t
 
 12 Languages: EN, DE, ES, FR, IT, PT, KO, ZH, JA, VI, HR, TR.
 
-**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind), [@sidharth-vijayan](https://github.com/sidharth-vijayan), [@saagnik23](https://github.com/saagnik23).
+**Contributors:** [@btafoya](https://github.com/btafoya), [@bmp-jaller](https://github.com/bmp-jaller), [@henk717](https://github.com/henk717), [@SohaibKhaliq](https://github.com/SohaibKhaliq), [@VladB-evs](https://github.com/VladB-evs), [@v33-kind](https://github.com/v33-kind).
 
 [Discussions](https://github.com/skalesapp/skales/discussions) · [Bug Reports](https://github.com/skalesapp/skales/issues)
 
