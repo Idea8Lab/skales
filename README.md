@@ -94,6 +94,9 @@ Your AI can see and control your screen. Screenshots, mouse clicks, keyboard inp
 Describe what you want and Lio builds it. Multi-AI architecting: One AI designs, one reviews, one builds. Generates HTML, CSS, JS, Python in a sandboxed live preview. Deploy to FTP/SFTP with one click. Template gallery with quick-start options.
 
 ### 🎨 Skales Studio
+<p align="center">
+  <img src="https://skales.app/ss_0.gif" alt="Skales Studio - Image, Video, Audio, Music" width="100%" />
+</p>
 Create images, videos, voice, and music with AI from one place. Multiple providers: built-in Skales Visuals, Replicate, HuggingFace, DALL-E, ComfyUI, local Stable Diffusion. 10 Style Presets, Camera Controls, dynamic model fetching. Export as PNG, MP4, or audio. Brand Kit keeps everything on-brand.
 
 ### 🗂️ Templates
