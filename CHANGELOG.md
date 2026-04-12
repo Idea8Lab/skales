@@ -7,6 +7,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## v9.2.2 — Hotfix (April 2026)
+
+### Critical Fixes
+- **HOSTNAME**: Always bind to 0.0.0.0 — Tailscale, LAN, and remote access restored
+- **Auto-Updater**: Full download with progress bar, SHA-512 verification, install and restart UI. No more "Download at skales.app" link.
+- **Playwright install**: Fixed PATH inheritance for Install buttons in Settings > Advanced (brew/npx not found in Electron)
+- **Custom Endpoint status**: "Not connected" no longer shown for working local endpoints (LM Studio, KoboldCpp)
+- **Custom Endpoint tool slider**: Description updated to mention LM Studio and KoboldCpp
+
+### Improvements
+- Discover Feed admin delete button (for moderators)
+- Playwright detection now also checks ~/.skales-data/playwright
+
+---
+
 ## v9.2.1 — Stability & Completeness (April 2026)
 
 ### Ollama / Local Models
